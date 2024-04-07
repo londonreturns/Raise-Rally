@@ -84,5 +84,16 @@ public class CompanyServiceImpl implements CompanyService {
         return oldPassword.equals(PasswordEncryptionService.encrypt(newPassword));
     }
 
+    public boolean deleteCompanyById(int id) {
+        if (companyRepository.existsById(id)) {
+            companyRepository.deleteById(id);
+            // Company deleted successfully
+            return true;
+        } else {
+            // Company with given ID not found
+            return false;
+        }
+    }
+
 }
 

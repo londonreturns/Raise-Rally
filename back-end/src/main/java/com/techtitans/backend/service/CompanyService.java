@@ -17,4 +17,6 @@ public interface CompanyService {
     List<CompanyResponseDto> getAllCompanies ();
 
     Optional<CompanyResponseDto> updateCompany(CompanyUpdateDto companyUpdateDto);
+
+    boolean deleteCompanyById(int id);
 }
