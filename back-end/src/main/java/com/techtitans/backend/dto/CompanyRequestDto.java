@@ -12,10 +12,11 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 
-// We use company dto class to transfer the data between client and server
+// DTO representing the request for a company entity
 public class CompanyRequestDto implements Serializable {
     private int companyId;
     private String name;
+    private String description;
     private String email;
     private int active;
     private int ticked;

@@ -3,8 +3,7 @@ package com.techtitans.backend.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -22,6 +21,9 @@ public class CompanyEntity {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "description")
+    private String description;
+
     @Column(name = "email")
     private String email;
 
@@ -33,13 +35,4 @@ public class CompanyEntity {
 
     @Column(name = "ticked")
     private int ticked;
-
-    public CompanyEntity(int companyId, String name, String email, int active, int ticked,String password) {
-        this.setEmail(email);
-        this.setCompanyId(companyId);
-        this.setName(name);
-        this.setActive(active);
-        this.setTicked(ticked);
-        this.setPassword(password);
-    }
 }

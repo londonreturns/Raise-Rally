@@ -12,18 +12,15 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 
-// We use company dto class to transfer the data between client and server
+// DTO to update the company entity
 public class CompanyUpdateDto implements Serializable {
     private int companyId;
     private String name;
+    private String description;
     private String email;
     private int active;
     private int ticked;
     private String oldPassword;
     private String newPassword;
-
-    public int getId() {
-        return companyId;
-    }
 }
 

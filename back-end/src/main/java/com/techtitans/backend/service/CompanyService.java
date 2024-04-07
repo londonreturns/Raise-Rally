@@ -7,13 +7,11 @@ import com.techtitans.backend.dto.CompanyUpdateDto;
 import java.util.List;
 import java.util.Optional;
 
+// Service interface for managing CRUD operations
 public interface CompanyService {
     CompanyResponseDto createCompany(CompanyRequestDto companyDto);
-    List<CompanyResponseDto> getAllCompanies ();
+
 
     Optional<CompanyResponseDto> getCompanyById(int id);
 
-    Optional<CompanyResponseDto> updateCompany(CompanyUpdateDto companyUpdateDto);
-
-    void deleteCompany(int id);
 }

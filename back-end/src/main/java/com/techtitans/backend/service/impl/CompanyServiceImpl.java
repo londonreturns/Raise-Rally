@@ -26,24 +26,11 @@ public class CompanyServiceImpl implements CompanyService {
         CompanyEntity savedCompany = companyRepository.save(companyEntity);
         return CompanyMapper.mapToCompanyDto(savedCompany);
     }
-
-    @Override
-    public List<CompanyResponseDto> getAllCompanies() {
-        return null;
-    }
-
     @Override
     public Optional<CompanyResponseDto> getCompanyById(int id) {
-        return Optional.empty();
+        Optional<CompanyEntity> companyEntity = companyRepository.findById(id);
+        return companyEntity.map(CompanyMapper::mapToCompanyDto);
     }
 
-    @Override
-    public Optional<CompanyResponseDto> updateCompany(CompanyUpdateDto companyUpdateDto) {
-        return Optional.empty();
-    }
-
-    @Override
-    public void deleteCompany(int id) {
-
-    }
 }
+

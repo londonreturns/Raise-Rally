@@ -11,22 +11,24 @@ public class CompanyMapper {
         return new CompanyResponseDto(
                 companyEntity.getCompanyId(),
                 companyEntity.getName(),
+                companyEntity.getDescription(),
                 companyEntity.getEmail(),
                 companyEntity.getActive(),
                 companyEntity.getTicked()
         );
     }
 
-    //Method to map CompanyDto to Company JPA entity
+
+    // Method to map CompanyDto to Company JPA entity
     public static CompanyEntity mapToCompany(CompanyRequestDto companyDto) {
-        PasswordEncryptionService passwordService = new PasswordEncryptionService();
         return new CompanyEntity(
                 companyDto.getCompanyId(),
                 companyDto.getName(),
+                companyDto.getDescription(),
                 companyDto.getEmail(),
+                PasswordEncryptionService.encrypt(companyDto.getPassword()),
                 companyDto.getActive(),
-                companyDto.getTicked(),
-                passwordService.encrypt(companyDto.getPassword())
+                companyDto.getTicked()
         );
     }
 }
