@@ -4,8 +4,7 @@ import lombok.*;
 
 import java.io.Serializable;
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 
@@ -15,6 +14,6 @@ public class CompanyResponseDto implements Serializable {
     private String name;
     private String description;
     private String email;
-    private int active;
-    private int ticked;
+    private boolean active;
+    private boolean ticked;
 }
