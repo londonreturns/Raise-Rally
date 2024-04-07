@@ -14,4 +14,5 @@ public interface CompanyService {
 
     Optional<CompanyResponseDto> getCompanyById(int id);
 
+    List<CompanyResponseDto> getAllCompanies ();
 }
