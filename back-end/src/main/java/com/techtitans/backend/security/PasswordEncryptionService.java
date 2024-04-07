@@ -7,7 +7,7 @@ import java.security.NoSuchAlgorithmException;
 public class PasswordEncryptionService {
 
     // Static method to encrypt
-    public String encrypt(String password) {
+    public static String encrypt(String password) {
         try {
             // MessageDigest instance for SHA-256
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
