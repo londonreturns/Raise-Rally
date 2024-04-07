@@ -20,16 +20,32 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class CompanyServiceImpl implements CompanyService {
     private CompanyRepository companyRepository;
+    // Method to create a new company
     @Override
     public CompanyResponseDto createCompany(CompanyRequestDto companyDto) {
+        // Map CompanyRequestDto to CompanyEntity
         CompanyEntity companyEntity = CompanyMapper.mapToCompany(companyDto);
+        // Save the CompanyEntity to the repository
         CompanyEntity savedCompany = companyRepository.save(companyEntity);
+        // Map the saved CompanyEntity to CompanyResponseDto and return
         return CompanyMapper.mapToCompanyDto(savedCompany);
     }
+
+    // Method to retrieve a company by its ID
     @Override
     public Optional<CompanyResponseDto> getCompanyById(int id) {
+        //
         Optional<CompanyEntity> companyEntity = companyRepository.findById(id);
+        // If the company is found, map it to CompanyResponseDto and return as Optional
         return companyEntity.map(CompanyMapper::mapToCompanyDto);
+    }
+
+    // Method to retrieve all companies
+    @Override
+    public List<CompanyResponseDto> getAllCompanies() {
+        List<CompanyEntity> companyEntities = companyRepository.findAll();
+        // Map each CompanyEntity to CompanyResponseDto and collect into a list
+        return companyEntities.stream().map(CompanyMapper::mapToCompanyDto).collect(Collectors.toList());
     }
 
 }

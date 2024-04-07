@@ -40,6 +40,15 @@ public class CompanyController {
         Optional<CompanyResponseDto> companyDtoOptional = companyService.getCompanyById(id);
         return companyDtoOptional.map(ResponseEntity::ok).orElseThrow(() -> new ResourceNotFoundException("Company not found with id: " + id));
     }
+
+    // Build get all companies REST API
+    @GetMapping(PathConstants.GET_ALL_COMPANIES_PATH)
+    public ResponseEntity<List<CompanyResponseDto>> getAllCompaniesList() {
+        List<CompanyResponseDto> companies = companyService.getAllCompanies();
+        return new ResponseEntity<>(companies,HttpStatus.OK);
+    }
+
+
 }
 
 
