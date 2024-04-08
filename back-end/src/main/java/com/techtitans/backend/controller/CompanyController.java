@@ -55,6 +55,19 @@ public class CompanyController {
         return updatedCompany.map(ResponseEntity::ok).orElseThrow(() -> new ResourceNotFoundException(
                 "Company not found with id: " + companyUpdateDto.getCompanyId()));
     }
+
+    // Build delete company REST API
+    @DeleteMapping(PathConstants.DELETE_COMPANY_PATH)
+    public ResponseEntity<Void> deleteCompany(@PathVariable int id) {
+        if (companyService.deleteCompanyById(id)) {
+            // 204 No Content if deleted successfully
+            return ResponseEntity.noContent().build();
+        } else {
+            // Throw exception if company not found
+            throw new ResourceNotFoundException("Company not found with id: " + id);
+        }
+    }
+
 }
 
 
