@@ -17,4 +17,7 @@ public class PathConstants {
 
     // Path for deleting company by ID
     public static final String DELETE_COMPANY_PATH = "/{id}";
+
+    // Path for backer creation
+    public static final String BACKER = "/api/backers";
 }
