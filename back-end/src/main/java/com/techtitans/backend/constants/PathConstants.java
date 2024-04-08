@@ -6,7 +6,7 @@ public class PathConstants {
     // Path for company creation
     public static final String COMPANY = "/api/companies";
 
-    // Path for getting company by ID
+    // Path for getting by ID
     public static final String GET_BY_ID_PATH = "/{id}";
 
     // Path for getting the list of companies

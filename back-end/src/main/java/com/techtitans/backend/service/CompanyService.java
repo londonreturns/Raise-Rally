@@ -11,7 +11,6 @@ import java.util.Optional;
 public interface CompanyService {
     CompanyResponseDto createCompany(CompanyRequestDto companyDto);
 
-
     Optional<CompanyResponseDto> getCompanyById(int id);
 
     List<CompanyResponseDto> getAllCompanies ();
