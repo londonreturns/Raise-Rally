@@ -11,4 +11,5 @@ public interface BackerService {
     BackerResponseDto createBacker(BackerRequestDto backerRequestDto);
     BackerResponseDto getBackerById(int backerId);
     List<BackerResponseDto> getAllBackers();
+    BackerResponseDto updateBackerById(int backerId, BackerRequestDto backerRequestDto);
 }
