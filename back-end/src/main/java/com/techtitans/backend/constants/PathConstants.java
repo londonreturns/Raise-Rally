@@ -9,6 +9,9 @@ public class PathConstants {
     // Path for getting by ID
     public static final String GET_BY_ID_PATH = "/{id}";
 
+    // Path for getting by Email
+    public static final String GET_BY_EMAIL_PATH = "/email/{email}";
+
     // Path for getting the list of companies
     public static final String GET_ALL_COMPANIES_PATH = "/all";
 
