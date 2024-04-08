@@ -32,6 +32,7 @@ public class BackerServiceImpl implements BackerService {
     @Override
     // Function to get company from id
     public BackerResponseDto getBackerById(int backerId) {
+        // Check if id exists
         BackerEntity backer = backerRepository.findById(backerId)
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Backer does not exists with the given id " + backerId));
@@ -47,4 +48,24 @@ public class BackerServiceImpl implements BackerService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    // Function to update backer details by id
+    public BackerResponseDto updateBackerById(int backerId, BackerRequestDto backerRequestDto) {
+        // Check if id exists
+        BackerEntity backerEntityFromDatabase = backerRepository.findById(backerId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Backer does not exists with the given id " + backerId));
+        // Update details
+        updateAttributes(backerEntityFromDatabase, backerRequestDto);
+        // Save details to database
+        BackerEntity savedBacker = backerRepository.save(backerEntityFromDatabase);
+        return BackerMapper.mapToBackerDto(savedBacker);
+    }
+
+    // Update attributes of entity
+    public void updateAttributes(BackerEntity backerEntity, BackerRequestDto backerRequestDto){
+        backerEntity.setName(backerRequestDto.getName());
+        backerEntity.setEmail(backerRequestDto.getEmail());
+        backerEntity.setPassword(PasswordEncryptionService.encrypt(backerRequestDto.getPassword()));
+    }
 }
