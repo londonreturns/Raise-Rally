@@ -52,10 +52,19 @@ public class BackerController {
     // Build update backer from API
     @PutMapping(PathConstants.GET_BY_ID_PATH)
     public ResponseEntity<BackerResponseDto> updateBackerById(
-            @PathVariable("id" ) int backerId,
+            @PathVariable("id") int backerId,
             @RequestBody BackerRequestDto backerRequestDto
     ){
         BackerResponseDto savedBacker = backerService.updateBackerById(backerId, backerRequestDto);
         return new ResponseEntity<>(savedBacker, HttpStatus.OK);
+    }
+
+    // Build delete backer from API
+    @DeleteMapping(PathConstants.GET_BY_ID_PATH)
+    public ResponseEntity<String> deleteBackerById(
+            @PathVariable("id") int backerId
+    ){
+        backerService.deleteBackerById(backerId);
+        return new ResponseEntity<>("Backer deleted", HttpStatus.OK);
     }
 }

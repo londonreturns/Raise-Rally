@@ -62,6 +62,17 @@ public class BackerServiceImpl implements BackerService {
         return BackerMapper.mapToBackerDto(savedBacker);
     }
 
+    @Override
+    // Function to delete backer by id
+    public void deleteBackerById(int backerId) {
+        // Check if id exists
+        BackerEntity backerEntityFromDatabase = backerRepository.findById(backerId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Backer does not exists with the given id " + backerId));
+        // Delete backer from database
+        backerRepository.deleteById(backerId);
+    }
+
     // Update attributes of entity
     public void updateAttributes(BackerEntity backerEntity, BackerRequestDto backerRequestDto){
         backerEntity.setName(backerRequestDto.getName());
