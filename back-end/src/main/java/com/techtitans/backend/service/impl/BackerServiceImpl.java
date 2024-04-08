@@ -4,9 +4,11 @@ import com.techtitans.backend.dto.BackerRequestDto;
 import com.techtitans.backend.dto.BackerResponseDto;
 import com.techtitans.backend.entity.BackerEntity;
 import com.techtitans.backend.exception.ResourceNotFoundException;
+import com.techtitans.backend.exception.ValidationException;
 import com.techtitans.backend.mapper.BackerMapper;
 import com.techtitans.backend.repository.BackerRepository;
 import com.techtitans.backend.security.PasswordEncryptionService;
+import com.techtitans.backend.security.Validation;
 import com.techtitans.backend.service.BackerService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,8 @@ public class BackerServiceImpl implements BackerService {
     @Override
     // Function to create company
     public BackerResponseDto createBacker(BackerRequestDto backerRequestDto) {
+        // Validate request dto
+        validateRequest(backerRequestDto);
         BackerEntity backerEntity = BackerMapper.mapToBacker(backerRequestDto);
         BackerEntity savedBacker = backerRepository.save(backerEntity);
         return BackerMapper.mapToBackerDto(savedBacker);
@@ -51,6 +55,8 @@ public class BackerServiceImpl implements BackerService {
     @Override
     // Function to update backer details by id
     public BackerResponseDto updateBackerById(int backerId, BackerRequestDto backerRequestDto) {
+        // Validate request dto
+        validateRequest(backerRequestDto);
         // Check if id exists
         BackerEntity backerEntityFromDatabase = backerRepository.findById(backerId)
                 .orElseThrow(() ->
@@ -78,5 +84,14 @@ public class BackerServiceImpl implements BackerService {
         backerEntity.setName(backerRequestDto.getName());
         backerEntity.setEmail(backerRequestDto.getEmail());
         backerEntity.setPassword(PasswordEncryptionService.encrypt(backerRequestDto.getPassword()));
+    }
+
+    // Validate RequestDTO
+    public static void validateRequest(BackerRequestDto backerRequestDto){
+        if (!Validation.isNameValid(backerRequestDto.getName()) ||
+                !Validation.isEmailValid(backerRequestDto.getEmail()) ||
+                !Validation.isPasswordValid(backerRequestDto.getPassword())) {
+            throw new ValidationException("Validation error");
+        }
     }
 }
