@@ -13,8 +13,8 @@ public class CompanyMapper {
                 companyEntity.getName(),
                 companyEntity.getDescription(),
                 companyEntity.getEmail(),
-                companyEntity.getActive(),
-                companyEntity.getTicked()
+                companyEntity.isActive(),
+                companyEntity.isTicked()
         );
     }
 
@@ -27,8 +27,8 @@ public class CompanyMapper {
                 companyDto.getDescription(),
                 companyDto.getEmail(),
                 PasswordEncryptionService.encrypt(companyDto.getPassword()),
-                companyDto.getActive(),
-                companyDto.getTicked()
+                companyDto.isActive(),
+                companyDto.isTicked()
         );
     }
 }

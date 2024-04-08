@@ -7,8 +7,12 @@ public class PathConstants {
     public static final String COMPANY = "/api/companies";
 
     // Path for getting company by ID
-    public static final String GET_COMPANY_BY_ID_PATH = "/{id}";
+    public static final String GET_BY_ID_PATH = "/{id}";
 
     // Path for getting the list of companies
     public static final String GET_ALL_COMPANIES_PATH = "/all";
+
+    // Path for updating company by ID
+    public static final String UPDATE_COMPANY_PATH = "/update";
+
 }

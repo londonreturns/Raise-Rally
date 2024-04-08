@@ -15,4 +15,6 @@ public interface CompanyService {
     Optional<CompanyResponseDto> getCompanyById(int id);
 
     List<CompanyResponseDto> getAllCompanies ();
+
+    Optional<CompanyResponseDto> updateCompany(CompanyUpdateDto companyUpdateDto);
 }

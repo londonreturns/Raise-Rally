@@ -31,8 +31,9 @@ public class CompanyEntity {
     private String password;
 
     @Column(name = "active")
-    private int active;
+    private boolean active;
 
     @Column(name = "ticked")
-    private int ticked;
+    private boolean ticked;
+
 }
