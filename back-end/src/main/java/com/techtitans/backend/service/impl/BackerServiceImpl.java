@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,6 +43,18 @@ public class BackerServiceImpl implements BackerService {
                         new ResourceNotFoundException("Backer does not exists with the given id " + backerId));
         return BackerMapper.mapToBackerDto(backer);
     }
+
+    @Override
+    // Function to get company from email
+    public BackerResponseDto getBackerByEmail(String backerEmail) {
+        Optional<BackerEntity> backerEntity = backerRepository.fetchByEmail(backerEmail);
+        // Check if entity exists
+        if (backerEntity.isPresent()) {
+            return BackerMapper.mapToBackerDto(backerEntity.get());
+        }
+        throw new ResourceNotFoundException("Backer does not exists with the given email " + backerEmail);
+    }
+
 
     @Override
     // Function to get all companies

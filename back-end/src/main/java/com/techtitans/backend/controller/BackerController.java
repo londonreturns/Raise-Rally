@@ -6,13 +6,12 @@ import com.techtitans.backend.dto.BackerResponseDto;
 import com.techtitans.backend.entity.BackerEntity;
 import com.techtitans.backend.service.BackerService;
 import lombok.AllArgsConstructor;
-import org.apache.tomcat.util.http.parser.HttpParser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.EnumMap;
 import java.util.List;
 
 // Making REST API Endpoints
@@ -33,7 +32,7 @@ public class BackerController {
         return new ResponseEntity<>(savedBacker, HttpStatus.OK);
     }
 
-    // Build get backer from id API
+    // Build get backer from id from API
     @GetMapping(PathConstants.GET_BY_ID_PATH)
     public ResponseEntity<BackerResponseDto> getBackerById(
             @PathVariable int id
@@ -47,6 +46,15 @@ public class BackerController {
     public ResponseEntity<List<BackerResponseDto>> getAllBackers(){
         List<BackerResponseDto> backers = backerService.getAllBackers();
         return new ResponseEntity<>(backers,HttpStatus.OK);
+    }
+
+    // Build get backer from email from API
+    @GetMapping(PathConstants.GET_BY_EMAIL_PATH)
+    public ResponseEntity<BackerResponseDto> getBackerByEmail(
+            @PathVariable("email") String backerEmail
+    ){
+        BackerResponseDto backerResponseDto = backerService.getBackerByEmail(backerEmail);
+        return new ResponseEntity<>(backerResponseDto, HttpStatus.OK);
     }
 
     // Build update backer from API
