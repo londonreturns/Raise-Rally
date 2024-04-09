@@ -9,7 +9,7 @@ import java.util.List;
 public interface CompanyService {
     CompanyResponseDto createCompany(CompanyRequestDto companyDto);
 
-    CompanyResponseDto getCompanyById(int companyId);
+    Optional<CompanyResponseDto> getCompanyById(int id);
 
     List<CompanyResponseDto> getAllCompanies ();
 
