@@ -2,21 +2,20 @@ package com.techtitans.backend.service;
 
 import com.techtitans.backend.dto.CompanyRequestDto;
 import com.techtitans.backend.dto.CompanyResponseDto;
-import com.techtitans.backend.dto.CompanyUpdateDto;
-
 import java.util.List;
-import java.util.Optional;
+
 
 // Service interface for managing CRUD operations
 public interface CompanyService {
     CompanyResponseDto createCompany(CompanyRequestDto companyDto);
 
-
-    Optional<CompanyResponseDto> getCompanyById(int id);
+    CompanyResponseDto getCompanyById(int companyId);
 
     List<CompanyResponseDto> getAllCompanies ();
 
-    Optional<CompanyResponseDto> updateCompany(CompanyUpdateDto companyUpdateDto);
+    CompanyResponseDto updateCompanyById(int companyId, CompanyRequestDto companyRequestDto);
 
-    boolean deleteCompanyById(int id);
+    void deleteCompanyById(int backerId);
+
+    CompanyResponseDto getCompanyByEmail(String email);
 }
