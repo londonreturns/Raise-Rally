@@ -13,6 +13,8 @@ public interface AdminService {
     AdminResponseDto getAdminById(int adminId);
 
     List<AdminResponseDto> getAllAdmins();
+
+    AdminResponseDto getAdminByEmail(String adminEmail);
 }
 
 

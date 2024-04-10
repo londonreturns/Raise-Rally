@@ -44,5 +44,14 @@ public class AdminController {
         return new ResponseEntity<>(admins, HttpStatus.OK);
     }
 
+    // Build get admin by email REST API
+    @GetMapping(PathConstants.GET_BY_EMAIL_PATH)
+    public ResponseEntity<AdminResponseDto> getAdminByEmail(
+            @PathVariable("email") String email
+    ){
+        AdminResponseDto adminResponseDto = adminService.getAdminByEmail(email);
+        return new ResponseEntity<>(adminResponseDto, HttpStatus.OK);
+    }
+
 
 }

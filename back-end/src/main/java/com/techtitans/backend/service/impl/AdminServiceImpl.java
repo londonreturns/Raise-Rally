@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -49,6 +50,17 @@ public class AdminServiceImpl implements AdminService {
         return admins.stream()
                 .map(AdminMapper::mapToAdminDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    // Method to get admin from email
+    public AdminResponseDto getAdminByEmail(String adminEmail) {
+        Optional<AdminEntity> adminEntity = adminRepository.fetchByEmail(adminEmail);
+        // Check if entity exists
+        if (adminEntity.isPresent()) {
+            return AdminMapper.mapToAdminDto(adminEntity.get());
+        }
+        throw new ResourceNotFoundException("Admin does not exists with the given email " + adminEmail);
     }
 
     // Validate RequestDTO
