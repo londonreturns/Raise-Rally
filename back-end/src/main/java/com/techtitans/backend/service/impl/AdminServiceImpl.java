@@ -7,6 +7,7 @@ import com.techtitans.backend.exception.ResourceNotFoundException;
 import com.techtitans.backend.exception.ValidationException;
 import com.techtitans.backend.mapper.AdminMapper;
 import com.techtitans.backend.repository.AdminRepository;
+import com.techtitans.backend.security.PasswordEncryptionService;
 import com.techtitans.backend.security.Validation;
 import com.techtitans.backend.service.AdminService;
 
@@ -61,6 +62,29 @@ public class AdminServiceImpl implements AdminService {
             return AdminMapper.mapToAdminDto(adminEntity.get());
         }
         throw new ResourceNotFoundException("Admin does not exists with the given email " + adminEmail);
+    }
+
+    @Override
+    // Function to update admin details by id
+    public AdminResponseDto updateAdminById(int adminId, AdminRequestDto adminRequestDto) {
+        // Validate request dto
+        validateRequest(adminRequestDto);
+        // Check if id exists
+        AdminEntity adminEntityFromDatabase = adminRepository.findById(adminId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Admin does not exists with the given id " + adminId));
+        // Update details
+        updateAttributes(adminEntityFromDatabase, adminRequestDto);
+        // Save details to database
+        AdminEntity savedAdmin = adminRepository.save(adminEntityFromDatabase);
+        return AdminMapper.mapToAdminDto(savedAdmin);
+    }
+
+    // Update attributes of entity
+    public void updateAttributes(AdminEntity adminEntity, AdminRequestDto adminRequestDto){
+        adminEntity.setName(adminRequestDto.getName());
+        adminEntity.setEmail(adminRequestDto.getEmail());
+        adminEntity.setPassword(PasswordEncryptionService.encrypt(adminRequestDto.getPassword()));
     }
 
     // Validate RequestDTO

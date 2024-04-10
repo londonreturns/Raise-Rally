@@ -53,5 +53,15 @@ public class AdminController {
         return new ResponseEntity<>(adminResponseDto, HttpStatus.OK);
     }
 
+    // Build update admin from API
+    @PutMapping(PathConstants.GET_BY_ID_PATH)
+    public ResponseEntity<AdminResponseDto> updateAdminById(
+            @PathVariable("id") int adminId,
+            @RequestBody AdminRequestDto adminRequestDto
+    ){
+        AdminResponseDto savedAdmin = adminService.updateAdminById(adminId, adminRequestDto);
+        return new ResponseEntity<>(savedAdmin, HttpStatus.OK);
+    }
+
 
 }
