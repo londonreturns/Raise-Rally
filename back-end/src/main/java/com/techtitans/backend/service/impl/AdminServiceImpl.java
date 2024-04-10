@@ -87,6 +87,17 @@ public class AdminServiceImpl implements AdminService {
         adminEntity.setPassword(PasswordEncryptionService.encrypt(adminRequestDto.getPassword()));
     }
 
+    @Override
+    // Function to delete admin by ID
+    public void deleteAdminById(int adminId) {
+        // Check if admin exists
+        AdminEntity adminEntityFromDatabase = adminRepository.findById(adminId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Admin does not exist with the given ID: " + adminId));
+        // Delete company from the database
+        adminRepository.deleteById(adminId);
+    }
+
     // Validate RequestDTO
     public static void validateRequest(AdminRequestDto adminRequestDto){
         if (!Validation.isNameValid(adminRequestDto.getName()) ||

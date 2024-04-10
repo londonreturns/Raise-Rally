@@ -17,6 +17,8 @@ public interface AdminService {
     AdminResponseDto getAdminByEmail(String adminEmail);
 
     AdminResponseDto updateAdminById(int adminId, AdminRequestDto adminRequestDto);
+
+    void deleteAdminById(int adminId);
 }
 
 

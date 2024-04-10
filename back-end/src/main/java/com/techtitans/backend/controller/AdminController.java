@@ -63,5 +63,14 @@ public class AdminController {
         return new ResponseEntity<>(savedAdmin, HttpStatus.OK);
     }
 
+    // Build delete admin from API
+    @DeleteMapping(PathConstants.GET_BY_ID_PATH)
+    public ResponseEntity<String> deleteAdminById(
+            @PathVariable("id") int adminId
+    ){
+        adminService.deleteAdminById(adminId);
+        return new ResponseEntity<>("Admin deleted", HttpStatus.OK);
+    }
+
 
 }
