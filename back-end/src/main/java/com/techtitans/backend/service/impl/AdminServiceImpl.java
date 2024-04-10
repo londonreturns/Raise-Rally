@@ -14,6 +14,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 @Service
 @AllArgsConstructor
@@ -37,6 +40,15 @@ public class AdminServiceImpl implements AdminService {
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Admin does not exists with the given id " + adminId));
         return AdminMapper.mapToAdminDto(adminEntity);
+    }
+
+    // Method to retrieve all admin
+    @Override
+    public List<AdminResponseDto> getAllAdmins() {
+        List<AdminEntity> admins = adminRepository.findAll();
+        return admins.stream()
+                .map(AdminMapper::mapToAdminDto)
+                .collect(Collectors.toList());
     }
 
     // Validate RequestDTO
