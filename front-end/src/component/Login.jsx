@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import './login.css';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -58,13 +59,11 @@ function Login() {
           });
         }
 
-        // Store email and password in local storage upon successful login
         localStorage.setItem('email', email);
         localStorage.setItem('password', password);
 
         console.log('Login response:', response.data);
 
-        // Handle login success, such as redirecting the user to the dashboard
 
       } catch (error) {
         console.error('Error:', error);
@@ -85,12 +84,16 @@ function Login() {
 
   const handleUserTypeChange = (e) => {
     setUserType(e.target.value);
+    if (error) {
+      window.location.reload();
+    }
   };
 
+    
   return (
     <div className="container-fluid vh-100 d-flex justify-content-center align-items-center bg-light">
       <div className="row justify-content-center">
-        <div className="col-lg-12 col-md-16 col-sm-20 col-24">
+        <div className="col-lg-12 col-md-6 col-sm-12 col-12">
           <div className="card shadow">
             <div className="card-body p-4">
               <h2 className="text-center mb-4">Sign into your account</h2>

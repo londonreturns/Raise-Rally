@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import './registration.css';
 
 function Registration() {
   const [username, setUsername] = useState('');
@@ -130,15 +131,16 @@ function Registration() {
 
   const handleUserTypeChange = (e) => {
     setUserType(e.target.value);
-  };
+        if (error) {
+      window.location.reload();
+    }
 
-  const handleTermsAcceptedChange = (e) => {
-    setTermsAccepted(e.target.checked);
   };
 
   const handleCompanyDescriptionChange = (e) => {
     setCompanyDescription(e.target.value);
   };
+
 
   return (
     <div className="container-fluid vh-50 d-flex justify-content-center align-items-center bg-light">
@@ -196,10 +198,6 @@ function Registration() {
                       <label className="form-check-label" htmlFor="admin">Admin</label>
                     </div>
                   </div>
-                </div>
-                <div className="mb-3 form-check">
-                  <input type="checkbox" className="form-check-input" id="termsAccepted" checked={termsAccepted} onChange={handleTermsAcceptedChange} />
-                  <label className="form-check-label" htmlFor="termsAccepted">I accept the terms and conditions</label>
                 </div>
                 <div className="text-center">
                   <button className="btn btn-primary btn-lg btn-block" type="submit">Register</button>
