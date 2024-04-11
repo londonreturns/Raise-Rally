@@ -3,6 +3,7 @@ package com.techtitans.backend.service.impl;
 import com.techtitans.backend.dto.AdminRequestDto;
 import com.techtitans.backend.dto.AdminResponseDto;
 import com.techtitans.backend.entity.AdminEntity;
+import com.techtitans.backend.exception.ResourceNotFoundException;
 import com.techtitans.backend.exception.ValidationException;
 import com.techtitans.backend.mapper.AdminMapper;
 import com.techtitans.backend.repository.AdminRepository;
@@ -26,6 +27,16 @@ public class AdminServiceImpl implements AdminService {
         AdminEntity adminEntity = AdminMapper.mapToAdminEntity(adminRequestDto);
         AdminEntity savedAdmin = adminRepository.save(adminEntity);
         return  AdminMapper.mapToAdminDto(savedAdmin);
+    }
+
+    @Override
+    // Function to get admin from id
+    public AdminResponseDto getAdminById(int adminId) {
+        // Check if id exists
+        AdminEntity adminEntity = adminRepository.findById(adminId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Admin does not exists with the given id " + adminId));
+        return AdminMapper.mapToAdminDto(adminEntity);
     }
 
     // Validate RequestDTO

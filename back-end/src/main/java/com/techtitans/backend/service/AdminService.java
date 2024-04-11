@@ -7,6 +7,8 @@ import com.techtitans.backend.dto.BackerResponseDto;
 
 public interface AdminService {
     AdminResponseDto createAdmin(AdminRequestDto adminRequestDto);
+
+    AdminResponseDto getAdminById(int adminId);
 }
 
 
