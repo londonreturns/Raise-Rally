@@ -1,14 +1,14 @@
 package com.techtitans.backend.dto;
 
+import com.techtitans.backend.entity.ProductEntity;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
-// DTO representing the request for a company entity
 public class CompanyRequestDto implements Serializable {
     private int companyId;
     private String name;
@@ -17,4 +17,6 @@ public class CompanyRequestDto implements Serializable {
     private boolean active;
     private boolean ticked;
     private String password;
+    private List<ProductEntity> products;
 }
+

@@ -1,0 +1,29 @@
+package com.techtitans.backend.service.impl;
+
+import com.techtitans.backend.dto.CategoryDto;
+import com.techtitans.backend.entity.CategoryEntity;
+import com.techtitans.backend.mapper.CategoryMapper;
+import com.techtitans.backend.repository.CategoryRepository;
+import com.techtitans.backend.service.CategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class CategoryServiceImpl implements CategoryService {
+    @Autowired
+    private CategoryRepository categoryRepository;
+
+    @Override
+    public CategoryDto addCategory(CategoryDto categoryDto) {
+        CategoryEntity savedCategory = categoryRepository.save(CategoryMapper.mapToCategoryEntity(categoryDto));
+        return CategoryMapper.mapToCategoryDto(savedCategory);
+    }
+
+    @Override
+    public int findNumberOfProductsByCategory(int categoryId) {
+        List<Object[]> numberOfProductsByCategory = categoryRepository.findNumberOfProductsByCategory(categoryId);
+        return numberOfProductsByCategory.size();
+    }
+}
