@@ -4,9 +4,11 @@ import com.techtitans.backend.dto.CompanyRequestDto;
 import com.techtitans.backend.dto.CompanyResponseDto;
 import com.techtitans.backend.entity.CompanyEntity;
 import com.techtitans.backend.exception.ResourceNotFoundException;
+import com.techtitans.backend.exception.ValidationException;
 import com.techtitans.backend.mapper.CompanyMapper;
 import com.techtitans.backend.repository.CompanyRepository;
 import com.techtitans.backend.security.PasswordEncryptionService;
+import com.techtitans.backend.security.Validation;
 import com.techtitans.backend.service.CompanyService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +24,11 @@ public class CompanyServiceImpl implements CompanyService {
     private CompanyRepository companyRepository;
     // Method to create a new company
     @Override
-    public CompanyResponseDto createCompany(CompanyRequestDto companyDto) {
+    public CompanyResponseDto createCompany(CompanyRequestDto companyRequestDto) {
+        // Validate request dto
+        validateRequest(companyRequestDto);
         // Map CompanyRequestDto to CompanyEntity
-        CompanyEntity companyEntity = CompanyMapper.mapToCompany(companyDto);
+        CompanyEntity companyEntity = CompanyMapper.mapToCompany(companyRequestDto);
         // Save the CompanyEntity to the repository
         CompanyEntity savedCompany = companyRepository.save(companyEntity);
         // Map the saved CompanyEntity to CompanyResponseDto and return
@@ -67,6 +71,8 @@ public class CompanyServiceImpl implements CompanyService {
     // Method to update company details by ID
     @Override
     public CompanyResponseDto updateCompanyById(int companyId, CompanyRequestDto companyRequestDto) {
+        // Validate request dto
+        validateRequest(companyRequestDto);
         // Check if company with the given ID exists
         CompanyEntity companyEntityFromDatabase = companyRepository.findById(companyId)
                 .orElseThrow(() ->
@@ -92,6 +98,14 @@ public class CompanyServiceImpl implements CompanyService {
         companyEntity.setTicked(companyRequestDto.isTicked());
     }
 
+    public static void validateRequest(CompanyRequestDto companyRequestDto){
+        if (!Validation.isNameValid(companyRequestDto.getName()) ||
+                !Validation.isEmailValid(companyRequestDto.getEmail()) ||
+                !Validation.isPasswordValid(companyRequestDto.getPassword())) {
+            throw new ValidationException("Validation error");
+        }
+    }
+
     @Override
 // Function to delete company by ID
     public void deleteCompanyById(int companyId) {
@@ -102,5 +116,7 @@ public class CompanyServiceImpl implements CompanyService {
         // Delete company from the database
         companyRepository.deleteById(companyId);
     }
+
+
 }
 
