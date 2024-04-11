@@ -61,7 +61,7 @@ public class BackerServiceImpl implements BackerService {
     public List<BackerResponseDto> getAllBackers() {
         List<BackerEntity> backers = backerRepository.findAll();
         return backers.stream()
-                .map((backer) -> BackerMapper.mapToBackerDto(backer))
+                .map(BackerMapper::mapToBackerDto)
                 .collect(Collectors.toList());
     }
 

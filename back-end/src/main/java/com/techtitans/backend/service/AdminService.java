@@ -5,10 +5,14 @@ import com.techtitans.backend.dto.AdminResponseDto;
 import com.techtitans.backend.dto.BackerRequestDto;
 import com.techtitans.backend.dto.BackerResponseDto;
 
+import java.util.List;
+
 public interface AdminService {
     AdminResponseDto createAdmin(AdminRequestDto adminRequestDto);
 
     AdminResponseDto getAdminById(int adminId);
+
+    List<AdminResponseDto> getAllAdmins();
 }
 
 
