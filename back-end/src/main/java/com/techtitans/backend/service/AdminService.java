@@ -15,6 +15,8 @@ public interface AdminService {
     List<AdminResponseDto> getAllAdmins();
 
     AdminResponseDto getAdminByEmail(String adminEmail);
+
+    AdminResponseDto updateAdminById(int adminId, AdminRequestDto adminRequestDto);
 }
 
 
