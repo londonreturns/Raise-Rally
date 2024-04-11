@@ -14,7 +14,8 @@ public class CompanyMapper {
                 companyEntity.getDescription(),
                 companyEntity.getEmail(),
                 companyEntity.isActive(),
-                companyEntity.isTicked()
+                companyEntity.isTicked(),
+                companyEntity.getProducts()
         );
     }
 
@@ -28,7 +29,8 @@ public class CompanyMapper {
                 companyDto.getEmail(),
                 PasswordEncryptionService.encrypt(companyDto.getPassword()),
                 companyDto.isActive(),
-                companyDto.isTicked()
+                companyDto.isTicked(),
+                companyDto.getProducts()
         );
     }
 }
