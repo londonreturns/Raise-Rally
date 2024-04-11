@@ -50,7 +50,7 @@ function ProductForm() {
         <ul>
           <li className={currentStep >= 1 ? 'completed' : ''} onClick={() => goToStep(1)}>Category</li>
           <li className={currentStep >= 2 ? 'completed' : ''} onClick={() => goToStep(2)}>Product Description</li>
-          <li className={currentStep >= 3 ? 'completed' : ''} onClick={() => goToStep(3)}>Pricing & Images</li>
+          <li className={currentStep >= 3 ? 'completed' : ''} onClick={() => goToStep(3)}>Pricing</li>
         </ul>
       </div>
       <form onSubmit={handleSubmit}>
@@ -95,17 +95,9 @@ function ProductForm() {
               id="product_price"
               value={productPrice}
               onChange={handleProductPriceChange}
-              step="0.01"
+              step="10.00"
               required
-            /><br /><br />
-            <label htmlFor="product_image">Product Image:</label><br />
-            <input
-              type="file"
-              id="product_image"
-              onChange={handleProductImageChange}
-              accept="image/*"
-              required
-            /><br /><br />
+            />
           </div>
         )}
         <div>
