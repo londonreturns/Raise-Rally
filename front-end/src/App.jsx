@@ -7,7 +7,8 @@ function App() {
 
   return (
 <>
-<ProductForm/>
+<Login/>
+<Registration/>
 
 </>
   )

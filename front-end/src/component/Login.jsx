@@ -45,17 +45,18 @@ function Login() {
         let response;
         if (userType === 'company') {
           emailId =document.querySelector("#email").value
-          response = await axios.get('http://localhost:8080/api/companies/login', {
+          response = await axios.get('http://localhost:8080/api/companies/email/' + emailId, {
           });
         } else if (userType === 'backers') {
           emailId = document.querySelector("#email").value
           console.log(emailId);
           response = await axios.get('http://localhost:8080/api/backers/email/' + emailId, {
-    
           });
         } else if (userType === 'admin') {
           emailId =document.querySelector("#email").value
-          response = await axios.get('http://localhost:8080/api/companies', {
+          console.log(emailId);
+          console.log(document.querySelector("#password").value)
+          response = await axios.get('http://localhost:8080/api/admin/email/'+ emailId, {
           });
         }
 
@@ -123,8 +124,8 @@ function Login() {
                       <label className="form-check-label" htmlFor="backers">Backers</label>
                     </div>
                     <div className="form-check">
-                      <input className="form-check-input" type="radio" name="userType" id="backerAdmin" value="backerAdmin" checked={userType === 'backerAdmin'} onChange={handleUserTypeChange} />
-                      <label className="form-check-label" htmlFor="backerAdmin">Admin</label>
+                      <input className="form-check-input" type="radio" name="userType" id="admin" value="admin" checked={userType === 'admin'} onChange={handleUserTypeChange} />
+                      <label className="form-check-label" htmlFor="admin">Admin</label>
                     </div>
                   </div>
                 </div>

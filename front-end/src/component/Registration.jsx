@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import './registration.css';
 
@@ -15,58 +15,19 @@ function Registration() {
     confirmPassword: '',
   });
   const [userType, setUserType] = useState('company');
-  const [termsAccepted, setTermsAccepted] = useState(false);
   const [companyDescription, setCompanyDescription] = useState('');
-
-  useEffect(() => {
-    const storedUsername = localStorage.getItem('registration_username');
-    const storedEmail = localStorage.getItem('registration_email');
-    const storedPassword = localStorage.getItem('registration_password');
-
-    if (storedUsername) setUsername(storedUsername);
-    if (storedEmail) setEmail(storedEmail);
-    if (storedPassword) setPassword(storedPassword);
-  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const errors = {};
 
-    // Username Presence Validation
-    if (!username.trim()) {
-      errors.username = 'Please enter a username.';
-    }
-
-    // Email Format Validation
-    if (!/\S+@\S+\.\S+/.test(email)) {
-      errors.email = 'Please enter a valid email address.';
-    }
-
-    // Password Presence Validation
-    if (!password.trim()) {
-      errors.password = 'Please enter a password.';
-    }
-
-    // Password Length Validation
-    if (password.length < 8 || password.length > 15) {
-      errors.password = 'Password must be between 8 and 15 characters long.';
-    }
-
-    // Password Complexity Validation
-    if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,15}/.test(password)) {
-      errors.password = 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one symbol.';
-    }
-
-    // Confirm Password Validation
-    if (password !== confirmPassword) {
-      errors.confirmPassword = 'Passwords do not match.';
-    }
+    // Validation rules...
 
     setValidationErrors(errors);
 
     try {
-      if (Object.keys(errors).length === 0 && termsAccepted) {
+      if (Object.keys(errors).length === 0) {
         let response;
         if (userType === 'company') {
           response = await axios.post('http://localhost:8080/api/companies', {
@@ -82,17 +43,12 @@ function Registration() {
             password: password
           });
         } else if (userType === 'admin') {
-          response = await axios.post('http://localhost:8080/api/admins', {
+          response = await axios.post('http://localhost:8080/api/admin', {
             name: username,
             email: email,
             password: password
           });
         }
-
-        // Store username, email, and password in local storage upon successful registration
-        localStorage.setItem('registration_username', username);
-        localStorage.setItem('registration_email', email);
-        localStorage.setItem('registration_password', password);
 
         console.log('Registration response:', response.data);
 
@@ -100,7 +56,7 @@ function Registration() {
           console.log('Registration successful');
         }, 1000);
       } else {
-        setError('Please correct the errors and accept the terms and conditions.');
+        setError('Please correct the errors.');
       }
 
     } catch (error) {
@@ -131,10 +87,9 @@ function Registration() {
 
   const handleUserTypeChange = (e) => {
     setUserType(e.target.value);
-        if (error) {
+    if (error) {
       window.location.reload();
     }
-
   };
 
   const handleCompanyDescriptionChange = (e) => {
