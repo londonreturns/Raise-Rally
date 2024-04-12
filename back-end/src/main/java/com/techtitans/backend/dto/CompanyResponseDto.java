@@ -17,5 +17,5 @@ public class CompanyResponseDto implements Serializable {
     private String email;
     private boolean active;
     private boolean ticked;
-    private List<ProductEntity> products;
+    private List<ProductResponseDto> products;
 }

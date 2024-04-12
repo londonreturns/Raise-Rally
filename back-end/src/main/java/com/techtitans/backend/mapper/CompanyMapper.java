@@ -15,7 +15,7 @@ public class CompanyMapper {
                 companyEntity.getEmail(),
                 companyEntity.isActive(),
                 companyEntity.isTicked(),
-                companyEntity.getProducts()
+                companyEntity.getProducts().stream().map(ProductMapper::mapToProductDto).toList()
         );
     }
 
