@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "backer")
+@Table(name = "backer_table")
 public class BackerEntity {
     @Id
     // Using database's autoincrement feature

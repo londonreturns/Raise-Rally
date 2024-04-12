@@ -5,6 +5,7 @@ import com.techtitans.backend.dto.PriceResponseDto;
 import com.techtitans.backend.entity.PriceEntity;
 
 public class PriceMapper {
+    // Mapping price entity to response dto
     public static PriceEntity mapToPriceEntity(PriceRequestDto priceRequestDto) {
         return new PriceEntity(
                 priceRequestDto.getId(),
@@ -13,6 +14,7 @@ public class PriceMapper {
         );
     }
 
+    // Mapping price entity to response dto
     public static PriceResponseDto mapToPriceDto(PriceEntity priceEntity) {
         return new PriceResponseDto(
                 priceEntity.getPriceId(),

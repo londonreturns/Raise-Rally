@@ -8,6 +8,7 @@ import com.techtitans.backend.entity.BenefitEntity;
 import java.util.stream.Collectors;
 
 public class ProductMapper {
+    // Mapping product request dto to entity
     public static ProductEntity mapToProductEntity(ProductRequestDto productRequestDto){
         return new ProductEntity(
                 productRequestDto.getProductId(),
@@ -19,6 +20,7 @@ public class ProductMapper {
         );
     }
 
+    // Mapping product entity to response dto
     public static ProductResponseDto mapToProductDto(ProductEntity productEntity){
         return new ProductResponseDto(
                 productEntity.getProductId(),

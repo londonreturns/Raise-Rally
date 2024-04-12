@@ -14,7 +14,7 @@ import java.util.List;
 
 @Service
 public class ProductServiceImpl implements ProductService {
-
+    // Dependency Injection
     @Autowired
     private ProductRepository productRepository;
 
@@ -30,22 +30,28 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private PriceRepository priceRepository;
 
+    // Function to add product
     @Override
     public ProductResponseDto addProduct(ProductRequestDto productDto) {
+        // Assign attributes to product
         ProductEntity productEntity = new ProductEntity();
         productEntity.setProductName(productDto.getProductName());
         productEntity.setProductDescription(productDto.getProductDescription());
 
+        // Check if category exists
         CategoryEntity category = categoryRepository.findById(productDto.getCategory().getCategoryId())
                 .orElseGet(() -> categoryRepository.save(productDto.getCategory()));
         productEntity.setCategory(category);
 
+        // Check if company exists
         CompanyEntity company = companyRepository.findById(productDto.getCompany().getCompanyId())
                 .orElseGet(() -> companyRepository.save(productDto.getCompany()));
         productEntity.setCompany(company);
 
+        // Save product
         ProductEntity savedProduct = productRepository.save(productEntity);
 
+        // Assign benefit and price
         List<BenefitEntity> benefitEntities = new ArrayList<>();
         for (BenefitEntity benefit : productDto.getBenefits()) {
             PriceEntity price = priceRepository.save(benefit.getPrice());
@@ -56,12 +62,14 @@ public class ProductServiceImpl implements ProductService {
         }
         savedProduct.setBenefits(benefitEntities);
 
+        // Save product
         savedProduct = productRepository.save(savedProduct);
 
         return ProductMapper.mapToProductDto(savedProduct);
     }
 
     @Override
+    // Function to find all products
     public List<ProductResponseDto> findAllProducts() {
         List<ProductEntity> products = productRepository.findAll();
         return products.stream().map(
@@ -69,6 +77,7 @@ public class ProductServiceImpl implements ProductService {
         ).toList();
     }
 
+    // Function to get product by id
     @Override
     public ProductResponseDto findProductById(int productId) {
         ProductEntity productEntity = productRepository.findById(productId).orElseThrow(

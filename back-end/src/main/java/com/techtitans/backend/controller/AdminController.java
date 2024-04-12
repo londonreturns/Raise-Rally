@@ -38,6 +38,7 @@ public class AdminController {
         return new ResponseEntity<>(admin, HttpStatus.OK);
     }
 
+    // Build get all admin API
     @GetMapping(PathConstants.GET_ALL_PATH)
     public ResponseEntity<List<AdminResponseDto>> getAllAdminsList() {
         List<AdminResponseDto> admins = adminService.getAllAdmins();

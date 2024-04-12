@@ -15,6 +15,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+// DTO representing the request for product entity
 public class ProductRequestDto implements Serializable {
     private int productId;
     private String productName;

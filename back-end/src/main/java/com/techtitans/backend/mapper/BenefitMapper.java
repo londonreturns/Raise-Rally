@@ -5,6 +5,7 @@ import com.techtitans.backend.dto.BenefitResponseDto;
 import com.techtitans.backend.entity.BenefitEntity;
 
 public class BenefitMapper {
+    // Mapping benefit request dto to entity
     public static BenefitEntity mapToBenefitEntity(BenefitRequestDto benefitRequestDto){
         return new BenefitEntity(
                 benefitRequestDto.getBenefitId(),
@@ -15,6 +16,7 @@ public class BenefitMapper {
         );
     }
 
+    // Mapping benefit entity to response dto
     public static BenefitResponseDto mapToBenefitDto(BenefitEntity benefitEntity){
         return new BenefitResponseDto(
                 benefitEntity.getBenefitId(),

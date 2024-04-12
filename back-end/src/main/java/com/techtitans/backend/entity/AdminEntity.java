@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "admin")
+@Table(name = "admin_table")
 public class AdminEntity {
     @Id
     // Using database's autoincrement feature

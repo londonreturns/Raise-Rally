@@ -9,6 +9,7 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+// DTO representing the response for price entity
 public class PriceResponseDto implements Serializable {
     private int id;
     private int amount;

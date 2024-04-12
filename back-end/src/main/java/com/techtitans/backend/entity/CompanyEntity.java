@@ -25,6 +25,7 @@ public class CompanyEntity {
     private boolean active;
     private boolean ticked;
 
+    // JPA mapping
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
     private List<ProductEntity> products;
 }

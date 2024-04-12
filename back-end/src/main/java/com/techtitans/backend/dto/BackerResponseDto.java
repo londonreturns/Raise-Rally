@@ -11,7 +11,7 @@ import java.io.Serializable;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-// DTO representing the response for a backer entity
+// DTO representing the response for backer entity
 public class BackerResponseDto implements Serializable {
     private int backer_id;
     private String name;

@@ -11,12 +11,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+// Making REST API Endpoints
 @RestController
 @RequestMapping(PathConstants.PRICE)
+// Request mapping for the controller
 public class PriceController {
+    // Service Dependency Injection
     @Autowired
     PriceService priceService;
 
+    // Build get price API
     @GetMapping(PathConstants.GET_BY_ID_PATH)
     public ResponseEntity<PriceResponseDto> getPrice(
             @PathVariable("id") int priceId
