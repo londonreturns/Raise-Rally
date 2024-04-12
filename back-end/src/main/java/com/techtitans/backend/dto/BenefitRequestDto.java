@@ -11,6 +11,7 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+// DTO representing the request for benefit entity
 public class BenefitRequestDto implements Serializable {
     private int benefitId;
     private String benefitName;

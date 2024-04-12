@@ -9,6 +9,7 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+// DTO representing the response for benefit entity
 public class BenefitResponseDto implements Serializable {
     private int benefitId;
     private String benefitName;

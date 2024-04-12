@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class BackerServiceImpl implements BackerService {
+    // Dependency Injection
     @Autowired
     private BackerRepository backerRepository;
 

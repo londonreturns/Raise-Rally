@@ -14,10 +14,12 @@ import lombok.Setter;
 @NoArgsConstructor
 public class PriceEntity {
     @Id
+    // Using database's autoincrement feature
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int priceId;
     private int amount;
 
+    // JPA mapping
     @OneToOne(mappedBy = "price", cascade = CascadeType.ALL)
     @JoinColumn(name = "price_id")
     private BenefitEntity benefit;

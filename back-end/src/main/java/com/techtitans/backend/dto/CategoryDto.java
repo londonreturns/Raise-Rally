@@ -13,6 +13,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+// DTO representing the category entity
 public class CategoryDto implements Serializable {
     private int categoryId;
     private String categoryName;

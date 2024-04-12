@@ -9,6 +9,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+// DTO representing the request for company entity
 public class CompanyRequestDto implements Serializable {
     private int companyId;
     private String name;

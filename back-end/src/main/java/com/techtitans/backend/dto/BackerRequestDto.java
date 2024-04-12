@@ -9,7 +9,7 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-// DTO representing the response for a backer entity
+// DTO representing the request for backer entity
 public class BackerRequestDto implements Serializable {
     private int backer_id;
     private String name;

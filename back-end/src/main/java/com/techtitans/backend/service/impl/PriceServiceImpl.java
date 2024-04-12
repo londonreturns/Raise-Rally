@@ -10,9 +10,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PriceServiceImpl implements PriceService {
+    // Dependency Injection
     @Autowired
     private PriceRepository priceRepository;
 
+    // Function to get price by id
     public PriceResponseDto getPrice(int priceId) {
         PriceEntity price = priceRepository.findById(priceId).orElseThrow(
                 () -> new IllegalArgumentException("Invalid price id: " + priceId)

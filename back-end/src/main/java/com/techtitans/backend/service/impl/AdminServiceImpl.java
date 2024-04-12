@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class AdminServiceImpl implements AdminService {
+    // Dependency Injection
     @Autowired
     private AdminRepository adminRepository;
     @Override

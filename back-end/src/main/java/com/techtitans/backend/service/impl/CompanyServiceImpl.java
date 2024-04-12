@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class CompanyServiceImpl implements CompanyService {
+    // Dependency Injection
     @Autowired
     private CompanyRepository companyRepository;
     // Method to create a new company

@@ -9,6 +9,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+// DTO representing the response for company entity
 public class CompanyResponseDto implements Serializable {
     private int companyId;
     private String name;

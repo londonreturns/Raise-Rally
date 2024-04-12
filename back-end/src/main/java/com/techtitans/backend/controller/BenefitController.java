@@ -13,10 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(PathConstants.BENEFIT)
+// Request mapping for the controller
 public class BenefitController {
+    // Service Dependency Injection
     @Autowired
     private BenefitService benefitService;
 
+    // Build get benefit API
     @GetMapping(PathConstants.GET_BY_ID_PATH)
     public ResponseEntity<BenefitResponseDto> getBenefits(
             @PathVariable("id") int benefitId
