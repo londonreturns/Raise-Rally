@@ -8,15 +8,27 @@ import com.techtitans.backend.security.PasswordEncryptionService;
 public class CompanyMapper {
     // Map company JPA entity into CompanyDto
     public static CompanyResponseDto mapToCompanyDto(CompanyEntity companyEntity) {
-        return new CompanyResponseDto(
-                companyEntity.getCompanyId(),
-                companyEntity.getName(),
-                companyEntity.getDescription(),
-                companyEntity.getEmail(),
-                companyEntity.isActive(),
-                companyEntity.isTicked(),
-                companyEntity.getProducts().stream().map(ProductMapper::mapToProductDto).toList()
-        );
+        try{
+            return new CompanyResponseDto(
+                    companyEntity.getCompanyId(),
+                    companyEntity.getName(),
+                    companyEntity.getDescription(),
+                    companyEntity.getEmail(),
+                    companyEntity.isActive(),
+                    companyEntity.isTicked(),
+                    companyEntity.getProducts().stream().map(ProductMapper::mapToProductDto).toList()
+            );
+        }catch (Exception e){
+            return new CompanyResponseDto(
+                    companyEntity.getCompanyId(),
+                    companyEntity.getName(),
+                    companyEntity.getDescription(),
+                    companyEntity.getEmail(),
+                    companyEntity.isActive(),
+                    companyEntity.isTicked()
+            );
+        }
+
     }
 
 

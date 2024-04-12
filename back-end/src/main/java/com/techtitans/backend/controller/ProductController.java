@@ -45,4 +45,40 @@ public class ProductController {
         return new ResponseEntity<>(productById, HttpStatus.OK);
     }
 
+    // Build update product by API
+    @PutMapping(PathConstants.GET_BY_ID_PATH)
+    public ResponseEntity<ProductResponseDto> updateProduct(
+            @PathVariable("id") int productId,
+            @RequestBody ProductRequestDto productRequestDto
+    ){
+        ProductResponseDto updatedProduct = productService.updateProduct(productId, productRequestDto);
+        return new ResponseEntity<>(updatedProduct, HttpStatus.OK);
+    }
+
+    // Build delete product by API
+    @DeleteMapping(PathConstants.GET_BY_ID_PATH)
+    public ResponseEntity<String> deleteProductById(
+        @PathVariable("id") int productId
+    ){
+        productService.deleteProduct(productId);
+        return new ResponseEntity<>("Product deleted", HttpStatus.OK);
+    }
+
+    // Build get all products by category
+    @GetMapping("/category" + PathConstants.GET_BY_ID_PATH)
+    public ResponseEntity<List<ProductResponseDto>> getAllProductsByCategory(
+            @PathVariable("id") int categoryId
+    ){
+        List<ProductResponseDto> products = productService.findAllProductsByCategory(categoryId);
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+
+    // Build get all products by company
+    @GetMapping("/company" + PathConstants.GET_BY_ID_PATH)
+    public ResponseEntity<List<ProductResponseDto>> getAllProductsByCompany(
+            @PathVariable("id") int companyId
+    ){
+        List<ProductResponseDto> products = productService.findAllProductsByCompany(companyId);
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
 }

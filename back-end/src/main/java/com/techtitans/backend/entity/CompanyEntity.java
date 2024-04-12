@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -27,5 +28,5 @@ public class CompanyEntity {
 
     // JPA mapping
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
-    private List<ProductEntity> products;
+    private List<ProductEntity> products = new ArrayList<>();
 }
