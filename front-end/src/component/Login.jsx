@@ -1,23 +1,26 @@
+//Importing all neccessary files,react and useState hook
 import React, { useState } from 'react';
 import axios from 'axios';
 import './login.css';
 
+//FUnction for login 
 function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [validationErrors, setValidationErrors] = useState({
+  const [email, setEmail] = useState(''); // State for email
+  const [password, setPassword] = useState(''); // State for password
+  const [error, setError] = useState(''); // State for displaying error message
+  const [validationErrors, setValidationErrors] = useState({ // State for validation
     email: '',
     password: '',
   });
-  const [userType, setUserType] = useState('company');
+  const [userType, setUserType] = useState('company'); //State for user type
 
+  //Function to handle for submission
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); //Prevent default for submission behavior
 
     const errors = {};
 
-    // Email Format Validation
+    // Email Format Validation and white strip space
     if (!/\S+@\S+\.\S+/.test(email)) {
       errors.email = 'Please enter a valid email address.';
     }
@@ -25,46 +28,40 @@ function Login() {
     // Password Presence Validation
     if (!password.trim()) {
       errors.password = 'Please enter a password.';
-    }
+    } else {
+      // Password Length Validation
+      if (password.length < 8 || password.length > 15) {
+        errors.password = 'Password must be between 8 and 15 characters long.';
+      }
 
-    // Password Length Validation
-    if (password.length < 8 || password.length > 15) {
-      errors.password = 'Password must be between 8 and 15 characters long.';
-    }
-
-    // Password Complexity Validation
-    if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,15}/.test(password)) {
-      errors.password = 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one symbol.';
+      // Password Complexity Validation
+      if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,15}/.test(password)) {
+        errors.password = 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one symbol.';
+      }
     }
 
     setValidationErrors(errors);
 
-    if (Object.keys(errors).length === 0) {
+    if (Object.keys(errors).length === 0) { //Check if there are no validation errors
       let emailId;
       try {
         let response;
-        if (userType === 'company') {
-          emailId =document.querySelector("#email").value
-          response = await axios.get('http://localhost:8080/api/companies/email/' + emailId, {
-          });
+        if (userType === 'company') { //User type check 
+          emailId = email.trim(); // Strip whitespace from email and get email
+          response = await axios.get('http://localhost:8080/api/companies/email/' + emailId);
         } else if (userType === 'backers') {
-          emailId = document.querySelector("#email").value
-          console.log(emailId);
-          response = await axios.get('http://localhost:8080/api/backers/email/' + emailId, {
-          });
+          emailId = email.trim(); //  CStrip whitespace from email and get email
+          response = await axios.get('http://localhost:8080/api/backers/email/' + emailId);
         } else if (userType === 'admin') {
-          emailId =document.querySelector("#email").value
-          console.log(emailId);
-          console.log(document.querySelector("#password").value)
-          response = await axios.get('http://localhost:8080/api/admin/email/'+ emailId, {
-          });
+          emailId = email.trim(); // Strip whitespace from email and get email
+          response = await axios.get('http://localhost:8080/api/admin/email/'+ emailId);
         }
 
+//Local storage and adding email and password in local-storage 
         localStorage.setItem('email', email);
         localStorage.setItem('password', password);
 
         console.log('Login response:', response.data);
-
 
       } catch (error) {
         console.error('Error:', error);
@@ -73,24 +70,26 @@ function Login() {
     }
   };
 
+// Function to handle email input change
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
     setValidationErrors({ ...validationErrors, email: '' });
   };
 
+//Function to handle password input change
   const handlePasswordChange = (e) => {
-    setPassword(e.target.value.trim());
+    setPassword(e.target.value);
     setValidationErrors({ ...validationErrors, password: '' });
   };
 
+//Function to handle user type change
   const handleUserTypeChange = (e) => {
     setUserType(e.target.value);
     if (error) {
-      window.location.reload();
+      window.location.reload(); //Reload page if there is an error
     }
   };
 
-    
   return (
     <div className="container-fluid vh-100 d-flex justify-content-center align-items-center bg-light">
       <div className="row justify-content-center">
@@ -108,8 +107,6 @@ function Login() {
                 <div className="mb-3">
                   <label htmlFor="password" className="form-label">Password</label>
                   <input type="password" id="password" className={`form-control ${validationErrors.password && 'is-invalid'}`} value={password} onChange={handlePasswordChange} required />
-                  <div className="form-text mb-2">
-                  </div>
                   <div className="invalid-feedback">{validationErrors.password}</div>
                 </div>
                 <div className="mb-3">

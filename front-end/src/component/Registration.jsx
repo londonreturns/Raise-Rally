@@ -22,7 +22,35 @@ function Registration() {
 
     const errors = {};
 
-    // Validation rules...
+    // Username Presence Validation
+    if (!username.trim()) {
+      errors.username = 'Please enter a username.';
+    }
+
+    // Email Format Validation
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      errors.email = 'Please enter a valid email address.';
+    }
+
+    // Password Presence Validation
+    if (!password.trim()) {
+      errors.password = 'Please enter a password.';
+    } else {
+      // Password Length Validation
+      if (password.length < 8 || password.length > 15) {
+        errors.password = 'Password must be between 8 and 15 characters long.';
+      }
+
+      // Password Complexity Validation
+      if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,15}/.test(password)) {
+        errors.password = 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one symbol.';
+      }
+    }
+
+    // Confirm Password Validation
+    if (password !== confirmPassword) {
+      errors.confirmPassword = 'Passwords do not match.';
+    }
 
     setValidationErrors(errors);
 
@@ -71,17 +99,17 @@ function Registration() {
   };
 
   const handleEmailChange = (e) => {
-    setEmail(e.target.value);
+    setEmail(e.target.value.trim()); // Strip whitespace from email
     setValidationErrors({ ...validationErrors, email: '' });
   };
 
   const handlePasswordChange = (e) => {
-    setPassword(e.target.value.trim());
+    setPassword(e.target.value.trim()); // Strip whitespace from password
     setValidationErrors({ ...validationErrors, password: '' });
   };
 
   const handleConfirmPasswordChange = (e) => {
-    setConfirmPassword(e.target.value.trim());
+    setConfirmPassword(e.target.value.trim()); // Strip whitespace from confirm password
     setValidationErrors({ ...validationErrors, confirmPassword: '' });
   };
 
@@ -95,7 +123,6 @@ function Registration() {
   const handleCompanyDescriptionChange = (e) => {
     setCompanyDescription(e.target.value);
   };
-
 
   return (
     <div className="container-fluid vh-50 d-flex justify-content-center align-items-center bg-light">
