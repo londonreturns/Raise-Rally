@@ -1,0 +1,157 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&family=Oswald:wght@200,300,400,500,600,700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+li {
+  font-family: "Oswald", sans-serif;
+}
+
+p {
+  font-family: "Lato", sans-serif;
+}
+
+.card {
+  width: 300px;
+  height: auto !important;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, .2), 0 0 6px rgba(0, 0, 0, .1);
+  transition: .3s transform cubic-bezier(.155, 1.105, .295, 1.12), .3s box-shadow, .3s -webkit-transform cubic-bezier(.155, 1.105, .295, 1.12);
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: scale(1.01);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, .3), 0 4px 8px rgba(0, 0, 0, .15);
+}
+
+.card h3 {
+  font-weight: 600;
+}
+
+.preview1-text,
+.preview-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+
+
+.cat {
+  background-color: #e27d5f;
+}
+
+@media (min-width: 992px) {
+  .logo {
+    width: 45%;
+    position: relative;
+    left: -33px;
+
+  }
+
+  .bug {
+    padding-bottom: 75px;
+  }
+}
+
+
+@media (max-width: 992px) {
+  .logo {
+    width: 25%;
+    position: relative;
+    left: 100px;
+  }
+
+  .bug {
+    padding-bottom: 30px;
+  }
+
+}
+
+li {
+  list-style: none;
+}
+
+ul a {
+  color: #fff;
+  text-decoration: none;
+}
+
+ul a.active {
+  color: rgb(34 197 94);
+}
+
+/* for Detail page */
+.img-100 {
+  height:290px;
+}
+.progress-color{
+  background-color: #C8346E !important;
+}
+.backProject{
+  background-color: #C8346E !important;
+  height: 45px;
+  width: 200px;
+}
+.backProject:hover{
+  background-color: #DC3545 !important;
+  cursor: pointer;
+}
+.detailcolor{
+  color: #C8346E;
+}
+/* loading css */
+.detail-img{
+  width: 400px;
+  height: 500px;
+}
+/*detail css*/
+
+/* .modal-title{
+  padding-left: 120px;
+} */
+.contribution{
+  border: 2px solid rgb(210, 199, 199);
+}
+.no-arrows::-webkit-inner-spin-button,
+.no-arrows::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.no-arrows:hover{
+  border: 2px solid #C8346E;
+  cursor: pointer;
+}
+.no-arrows:focus{
+  border-color: #DC3545 !important; 
+  outline: none !important; 
+  box-shadow: 0 0 5px #DC3545 !important;
+}
+.continueBtn{
+  background-color: #C8346E !important;
+  height: 35px;
+  width: 170px !important;
+}
+.continueBtn:hover{
+  background-color: #DC3545 !important;
+  cursor: pointer;
+}
+.continueBtn1{
+  background-color: #C8346E !important;
+  height: 37px;
+  width: 100px;
+}
+.continueBtn1:hover{
+  background-color: #DC3545 !important;
+  cursor: pointer;
+}
