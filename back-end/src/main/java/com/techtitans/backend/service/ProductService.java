@@ -11,4 +11,12 @@ public interface ProductService {
     List<ProductResponseDto> findAllProducts();
 
     ProductResponseDto findProductById(int productId);
+
+    ProductResponseDto updateProduct(int productId, ProductRequestDto productRequestDto);
+
+    void deleteProduct(int productId);
+
+    List<ProductResponseDto> findAllProductsByCategory(int categoryId);
+
+    List<ProductResponseDto> findAllProductsByCompany(int companyId);
 }

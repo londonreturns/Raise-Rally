@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -21,6 +22,6 @@ public class CategoryEntity {
 
     // JPA mapping
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
-    private List<ProductEntity> products;
+    private List<ProductEntity> products = new ArrayList<ProductEntity>();
 
 }

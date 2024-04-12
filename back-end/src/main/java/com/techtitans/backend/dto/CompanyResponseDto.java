@@ -18,4 +18,13 @@ public class CompanyResponseDto implements Serializable {
     private boolean active;
     private boolean ticked;
     private List<ProductResponseDto> products;
+
+    public CompanyResponseDto(int companyId, String name, String description, String email, boolean active, boolean ticked) {
+        this.companyId = companyId;
+        this.name = name;
+        this.description = description;
+        this.email = email;
+        this.active = active;
+        this.ticked = ticked;
+    }
 }

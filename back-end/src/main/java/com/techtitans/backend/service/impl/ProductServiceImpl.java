@@ -85,6 +85,78 @@ public class ProductServiceImpl implements ProductService {
         );
         return ProductMapper.mapToProductDto(productEntity);
     }
+
+    @Override
+    // Function to update product
+    public ProductResponseDto updateProduct(int productId, ProductRequestDto productRequestDto) {
+        // Find the existing product entity
+        ProductEntity existingProduct = productRepository.findById(productId).orElseThrow(
+                () -> new RuntimeException("Product with id " + productId + " not found")
+        );
+
+        // Update attributes of the existing product entity
+        existingProduct.setProductName(productRequestDto.getProductName());
+        existingProduct.setProductDescription(productRequestDto.getProductDescription());
+
+        // Check and update category if necessary
+        CategoryEntity category = categoryRepository.findById(productRequestDto.getCategory().getCategoryId())
+                .orElseGet(() -> categoryRepository.save(productRequestDto.getCategory()));
+        existingProduct.setCategory(category);
+
+        // Check and update company if necessary
+        CompanyEntity company = companyRepository.findById(productRequestDto.getCompany().getCompanyId())
+                .orElseGet(() -> companyRepository.save(productRequestDto.getCompany()));
+        existingProduct.setCompany(company);
+
+        // Update benefits and prices
+        List<BenefitEntity> updatedBenefits = new ArrayList<>();
+        for (BenefitEntity benefit : productRequestDto.getBenefits()) {
+            // Check if benefit already exists or create new if necessary
+            BenefitEntity updatedBenefit = benefitRepository.findById(benefit.getBenefitId())
+                    .orElseGet(() -> benefitRepository.save(benefit));
+            updatedBenefit.setPrice(priceRepository.save(benefit.getPrice())); // Update price
+            updatedBenefit.setBenefitDescription(productRequestDto.getProductDescription());
+            updatedBenefit.setProduct(existingProduct);
+            updatedBenefits.add(updatedBenefit);
+        }
+        existingProduct.setBenefits(updatedBenefits);
+
+        // Save the updated product entity
+        ProductEntity updatedProduct = productRepository.save(existingProduct);
+
+        return ProductMapper.mapToProductDto(updatedProduct);
+    }
+
+    @Override
+    // Function to delete product
+    public void deleteProduct(int productId) {
+        // Find the existing product entity
+        productRepository.findById(productId).orElseThrow(
+                () -> new RuntimeException("Product with id " + productId + " not found"));
+        productRepository.deleteById(productId);
+    }
+
+    @Override
+    // Function to find all products by category
+    public List<ProductResponseDto> findAllProductsByCategory(int categoryId) {
+        // Find the existing category entity
+        categoryRepository.findById(categoryId).orElseThrow(
+                () -> new RuntimeException("Category with id " + categoryId + " not found")
+        );
+        List<ProductEntity> products = productRepository.findProductEntitiesByCategoryCategoryId(categoryId);
+        return products.stream().map(ProductMapper::mapToProductDto).toList();
+    }
+
+    @Override
+    // Function to find all products by company
+    public List<ProductResponseDto> findAllProductsByCompany(int companyId) {
+        // Find the existing company entity
+        companyRepository.findById(companyId).orElseThrow(
+                () -> new RuntimeException("Company with id " + companyId + " not found")
+        );
+        List<ProductEntity> products = productRepository.findProductEntitiesByCompanyCompanyId(companyId);
+        return products.stream().map(ProductMapper::mapToProductDto).toList();
+    }
 }
 
 
