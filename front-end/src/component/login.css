@@ -39,10 +39,6 @@
   .is-invalid {
     border-color: #dc3545 ;
   }
-  .invalid-feedback {
-    max-width:300px;
-
-  }
   
   .invalid-feedback {
     color: #dc3545;
