@@ -1,4 +1,4 @@
-package com.techtitans.backend.dto;
+package com.techtitans.backend.dto.company;
 
 import com.techtitans.backend.entity.ProductEntity;
 import lombok.*;

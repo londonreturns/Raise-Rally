@@ -1,7 +1,7 @@
 package com.techtitans.backend.controller;
 
 import com.techtitans.backend.constants.PathConstants;
-import com.techtitans.backend.dto.PriceResponseDto;
+import com.techtitans.backend.dto.price.PriceResponseDto;
 import com.techtitans.backend.service.PriceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

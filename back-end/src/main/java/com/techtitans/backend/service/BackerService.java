@@ -1,7 +1,7 @@
 package com.techtitans.backend.service;
 
-import com.techtitans.backend.dto.BackerRequestDto;
-import com.techtitans.backend.dto.BackerResponseDto;
+import com.techtitans.backend.dto.backer.BackerRequestDto;
+import com.techtitans.backend.dto.backer.BackerResponseDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

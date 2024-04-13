@@ -1,6 +1,6 @@
 package com.techtitans.backend.service.impl;
 
-import com.techtitans.backend.dto.CategoryDto;
+import com.techtitans.backend.dto.category.CategoryDto;
 import com.techtitans.backend.entity.CategoryEntity;
 import com.techtitans.backend.mapper.CategoryMapper;
 import com.techtitans.backend.repository.CategoryRepository;

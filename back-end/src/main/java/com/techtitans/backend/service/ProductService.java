@@ -1,7 +1,7 @@
 package com.techtitans.backend.service;
 
-import com.techtitans.backend.dto.ProductRequestDto;
-import com.techtitans.backend.dto.ProductResponseDto;
+import com.techtitans.backend.dto.product.ProductRequestDto;
+import com.techtitans.backend.dto.product.ProductResponseDto;
 
 import java.util.List;
 

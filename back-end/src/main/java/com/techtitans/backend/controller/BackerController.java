@@ -1,9 +1,8 @@
 package com.techtitans.backend.controller;
 
 import com.techtitans.backend.constants.PathConstants;
-import com.techtitans.backend.dto.BackerRequestDto;
-import com.techtitans.backend.dto.BackerResponseDto;
-import com.techtitans.backend.entity.BackerEntity;
+import com.techtitans.backend.dto.backer.BackerRequestDto;
+import com.techtitans.backend.dto.backer.BackerResponseDto;
 import com.techtitans.backend.service.BackerService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.EnumMap;
 import java.util.List;
 
 // Making REST API Endpoints

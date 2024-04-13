@@ -1,7 +1,7 @@
 package com.techtitans.backend.controller;
 
 import com.techtitans.backend.constants.PathConstants;
-import com.techtitans.backend.dto.BenefitResponseDto;
+import com.techtitans.backend.dto.benefit.BenefitResponseDto;
 import com.techtitans.backend.service.BenefitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

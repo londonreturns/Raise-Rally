@@ -1,7 +1,7 @@
 package com.techtitans.backend.service.impl;
 
-import com.techtitans.backend.dto.ProductRequestDto;
-import com.techtitans.backend.dto.ProductResponseDto;
+import com.techtitans.backend.dto.product.ProductRequestDto;
+import com.techtitans.backend.dto.product.ProductResponseDto;
 import com.techtitans.backend.entity.*;
 import com.techtitans.backend.mapper.ProductMapper;
 import com.techtitans.backend.repository.*;
@@ -37,6 +37,10 @@ public class ProductServiceImpl implements ProductService {
         ProductEntity productEntity = new ProductEntity();
         productEntity.setProductName(productDto.getProductName());
         productEntity.setProductDescription(productDto.getProductDescription());
+        productEntity.setProductGoal(productDto.getProductGoal());
+        productEntity.setStartDate(productDto.getStartDate());
+        productEntity.setEndDate(productDto.getEndDate());
+        productEntity.setCurrentAmount(0);
 
         // Check if category exists
         CategoryEntity category = categoryRepository.findById(productDto.getCategory().getCategoryId())

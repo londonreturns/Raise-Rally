@@ -3,6 +3,7 @@ package com.techtitans.backend.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,10 @@ public class ProductEntity {
     private int productId;
     private String productName;
     private String productDescription;
+    private int productGoal;
+    private int currentAmount;
+    private LocalDate startDate;
+    private LocalDate endDate;
 
     // JPA mapping
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)

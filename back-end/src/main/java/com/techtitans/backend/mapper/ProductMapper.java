@@ -1,7 +1,7 @@
 package com.techtitans.backend.mapper;
 
-import com.techtitans.backend.dto.ProductRequestDto;
-import com.techtitans.backend.dto.ProductResponseDto;
+import com.techtitans.backend.dto.product.ProductRequestDto;
+import com.techtitans.backend.dto.product.ProductResponseDto;
 import com.techtitans.backend.entity.ProductEntity;
 import com.techtitans.backend.entity.BenefitEntity;
 
@@ -14,6 +14,10 @@ public class ProductMapper {
                 productRequestDto.getProductId(),
                 productRequestDto.getProductName(),
                 productRequestDto.getProductDescription(),
+                productRequestDto.getProductGoal(),
+                productRequestDto.getCurrentAmount(),
+                productRequestDto.getStartDate(),
+                productRequestDto.getEndDate(),
                 productRequestDto.getBenefits(),
                 productRequestDto.getCategory(),
                 productRequestDto.getCompany()
@@ -26,6 +30,10 @@ public class ProductMapper {
                 productEntity.getProductId(),
                 productEntity.getProductName(),
                 productEntity.getProductDescription(),
+                productEntity.getProductGoal(),
+                productEntity.getCurrentAmount(),
+                productEntity.getStartDate(),
+                productEntity.getEndDate(),
                 productEntity.getBenefits().stream().map(BenefitEntity::getBenefitId).collect(Collectors.toList()),
                 productEntity.getCategory().getCategoryId(),
                 productEntity.getCompany().getCompanyId()

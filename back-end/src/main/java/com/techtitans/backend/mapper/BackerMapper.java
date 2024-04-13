@@ -1,7 +1,7 @@
 package com.techtitans.backend.mapper;
 
-import com.techtitans.backend.dto.BackerRequestDto;
-import com.techtitans.backend.dto.BackerResponseDto;
+import com.techtitans.backend.dto.backer.BackerRequestDto;
+import com.techtitans.backend.dto.backer.BackerResponseDto;
 import com.techtitans.backend.entity.BackerEntity;
 import com.techtitans.backend.security.PasswordEncryptionService;
 

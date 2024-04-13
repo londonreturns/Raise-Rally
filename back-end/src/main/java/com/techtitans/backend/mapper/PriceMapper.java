@@ -1,7 +1,7 @@
 package com.techtitans.backend.mapper;
 
-import com.techtitans.backend.dto.PriceRequestDto;
-import com.techtitans.backend.dto.PriceResponseDto;
+import com.techtitans.backend.dto.price.PriceRequestDto;
+import com.techtitans.backend.dto.price.PriceResponseDto;
 import com.techtitans.backend.entity.PriceEntity;
 
 public class PriceMapper {

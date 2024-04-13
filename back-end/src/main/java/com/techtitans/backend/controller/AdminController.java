@@ -1,7 +1,8 @@
 package com.techtitans.backend.controller;
 
 import com.techtitans.backend.constants.PathConstants;
-import com.techtitans.backend.dto.*;
+import com.techtitans.backend.dto.admin.AdminRequestDto;
+import com.techtitans.backend.dto.admin.AdminResponseDto;
 import com.techtitans.backend.service.AdminService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

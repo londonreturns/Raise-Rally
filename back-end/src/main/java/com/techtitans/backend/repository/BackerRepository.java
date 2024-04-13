@@ -1,6 +1,5 @@
 package com.techtitans.backend.repository;
 
-import com.techtitans.backend.dto.BackerResponseDto;
 import com.techtitans.backend.entity.BackerEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

@@ -1,7 +1,7 @@
 package com.techtitans.backend.mapper;
 
-import com.techtitans.backend.dto.AdminRequestDto;
-import com.techtitans.backend.dto.AdminResponseDto;
+import com.techtitans.backend.dto.admin.AdminRequestDto;
+import com.techtitans.backend.dto.admin.AdminResponseDto;
 import com.techtitans.backend.entity.AdminEntity;
 import com.techtitans.backend.security.PasswordEncryptionService;
 

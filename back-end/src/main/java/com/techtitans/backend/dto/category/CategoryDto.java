@@ -1,4 +1,4 @@
-package com.techtitans.backend.dto;
+package com.techtitans.backend.dto.category;
 
 import com.techtitans.backend.entity.ProductEntity;
 import lombok.AllArgsConstructor;
