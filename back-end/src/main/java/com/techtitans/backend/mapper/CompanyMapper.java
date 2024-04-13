@@ -1,7 +1,7 @@
 package com.techtitans.backend.mapper;
 
-import com.techtitans.backend.dto.CompanyRequestDto;
-import com.techtitans.backend.dto.CompanyResponseDto;
+import com.techtitans.backend.dto.company.CompanyRequestDto;
+import com.techtitans.backend.dto.company.CompanyResponseDto;
 import com.techtitans.backend.entity.CompanyEntity;
 import com.techtitans.backend.security.PasswordEncryptionService;
 

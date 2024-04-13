@@ -1,7 +1,7 @@
 package com.techtitans.backend.service.impl;
 
-import com.techtitans.backend.dto.CompanyRequestDto;
-import com.techtitans.backend.dto.CompanyResponseDto;
+import com.techtitans.backend.dto.company.CompanyRequestDto;
+import com.techtitans.backend.dto.company.CompanyResponseDto;
 import com.techtitans.backend.entity.CompanyEntity;
 import com.techtitans.backend.exception.ResourceNotFoundException;
 import com.techtitans.backend.exception.ValidationException;

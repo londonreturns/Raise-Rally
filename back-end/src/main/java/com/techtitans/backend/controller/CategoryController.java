@@ -1,7 +1,7 @@
 package com.techtitans.backend.controller;
 
 import com.techtitans.backend.constants.PathConstants;
-import com.techtitans.backend.dto.CategoryDto;
+import com.techtitans.backend.dto.category.CategoryDto;
 import com.techtitans.backend.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

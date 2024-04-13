@@ -1,6 +1,6 @@
 package com.techtitans.backend.service.impl;
 
-import com.techtitans.backend.dto.PriceResponseDto;
+import com.techtitans.backend.dto.price.PriceResponseDto;
 import com.techtitans.backend.entity.PriceEntity;
 import com.techtitans.backend.mapper.PriceMapper;
 import com.techtitans.backend.repository.PriceRepository;

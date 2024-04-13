@@ -1,9 +1,7 @@
 package com.techtitans.backend.service;
 
-import com.techtitans.backend.dto.AdminRequestDto;
-import com.techtitans.backend.dto.AdminResponseDto;
-import com.techtitans.backend.dto.BackerRequestDto;
-import com.techtitans.backend.dto.BackerResponseDto;
+import com.techtitans.backend.dto.admin.AdminRequestDto;
+import com.techtitans.backend.dto.admin.AdminResponseDto;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.techtitans.backend.dto;
+package com.techtitans.backend.dto.product;
 
 import com.techtitans.backend.entity.BenefitEntity;
 import com.techtitans.backend.entity.CategoryEntity;
@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -20,6 +21,10 @@ public class ProductRequestDto implements Serializable {
     private int productId;
     private String productName;
     private String productDescription;
+    private int productGoal;
+    private int currentAmount;
+    private LocalDate startDate;
+    private LocalDate endDate;
     List<BenefitEntity> benefits;
     private CategoryEntity category;
     private CompanyEntity company;

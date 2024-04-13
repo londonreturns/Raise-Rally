@@ -1,6 +1,6 @@
 package com.techtitans.backend.service;
 
-import com.techtitans.backend.dto.CategoryDto;
+import com.techtitans.backend.dto.category.CategoryDto;
 
 public interface CategoryService {
     CategoryDto addCategory(CategoryDto categoryDto);

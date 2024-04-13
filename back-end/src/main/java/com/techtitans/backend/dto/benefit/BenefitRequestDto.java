@@ -1,4 +1,4 @@
-package com.techtitans.backend.dto;
+package com.techtitans.backend.dto.benefit;
 
 import com.techtitans.backend.entity.PriceEntity;
 import com.techtitans.backend.entity.ProductEntity;

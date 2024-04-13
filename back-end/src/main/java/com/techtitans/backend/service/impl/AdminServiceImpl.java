@@ -1,7 +1,7 @@
 package com.techtitans.backend.service.impl;
 
-import com.techtitans.backend.dto.AdminRequestDto;
-import com.techtitans.backend.dto.AdminResponseDto;
+import com.techtitans.backend.dto.admin.AdminRequestDto;
+import com.techtitans.backend.dto.admin.AdminResponseDto;
 import com.techtitans.backend.entity.AdminEntity;
 import com.techtitans.backend.exception.ResourceNotFoundException;
 import com.techtitans.backend.exception.ValidationException;

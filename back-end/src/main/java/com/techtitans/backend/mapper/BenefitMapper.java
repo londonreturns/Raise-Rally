@@ -1,7 +1,7 @@
 package com.techtitans.backend.mapper;
 
-import com.techtitans.backend.dto.BenefitRequestDto;
-import com.techtitans.backend.dto.BenefitResponseDto;
+import com.techtitans.backend.dto.benefit.BenefitRequestDto;
+import com.techtitans.backend.dto.benefit.BenefitResponseDto;
 import com.techtitans.backend.entity.BenefitEntity;
 
 public class BenefitMapper {

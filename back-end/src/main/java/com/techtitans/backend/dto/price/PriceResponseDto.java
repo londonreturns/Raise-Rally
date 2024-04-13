@@ -1,4 +1,4 @@
-package com.techtitans.backend.dto;
+package com.techtitans.backend.dto.price;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

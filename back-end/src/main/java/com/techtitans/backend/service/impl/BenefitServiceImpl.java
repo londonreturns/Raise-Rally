@@ -1,6 +1,6 @@
 package com.techtitans.backend.service.impl;
 
-import com.techtitans.backend.dto.BenefitResponseDto;
+import com.techtitans.backend.dto.benefit.BenefitResponseDto;
 import com.techtitans.backend.entity.BenefitEntity;
 import com.techtitans.backend.exception.ResourceNotFoundException;
 import com.techtitans.backend.mapper.BenefitMapper;
