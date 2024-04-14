@@ -60,7 +60,7 @@ public class ProductServiceImpl implements ProductService {
         for (BenefitEntity benefit : productDto.getBenefits()) {
             PriceEntity price = priceRepository.save(benefit.getPrice());
             benefit.setPrice(price);
-            benefit.setBenefitDescription(productDto.getProductDescription());
+            benefit.setBenefitDescription(benefit.getBenefitDescription());
             benefit.setProduct(savedProduct);
             benefitEntities.add(benefitRepository.save(benefit));
         }
