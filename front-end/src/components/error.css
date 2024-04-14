@@ -1,0 +1,14 @@
+.fissy{
+    background-color: #84cdca;
+    height: 825px;
+    h1{
+        font-size: 300px ;
+    }
+    h3{
+        color: #4f4949;
+      font-size:70px;
+    }
+   p{
+    font-size:50px;
+   }
+}
