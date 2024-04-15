@@ -48,12 +48,11 @@ public class BackerServiceImpl implements BackerService {
     @Override
     // Function to get company from email
     public BackerResponseDto getBackerByEmail(String backerEmail) {
-        Optional<BackerEntity> backerEntity = backerRepository.fetchByEmail(backerEmail);
-        // Check if entity exists
-        if (backerEntity.isPresent()) {
-            return BackerMapper.mapToBackerDto(backerEntity.get());
-        }
-        throw new ResourceNotFoundException("Backer does not exists with the given email " + backerEmail);
+        BackerEntity backer = backerRepository.fetchByEmail(backerEmail)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Backer does not exists with the given email " + backerEmail));
+        ;
+        return BackerMapper.mapToBackerDto(backer);
     }
 
 
