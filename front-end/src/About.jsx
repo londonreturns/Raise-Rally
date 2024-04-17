@@ -1,9 +1,13 @@
 import React from 'react';
-import './AboutUs.css';
+import './about.css';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+import Header from './components/Header';
 
 function About() {
   return (
     <>
+    <Header/>
       <section className="about-section">
         <div className="container">
           <div className="row">                
@@ -24,7 +28,7 @@ function About() {
                 </div>
                 <figure className="image-1">
                   <a href="#" className="lightbox-image" data-fancybox="images">
-                    <img title="Rahul Kumar Yadav" src="https://i.ibb.co/QP6Nmpf/image-1-about.jpg" alt="Rahul Kumar Yadav" />
+                    <img src="https://i.ibb.co/QP6Nmpf/image-1-about.jpg" alt="" />
                   </a>
                 </figure>
               </div>
@@ -32,6 +36,7 @@ function About() {
           </div>
         </div>
       </section>
+      <Footer/>
     </>
   );
 }

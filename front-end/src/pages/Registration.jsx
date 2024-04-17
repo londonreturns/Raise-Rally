@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
-import './registration.css';
+import raiserallyLogo from "../assets/raiserally-logo.png";
+import { FaRegUserCircle } from "react-icons/fa";
+import { MdOutlineMailOutline } from "react-icons/md";
+import { RiLockPasswordLine } from "react-icons/ri";
+
 
 function Registration() {
   const [username, setUsername] = useState('');
@@ -125,50 +130,54 @@ function Registration() {
   };
 
   return (
-    <div className="container-fluid vh-50 d-flex justify-content-center align-items-center bg-light">
-      <div className="row justify-content-center">
-        <div className="col-lg-12 col-md-12 col-sm-12 col-12">
-          <div className="card shadow">
-            <div className="card-body p-4">
+    <div className=" d-flex justify-content-center align-items-center bg-light">
+      <div className="row ">
+        <div className="col-lg-12 col-md-12 col-sm-12 col-12 pt- d-flex justify-content-center">
+          <div className=" shadow w-75">
+            <div className="card-body p-3">
+            <div className='d-flex justify-content-center  ps-5'>
+            <img src={raiserallyLogo} className=" logo " alt="Raise Rally" style={{width:70}}/>
+              </div>
               <h2 className="text-center mb-4">Create your Raise Rally Account</h2>
               {error && <div className="alert alert-danger mb-4">{error}</div>}
               <form onSubmit={handleSubmit} className="needs-validation" noValidate>
                 <div className="mb-3">
-                  <label htmlFor="username" className="form-label">Name</label>
+                  <label htmlFor="username" className="form-label"><FaRegUserCircle /> Name</label>
                   <input type="text" id="username" className={`form-control ${validationErrors.username && 'is-invalid'}`} value={username} onChange={handleUsernameChange} required />
                   <div className="invalid-feedback">{validationErrors.username}</div>
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="email" className="form-label">Email address</label>
+                  <label htmlFor="email" className="form-label"> <MdOutlineMailOutline/> Email address</label>
                   <input type="email" id="email" className={`form-control ${validationErrors.email && 'is-invalid'}`} value={email} onChange={handleEmailChange} required />
                   <div className="invalid-feedback">{validationErrors.email}</div>
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="password" className="form-label">Password</label>
+                  <label htmlFor="password" className="form-label"><RiLockPasswordLine /> Password</label>
                   <input type="password" id="password" className={`form-control ${validationErrors.password && 'is-invalid'}`} value={password} onChange={handlePasswordChange} required />
                   <div className="form-text mb-2">
                   </div>
                   <div className="invalid-feedback">{validationErrors.password}</div>
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="confirmPassword" className="form-label">Confirm Password</label>
+                  <label htmlFor="confirmPassword" className="form-label"><RiLockPasswordLine /> Confirm Password</label>
                   <input type="password" id="confirmPassword" className={`form-control ${validationErrors.confirmPassword && 'is-invalid'}`} value={confirmPassword} onChange={handleConfirmPasswordChange} required />
                   <div className="invalid-feedback">{validationErrors.confirmPassword}</div>
                 </div>
-                <div className="mb-3">
+                <div className="mb-4">
                   <label className="form-label">User Type</label>
                   <div className="d-flex justify-content-between">
                     <div className="form-check">
                       <input className="form-check-input" type="radio" name="userType" id="company" value="company" checked={userType === 'company'} onChange={handleUserTypeChange} />
-                      <label className="form-check-label" htmlFor="company">Company</label>
+                      <label className="form-check-label pb-3" htmlFor="company">Company</label>
                       {userType === 'company' && (
-                        <input
+                        <textarea
                           type="text"
-                          className="form-control mt-2"
+                          rows="4"
+                          className="form-control pt-2"
                           placeholder="Enter company description"
                           value={companyDescription}
                           onChange={handleCompanyDescriptionChange}
-                        />
+                          ></textarea>
                       )}
                     </div>
                     <div className="form-check">
@@ -185,7 +194,8 @@ function Registration() {
                   <button className="btn btn-primary btn-lg btn-block" type="submit">Register</button>
                 </div>
               </form>
-              <p className="mt-4 text-center">Already have an account? <a href="#!" className="text-decoration-none">Sign In</a></p>
+              <p className="mt-4 text-center">Already have an account? 
+              <Link to='/login'>Sign In</Link></p>
             </div>
           </div>
         </div>

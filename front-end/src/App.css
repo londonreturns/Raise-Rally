@@ -136,6 +136,7 @@ ul a.active {
   border-color: #DC3545 !important; 
   outline: none !important; 
   box-shadow: 0 0 5px #DC3545 !important;
+
 }
 .continueBtn{
   background-color: #C8346E !important;
@@ -154,4 +155,16 @@ ul a.active {
 .continueBtn1:hover{
   background-color: #DC3545 !important;
   cursor: pointer;
+}
+.addproduct:hover{
+  border: 1.5px solid #C8346E;
+  cursor: pointer;
+}
+.addproduct:focus{
+  border-color: #DC3545 !important; 
+  outline: none !important; 
+  box-shadow: 0 0 5px #DC3545 !important;
+}
+.active{
+  color: green !important;
 }
