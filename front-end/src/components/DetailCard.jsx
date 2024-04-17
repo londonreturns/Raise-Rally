@@ -1,55 +1,56 @@
 import React from "react";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import Contributioncard from "../components/Contributioncard";
-import getAxios from "../getAxios";
-function Details({title,imageSrc,goal,description,progressPercentage,currentAmount,backer,dueDate}) {
-  const { data, error, loading } = getAxios('http://localhost:3000/benefits');
-  const [amount, setAmount] = useState('');
-  const [pledge,setPledge]=useState('');
+import getAxios from "../hooks/getAxios";
+function DetailCard({
+  title,
+  imageSrc,
+  goal,
+  description,
+  progressPercentage,
+  currentAmount,
+  backer,
+  dueDate,
+}) {
+  const { data, error, loading } = getAxios("http://localhost:3000/benefits");
+  const [amount, setAmount] = useState("");
+  const [pledge, setPledge] = useState("");
   const TotalAmount = (event) => {
-      setAmount(event.target.value);
-    };
-    useEffect(() => {
-      // if amount from hook is empty skip
-      if (amount === '') return;
-  
-      let pledgeAmount = '';
-      for (let i = data.length - 1; i >= 0; i--) {
-        if (data[i].amount <= amount) {
-          pledgeAmount = data[i].amount;
-          break;
-        }
-      }
-      setPledge(pledgeAmount);
-    }, [amount, data]);
-  const openModal = () => {
-    <>
-    
-    </>;
+    setAmount(event.target.value);
   };
-  
+  useEffect(() => {
+    // if amount from hook is empty skip
+    if (amount === "") return;
+
+    let pledgeAmount = "";
+    for (let i = data.length - 1; i >= 0; i--) {
+      if (data[i].amount <= amount) {
+        pledgeAmount = data[i].amount;
+        break;
+      }
+    }
+    setPledge(pledgeAmount);
+  }, [amount, data]);
+  const openModal = () => {
+    <></>;
+  };
+
   return (
     <>
-     {loading && <h1>Loading...</h1>}
+      {loading && <h1>Loading...</h1>}
       {error && <h1>Something went wrong</h1>}
       <div className="pt-5">
         <div className="d-flex justify-content-center text-center">
           <div>
             <h3 className="fs-4 fw-semibold">{title}</h3>
-            <p className="px-5 fw-medium">
-              {description}
-            </p>
+            <p className="px-5 fw-medium">{description}</p>
           </div>
         </div>
         <div className="container">
           <div className="row text-center ">
             <div className="col-lg-6">
               <div>
-                <img
-                  src={imageSrc}
-                  className="detail-img"
-                  alt="..."
-                />
+                <img src={imageSrc} className="detail-img" alt="..." />
               </div>
             </div>
             <div className="col-lg-6 box container  bg-body-secondary pt-2">
@@ -64,7 +65,7 @@ function Details({title,imageSrc,goal,description,progressPercentage,currentAmou
                 >
                   <div
                     className="progress-bar progress-color"
-                    style={{ width: `${progressPercentage}%`  }}
+                    style={{ width: `${progressPercentage}%` }}
                   />
                 </div>
               </div>
@@ -85,7 +86,7 @@ function Details({title,imageSrc,goal,description,progressPercentage,currentAmou
                   <span className="fs-2 fw-medium ">43</span>
                   <p>hours to go</p>
                 </div>
-                  {/* Button trigger modal */}
+                {/* Button trigger modal */}
                 <div
                   className="btn backProject text-center pt-2 text-white fs-5 "
                   data-bs-toggle="modal"
@@ -105,8 +106,6 @@ function Details({title,imageSrc,goal,description,progressPercentage,currentAmou
         </div>
       </div>
       <div>
-
-
         {/* Modal */}
         <div
           className="modal fade modal-lg"
@@ -140,42 +139,35 @@ function Details({title,imageSrc,goal,description,progressPercentage,currentAmou
                       <div className="row">
                         <p>Select an option below</p>
                       </div>
-                     
-                        {/* contributioncard is inserted here: */}
-                        <div className="row container">
-                          <div className="col-lg-8">
-                            <div className="input-group mb-3">
-                              <span className="input-group-text">रू</span>
-                              <input
-                                type="number"
-                                className="form-control no-arrows"
-                                onChange={TotalAmount}
-                              />
-                            </div>
-                          </div>
-                          <div className="col-lg-4 continueBtn text-center text-white pt-1">
-                            <p> Pledge {amount ? `रू${amount}` : ""} </p>
+
+                      {/* contributioncard is inserted here: */}
+                      <div className="row container">
+                        <div className="col-lg-8">
+                          <div className="input-group mb-3">
+                            <span className="input-group-text">रू</span>
+                            <input
+                              type="number"
+                              className="form-control no-arrows"
+                              onChange={TotalAmount}
+                            />
                           </div>
                         </div>
-                        <div className="row">
+                        <div className="col-lg-4 continueBtn text-center text-white pt-1">
+                          <p> Pledge {amount ? `रू${amount}` : ""} </p>
+                        </div>
+                      </div>
+                      <div className="row">
                         <p> Perk {amount ? `रू${pledge}` : ""} </p>
-                        </div>
-                        
                       </div>
                     </div>
-                    <div className="col container">
-                      <div className="row container ">
-        {data.map((item)=>(
-          <Contributioncard key={item.benefitId} {...item} />
-          
-        ))}
-
-    
-    </div>
-                    
-                      
+                  </div>
+                  <div className="col container">
+                    <div className="row container ">
+                      {data.map((item) => (
+                        <Contributioncard key={item.benefitId} {...item} />
+                      ))}
                     </div>
-                 
+                  </div>
                 </div>
                 <div className="modal-footer">
                   <button
@@ -198,4 +190,4 @@ function Details({title,imageSrc,goal,description,progressPercentage,currentAmou
   );
 }
 
-export default Details;
+export default DetailCard;

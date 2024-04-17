@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-
+// it's axios to get the api content
 const getAxios=(url)=>{
     const [data, setData] = useState([]);
     const [error, setError] = useState(false);

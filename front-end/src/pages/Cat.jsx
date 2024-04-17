@@ -1,31 +1,37 @@
-import React from 'react'
-import { useParams } from 'react-router-dom'
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import Navbar from '../components/Navbar';
-import getAxios from '../getAxios';
+import React, { useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import Card from '../components/Card';
+import getAxios from '../hooks/getAxios';
+import Header from '../components/Header';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+function Cat({ categories }) {
+    const { cat } = useParams();
+    const { data, error, loading } = getAxios(`http://localhost:3000/categories/${cat}`);
+    const navigate = useNavigate();
 
-function Cat() {
-    const params=useParams();
-    const { data, error, loading } = getAxios(`http://localhost:3000/categories/${params.cat}`);
-  return (
-    <>
-    <Header/>
-    <Navbar/>
-    <h1>hello i am catogory {params.cat}</h1>
-    <div className="container">
-      <div className="row d-flex justify-content-around">
-        {data.map((item)=>(
-          <Card key={item.id} {...item} />
-          
-        ))}
+    useEffect(() => {
+        // navigate to error page if not found
+        if (!categories.includes(cat)) {
+            navigate('*');
+        }
+    }, [cat, categories, navigate]); // every time the category change the useffect is trigered
 
-      </div>
-    </div>
-    <Footer/>
-    </>
-  )
+    // Render the component id not error
+    return (
+        <>
+            <Header />
+            <Navbar />
+            <h2>Hello, I am {cat}</h2>
+            
+            <div className="row gx-0">
+                            {data && data.map((item) => (
+                                <Card key={item.id} {...item} />
+                            ))}
+             </div>
+            <Footer/>
+        </>
+    );
 }
 
-export default Cat
+export default Cat;
