@@ -1,147 +1,89 @@
-
-:root {
-	--hue: 223;
-	--bg: hsl(var(--hue),90%,90%);
-	--fg: hsl(var(--hue),90%,10%);
-	--primary: hsl(var(--hue),90%,50%);
-	--trans-dur: 0.3s;
-	font-size: calc(16px + (32 - 16) * (100vw - 320px) / (2560 - 320));
-}
-.loading {
+.loader__wrap {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
     display: flex;
-    justify-content: center;
-    margin: 0;
-	background-color: #84cdca;
-	color: black;
-	font: 1em/1.5 sans-serif;
-	height: 100vh;
-}
-.bike {
-	margin: auto;
-	width: 16em;
-	height: auto;
-}
-.bike__body,
-.bike__front,
-.bike__handlebars,
-.bike__pedals,
-.bike__pedals-spin,
-.bike__seat,
-.bike__spokes,
-.bike__spokes-spin,
-.bike__tire {
-	animation: bikeBody 3s ease-in-out infinite;
-	stroke: var(--primary);
-	transition: stroke var(--trans-dur) !important;
-}
-.bike__front {
-	animation-name: bikeFront;
-}
-.bike__handlebars {
-	animation-name: bikeHandlebars;
-}
-.bike__pedals {
-	animation-name: bikePedals;
-}
-.bike__pedals-spin {
-	animation-name: bikePedalsSpin;
-}
-.bike__seat {
-	animation-name: bikeSeat;
-}
-.bike__spokes,
-.bike__tire {
-	stroke: currentColor;
-}
-.bike__spokes {
-	animation-name: bikeSpokes;
-}
-.bike__spokes-spin {
-	animation-name: bikeSpokesSpin;
-}
-.bike__tire {
-	animation-name: bikeTire;
+    z-index: 1;
+    background-color: #84cdca;
 }
 
+.loader {
+    --sz: 7rem;
+    width: calc(var(--sz) * 2);
+    height: var(--sz);
+    margin: auto;
+    display: flex;
+    justify-content: space-evenly;
+}
 
-/* Animations */
-@keyframes bikeBody {
-	from { stroke-dashoffset: 79; }
-	33%,
-	67% { stroke-dashoffset: 0; }
-	to { stroke-dashoffset: -79; }
+.loader__sq {
+    --p-sz: calc(var(--sz) / 4);
+    --m-offset: calc((var(--p-sz) * -1) * 0.75);
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-evenly;
+    height: 100%;
+    width: 50%;
 }
-@keyframes bikeFront {
-	from { stroke-dashoffset: 19; }
-	33%,
-	67% { stroke-dashoffset: 0; }
-	to { stroke-dashoffset: -19; }
+
+.loader__sq::before,
+.loader__sq::after {
+    width: var(--p-sz);
+    height: var(--p-sz);
+    content: "";
+    position: relative;
+    transform: translateY(calc((var(--sz) - var(--p-sz)) * -1));
+    animation: loader-box-bounce 0.5s cubic-bezier(0.3, 0.5, 0.4, 0.95) calc(var(--i) * 0.06s) infinite alternate-reverse;
 }
-@keyframes bikeHandlebars {
-	from { stroke-dashoffset: 10; }
-	33%,
-	67% { stroke-dashoffset: 0; }
-	to { stroke-dashoffset: -10; }
+
+.loader__sq:first-of-type {
+    margin-right: var(--m-offset);
 }
-@keyframes bikePedals {
-	from {
-		animation-timing-function: ease-in;
-		stroke-dashoffset: -25.133;
-	}
-	33%,
-	67% {
-		animation-timing-function: ease-out;
-		stroke-dashoffset: -21.991;
-	}
-	to {
-		stroke-dashoffset: -25.133;
-	}
+
+.loader__sq:first-of-type::before {
+    --i: 1;
+    border: 3px solid #b80958;
+    border-radius: 50%;
 }
-@keyframes bikePedalsSpin {
-	from { transform: rotate(0.1875turn); }
-	to { transform: rotate(3.1875turn); }
+
+.loader__sq:first-of-type::after {
+    --i: 3;
+    background-color: #7c0aa9;
 }
-@keyframes bikeSeat {
-	from { stroke-dashoffset: 5; }
-	33%,
-	67% { stroke-dashoffset: 0; }
-	to { stroke-dashoffset: -5; }
+
+@supports (clip-path: circle()) {
+    clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
 }
-@keyframes bikeSpokes {
-	from {
-		animation-timing-function: ease-in;
-		stroke-dashoffset: -31.416;
-	}
-	33%,
-	67% {
-		animation-timing-function: ease-out;
-		stroke-dashoffset: -23.562;
-	}
-	to {
-		stroke-dashoffset: -31.416;
-	}
+
+.loader__sq:nth-of-type(2)::before {
+    --i: 2;
+    border: 3px solid #c37406;
 }
-@keyframes bikeSpokesSpin {
-	from { transform: rotate(0); }
-	to { transform: rotate(3turn); }
+
+.loader__sq:nth-of-type(2)::after {
+    --i: 4;
+    background-color: #2208ca;
+    border-radius: 50%;
 }
-@keyframes bikeTire {
-	from {
-		animation-timing-function: ease-in;
-		stroke-dashoffset: 56.549;
-		transform: rotate(0);
-	}
-	33% {
-		stroke-dashoffset: 0;
-		transform: rotate(0.33turn);
-	}
-	67% {
-		animation-timing-function: ease-out;
-		stroke-dashoffset: 0;
-		transform: rotate(0.67turn);
-	}
-	to {
-		stroke-dashoffset: -56.549;
-		transform: rotate(1turn);
-	}
+
+@supports (clip-path: circle()) {
+    border-radius: 0;
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
 }
+
+@keyframes loader-box-bounce {
+    to {
+        transform: translateY(0);
+    }
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+}
+
+.loader {}
