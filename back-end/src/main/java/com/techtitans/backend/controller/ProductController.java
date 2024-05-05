@@ -3,6 +3,8 @@ package com.techtitans.backend.controller;
 import com.techtitans.backend.constants.PathConstants;
 import com.techtitans.backend.dto.product.ProductRequestDto;
 import com.techtitans.backend.dto.product.ProductResponseDto;
+import com.techtitans.backend.entity.CompanyEntity;
+import com.techtitans.backend.entity.ProductEntity;
 import com.techtitans.backend.service.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,5 +82,10 @@ public class ProductController {
     ){
         List<ProductResponseDto> products = productService.findAllProductsByCompany(companyId);
         return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<ProductEntity>> searchProduct(@RequestParam("query") String query) {
+        return ResponseEntity.ok(productService.searchProduct(query));
     }
 }
