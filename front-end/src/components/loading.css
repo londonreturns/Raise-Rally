@@ -6,7 +6,7 @@
     height: 100%;
     display: flex;
     z-index: 1;
-    background-color: #84cdca;
+    background-color: #fff;
 }
 
 .loader {
