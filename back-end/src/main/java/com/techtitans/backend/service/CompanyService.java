@@ -23,4 +23,5 @@ public interface CompanyService {
 
     List<CompanyResponseDto> searchCompanies(String query);
 
+    CompanyResponseDto enableCompany(int id, boolean enable);
 }
