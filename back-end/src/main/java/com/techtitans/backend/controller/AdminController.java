@@ -22,7 +22,7 @@ public class AdminController {
     @Autowired
     private AdminService adminService;
 
-    //Build add admin API
+    // Build add admin API
     @PostMapping
     public ResponseEntity<AdminResponseDto> createAdmin(
             @RequestBody AdminRequestDto adminRequestDto) {
