@@ -38,4 +38,11 @@ public class ProductEntity {
     @ManyToOne
     @JoinColumn(name = "companyId")
     private CompanyEntity company;
+
+    // JPA mapping
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<ImageEntity> images = new ArrayList<>();
+
+    public ProductEntity(int productId, String productName, String productDescription, int productGoal, int currentAmount, LocalDate startDate, LocalDate endDate, List<BenefitEntity> benefits, CategoryEntity category, CompanyEntity company) {
+    }
 }
