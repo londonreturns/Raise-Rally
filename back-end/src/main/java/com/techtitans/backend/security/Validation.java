@@ -1,5 +1,8 @@
 package com.techtitans.backend.security;
 
+import com.techtitans.backend.entity.ProductEntity;
+
+import java.time.LocalDate;
 import java.util.regex.Pattern;
 
 public class Validation {
@@ -34,4 +37,26 @@ public class Validation {
         String trimmedPassword = password.strip();
         return trimmedPassword.length() >= 8 && trimmedPassword.length() <= 15 && PASSWORD_PATTERN.matcher(trimmedPassword).matches();
     }
+
+
+    // Product Description validation
+    public static boolean isDescriptionValid(String description) {
+        return description != null && !description.isBlank();
+    }
+
+    // Goal validation
+    public static boolean isGoalValid(int goal) {
+        return goal > 0;
+    }
+
+    // Amount validation
+    public static boolean isAmountValid(int amount) {
+        return amount >= 0;
+    }
+
+    // Date validation
+    public static boolean isDateValid(LocalDate date) {
+        return date != null && date.isAfter(LocalDate.now());
+    }
 }
+
