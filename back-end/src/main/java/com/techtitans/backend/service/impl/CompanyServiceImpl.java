@@ -127,6 +127,15 @@ public class CompanyServiceImpl implements CompanyService {
         return CompanyMapper.mapToCompanyDtoList(companyEntities);
     }
 
-
+    //Function to enable/disable  company by id
+    @Override
+    public CompanyResponseDto enableCompany(int id, boolean enable) {
+        CompanyEntity companyEntityFromDatabase = companyRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Company does not exist with the given ID: " + id));
+        companyEntityFromDatabase.setActive(enable);
+        companyRepository.save(companyEntityFromDatabase);
+        return CompanyMapper.mapToCompanyDto(companyEntityFromDatabase);
+    }
 }
 
