@@ -3,6 +3,7 @@ package com.techtitans.backend.controller;
 import com.techtitans.backend.constants.PathConstants;
 import com.techtitans.backend.dto.company.CompanyRequestDto;
 import com.techtitans.backend.dto.company.CompanyResponseDto;
+import com.techtitans.backend.entity.CompanyEntity;
 import com.techtitans.backend.service.CompanyService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,6 +75,11 @@ public class CompanyController {
         return new ResponseEntity<>("Company deleted", HttpStatus.OK);
     }
 
+    //Build search company REST API
+    @GetMapping("/search")
+    public ResponseEntity<List<CompanyEntity>> searchCompanies(@RequestParam("query") String query) {
+        return ResponseEntity.ok(companyService.searchCompanies(query));
+    }
 }
 
 
