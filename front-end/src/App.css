@@ -1,4 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&family=Oswald:wght@200,300,400,500,600,700&display=swap');
+:root {
+  --header-color: #0F2923!important;
+  --footer-color:#F7F7F8 !important;
+  --button-color: #3F51B5 !important;
+}
+
 
 * {
   margin: 0;
@@ -19,7 +25,9 @@ li {
 p {
   font-family: "Lato", sans-serif;
 }
-
+.nbar{
+  background-color: var(--header-color);
+}
 .card {
   width: 300px;
   height: auto !important;
@@ -32,7 +40,11 @@ p {
   transform: scale(1.01);
   box-shadow: 0 10px 20px rgba(0, 0, 0, .3), 0 4px 8px rgba(0, 0, 0, .15);
 }
-
+.line{
+  width: 60px;
+  background-color: #7c4dff;
+  height: 2px ;
+}
 .card h3 {
   font-weight: 600;
 }
@@ -88,7 +100,7 @@ ul a {
 }
 
 ul a.active {
-  color: rgb(34 197 94);
+  color: #8AF135 !important;
 }
 
 /* for Detail page */
@@ -96,19 +108,20 @@ ul a.active {
   height:290px;
 }
 .progress-color{
-  background-color: #C8346E !important;
+  background-color: var(--button-color);
 }
 .backProject{
-  background-color: #C8346E !important;
+  background-color: var(--button-color) !important;
   height: 45px;
   width: 200px;
 }
 .backProject:hover{
-  background-color: #DC3545 !important;
+  background-color: #040404 !important;
+  transition:background-color 1s ease;
   cursor: pointer;
 }
 .detailcolor{
-  color: #C8346E;
+  color: var(--button-color);
 }
 /* loading css */
 .detail-img{
@@ -129,7 +142,7 @@ ul a.active {
     margin: 0;
 }
 .no-arrows:hover{
-  border: 2px solid #C8346E;
+  border: 2px solid var(--button-color) !important;
   cursor: pointer;
 }
 .no-arrows:focus{
@@ -139,21 +152,25 @@ ul a.active {
 
 }
 .continueBtn{
-  background-color: #C8346E !important;
+  background-color: var(--button-color);
+  border-radius: 9px  !important;
   height: 35px;
   width: 170px !important;
 }
 .continueBtn:hover{
-  background-color: #DC3545 !important;
+  
+  background-color: #191818 !important;
+  transition:background-color 1s ease;
   cursor: pointer;
 }
 .continueBtn1{
-  background-color: #C8346E !important;
+  background-color: var(--button-color) !important;
   height: 37px;
   width: 100px;
 }
 .continueBtn1:hover{
-  background-color: #DC3545 !important;
+  background-color: #191818 !important;
+  transition:background-color 1s ease;
   cursor: pointer;
 }
 .addproduct:hover{
