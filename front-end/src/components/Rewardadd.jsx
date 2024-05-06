@@ -230,7 +230,9 @@ function Rewardadd() {
             <br />
             <div className="row ">
               <div className="col-lg-4">
-                <button className="btn  btn-secondary">Back</button>
+                <button className="btn  btn-secondary" onClick={()=>{
+                  navigateTo('/company/addproduct')
+                }}>Back</button>
               </div>
               <div className="col-lg-4"></div>
               <div className="col-lg-4 text-end pb-4">

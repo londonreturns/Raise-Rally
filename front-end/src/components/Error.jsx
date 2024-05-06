@@ -1,25 +1,30 @@
-import React from "react";
-import { MdReportGmailerrorred } from "react-icons/md";
-import { Link } from "react-router-dom";
-import "./error.css";
-function Error() {
+import React from 'react'
+import error from ".././assets/404error.png";
+import './error.css'
+import Header from './Header';
+import Footer from './Footer';
+function Error404() {
   return (
     <>
-      {/* this page renders only if there is error in the server */}
-      <div className="container-fluid d-flex justify-content-center fissy align-content-center text-center">
-        <div className="row container">
-          <div className="col-lg-10">
-            <h1>500 </h1>
-            <h3>Server Error</h3>
-            <p>It's not you,it's me.</p>
+   
+    {/* error page if user try to access the page that doesn't exist */}
+        <div className='container-fluid error404 vh-100 pt-5 text-black'>
+          <div className="row pt-5"></div>
+          <div className="row">
+                <div className="col-lg-3"></div>
+                <div className="col-lg-3">
+                <h1 className='fw-bold'>500</h1>
+                <h2>Sorry</h2>
+                <p>Unexpected error</p>
+                </div>
+                <div className="col-lg-3">
+                  <img src={error} alt="" srcset=""/>
+                </div>
+                <div className="col-lg-3"></div>
           </div>
-          <div className="col-lg-2">
-            <MdReportGmailerrorred size={350} />
-          </div>
-        </div>
-      </div>
+         </div>
     </>
-  );
+  )
 }
 
-export default Error;
+export default Error404

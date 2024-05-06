@@ -1,5 +1,5 @@
 import React from 'react'
-import { MdReportGmailerrorred } from "react-icons/md";
+import error from ".././assets/404error.png";
 import { Link } from 'react-router-dom';
 import './error.css'
 import Header from './Header';
@@ -7,27 +7,30 @@ import Footer from './Footer';
 function Error404() {
   return (
     <>
-    <Header/>
+   
     {/* error page if user try to access the page that doesn't exist */}
-        <div className='container-fluid d-flex justify-content-center fissy align-content-center text-center'>
-     <div className='row container'>
-        <div className='col-lg-10'>
-        <h1>404 </h1>
-       <h3>Look like you're lost</h3>
-       <h2>the page you are looking for not avaible!</h2>
+        <div className='container-fluid error404 vh-100 pt-5 text-black'>
+          <div className="row h-25">
 
-        </div>
-        <div className="col-lg-2">
-           <MdReportGmailerrorred size={350}/> 
-        </div>
-      <Link to="/">
-       <div className="btn continueBtn  text-white  text-center pb-4 ">
-        Home
-       </div>
-       </Link>
-     </div>
-    </div>
-    <Footer/>
+          </div>
+          <div className="row">
+                <div className="col-lg-3"></div>
+                <div className="col-lg-3">
+                <h1 className='fw-bold'>404</h1>
+                <h2>Sorry</h2>
+                <p>Page not found</p>
+                <Link to="/">
+                <div className="btn btn-secondary">
+                  Back to Homepage
+                </div>
+                </Link>
+                </div>
+                <div className="col-lg-3">
+                  <img src={error} alt="" srcset=""/>
+                </div>
+                <div className="col-lg-3"></div>
+          </div>
+         </div>
     </>
   )
 }
