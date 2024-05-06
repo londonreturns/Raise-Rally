@@ -3,12 +3,14 @@ package com.techtitans.backend.controller;
 import com.techtitans.backend.constants.PathConstants;
 import com.techtitans.backend.dto.company.CompanyRequestDto;
 import com.techtitans.backend.dto.company.CompanyResponseDto;
+import com.techtitans.backend.entity.CompanyEntity;
 import com.techtitans.backend.service.CompanyService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @AllArgsConstructor
@@ -33,7 +35,7 @@ public class CompanyController {
     @GetMapping(PathConstants.GET_BY_ID_PATH)
     public ResponseEntity<CompanyResponseDto> getCompanyById(
             @PathVariable("id") int id
-    ){
+    ) {
         CompanyResponseDto company = companyService.getCompanyById(id);
         return new ResponseEntity<>(company, HttpStatus.OK);
     }
@@ -49,7 +51,7 @@ public class CompanyController {
     @GetMapping(PathConstants.GET_BY_EMAIL_PATH)
     public ResponseEntity<CompanyResponseDto> getCompanyByEmail(
             @PathVariable("email") String email
-    ){
+    ) {
         CompanyResponseDto company = companyService.getCompanyByEmail(email);
         return new ResponseEntity<>(company, HttpStatus.OK);
     }
@@ -60,7 +62,7 @@ public class CompanyController {
     public ResponseEntity<CompanyResponseDto> updateCompanyById(
             @PathVariable("id") int companyId,
             @RequestBody CompanyRequestDto companyRequestDto
-    ){
+    ) {
         CompanyResponseDto updatedCompany = companyService.updateCompanyById(companyId, companyRequestDto);
         return new ResponseEntity<>(updatedCompany, HttpStatus.OK);
     }
@@ -69,11 +71,16 @@ public class CompanyController {
     @DeleteMapping(PathConstants.GET_BY_ID_PATH)
     public ResponseEntity<String> deleteCompanyById(
             @PathVariable("id") int companyId
-    ){
+    ) {
         companyService.deleteCompanyById(companyId);
         return new ResponseEntity<>("Company deleted", HttpStatus.OK);
     }
 
+    //Build search company REST API
+    @GetMapping("/search")
+    public ResponseEntity<List<CompanyResponseDto>> searchCompanies(@RequestParam("query") String query) {
+        return ResponseEntity.ok(companyService.searchCompanies(query));
+    }
 }
 
 

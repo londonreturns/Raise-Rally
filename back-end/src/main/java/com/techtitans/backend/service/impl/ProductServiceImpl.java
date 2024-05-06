@@ -161,6 +161,13 @@ public class ProductServiceImpl implements ProductService {
         List<ProductEntity> products = productRepository.findProductEntitiesByCompanyCompanyId(companyId);
         return products.stream().map(ProductMapper::mapToProductDto).toList();
     }
+
+    // Function to search  product by name
+    @Override
+    public List<ProductResponseDto> searchProduct(String query) {
+        var productEntities = productRepository.searchProduct(query);
+        return ProductMapper.mapToProductDtoList(productEntities);
+    }
 }
 
 

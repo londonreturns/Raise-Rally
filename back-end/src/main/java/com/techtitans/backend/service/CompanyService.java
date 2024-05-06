@@ -2,6 +2,8 @@ package com.techtitans.backend.service;
 
 import com.techtitans.backend.dto.company.CompanyRequestDto;
 import com.techtitans.backend.dto.company.CompanyResponseDto;
+import com.techtitans.backend.entity.CompanyEntity;
+
 import java.util.List;
 
 
@@ -18,4 +20,7 @@ public interface CompanyService {
     void deleteCompanyById(int backerId);
 
     CompanyResponseDto getCompanyByEmail(String email);
+
+    List<CompanyResponseDto> searchCompanies(String query);
+
 }

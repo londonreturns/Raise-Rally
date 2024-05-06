@@ -13,6 +13,7 @@ import com.techtitans.backend.service.CompanyService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -23,6 +24,7 @@ public class CompanyServiceImpl implements CompanyService {
     // Dependency Injection
     @Autowired
     private CompanyRepository companyRepository;
+
     // Method to create a new company
     @Override
     public CompanyResponseDto createCompany(CompanyRequestDto companyRequestDto) {
@@ -90,7 +92,7 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     // Helper method to update fields of the company entity with new information
-    private void updateAttributes(CompanyEntity companyEntity, CompanyRequestDto companyRequestDto){
+    private void updateAttributes(CompanyEntity companyEntity, CompanyRequestDto companyRequestDto) {
         companyEntity.setName(companyRequestDto.getName());
         companyEntity.setDescription(companyRequestDto.getDescription());
         companyEntity.setEmail(companyRequestDto.getEmail());
@@ -99,7 +101,7 @@ public class CompanyServiceImpl implements CompanyService {
         companyEntity.setTicked(companyRequestDto.isTicked());
     }
 
-    public static void validateRequest(CompanyRequestDto companyRequestDto){
+    public static void validateRequest(CompanyRequestDto companyRequestDto) {
         if (!Validation.isNameValid(companyRequestDto.getName()) ||
                 !Validation.isEmailValid(companyRequestDto.getEmail()) ||
                 !Validation.isPasswordValid(companyRequestDto.getPassword())) {
@@ -116,6 +118,13 @@ public class CompanyServiceImpl implements CompanyService {
                         new ResourceNotFoundException("Company does not exist with the given ID: " + companyId));
         // Delete company from the database
         companyRepository.deleteById(companyId);
+    }
+
+    //Function to search company by name
+    @Override
+    public List<CompanyResponseDto> searchCompanies(String query) {
+        var companyEntities = companyRepository.searchCompanies(query);
+        return CompanyMapper.mapToCompanyDtoList(companyEntities);
     }
 
 
