@@ -34,6 +34,7 @@ public class CompanyMapper {
 
     }
 
+    //Converting a list of CompanyEntity objects into a list of corresponding CompanyResponseDto objects
     public static List<CompanyResponseDto> mapToCompanyDtoList(List<CompanyEntity> companyEntities) {
         var companyDtoList = new ArrayList<CompanyResponseDto>();
         companyEntities.forEach(companyEntity -> {
