@@ -28,7 +28,7 @@ function About() {
                 </div>
                 <figure className="image-1">
                   <a href="#" className="lightbox-image" data-fancybox="images">
-                    <img src="https://i.ibb.co/QP6Nmpf/image-1-about.jpg" alt="" />
+                    <img src="https://gaviaspreview.com/wp/krowd/wp-content/uploads/2020/05/image-7.jpg" alt="" />
                   </a>
                 </figure>
               </div>

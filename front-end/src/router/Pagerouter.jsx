@@ -7,6 +7,7 @@ import Registration from "../pages/Registration";
 import About from "../About";
 import Detail from "../pages/Detail";
 import Rewardadd from "../components/Rewardadd";
+import Productadd from "../components/Productadd";
 function Pagerouter() {
   const categories = ["art", "crafts", "dance", "film", "music", "technology"];
   const router = createBrowserRouter([
@@ -40,6 +41,10 @@ function Pagerouter() {
     },
     {
       path:"/company/addproduct",
+      element:<Productadd/>
+    },
+    {
+      path:"/company/addreward",
       element:<Rewardadd/>
     }
   ]);

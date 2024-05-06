@@ -18,8 +18,7 @@ function Header() {
       <div className="mb-3  bug "></div>
 
       <nav
-        className="navbar navbar-expand-lg fixed-top px-lg-5"
-        style={{ backgroundColor: "#40B3A2" }}
+        className="navbar navbar-expand-lg fixed-top px-lg-5 bg-white border border-bottom-1 border-black-50 bg-dark-subtle"
       >
         <div className="container-fluid ">
           <button
@@ -35,7 +34,7 @@ function Header() {
             <img src={raiserallyLogo} className=" logo " alt="Raise Rally" />
           </Link>
           <div className="collapse navbar-collapse" id="navbarButtonsExample">
-            {localStorage.getItem("role") ? (
+            {localStorage.getItem("userType") ? (
               <>
                 <div className="d-flex align-items-center ms-auto dropdown">
                   <a
@@ -102,7 +101,7 @@ function Header() {
                   <Link to="/signup">
                     <button
                       type="button"
-                      className="text-white btn btn-danger   me-3 "
+                      className="text-white btn btn-primary  me-3 "
                     >
                       Sign up for free
                     </button>
