@@ -22,5 +22,5 @@ public interface CompanyService {
     CompanyResponseDto getCompanyByEmail(String email);
 
     List<CompanyResponseDto> searchCompanies(String query);
-    CompanyResponseDto enableCompany(int id, boolean enable);
+
 }

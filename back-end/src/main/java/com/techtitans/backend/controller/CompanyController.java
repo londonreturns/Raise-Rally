@@ -81,12 +81,6 @@ public class CompanyController {
     public ResponseEntity<List<CompanyResponseDto>> searchCompanies(@RequestParam("query") String query) {
         return ResponseEntity.ok(companyService.searchCompanies(query));
     }
-
-    //Build company REST API for enable and disable function
-    @GetMapping("/enable/{id}/{enabled}")
-    public ResponseEntity<CompanyResponseDto> enableCompany(@PathVariable("enabled") boolean enabled, @PathVariable int id) {
-        return ResponseEntity.ok(this.companyService.enableCompany(id, enabled));
-    }
 }
 
 
