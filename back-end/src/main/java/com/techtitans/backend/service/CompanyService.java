@@ -21,5 +21,5 @@ public interface CompanyService {
 
     CompanyResponseDto getCompanyByEmail(String email);
 
-    List<CompanyEntity> searchCompanies(String query);
+    List<CompanyResponseDto> searchCompanies(String query);
 }

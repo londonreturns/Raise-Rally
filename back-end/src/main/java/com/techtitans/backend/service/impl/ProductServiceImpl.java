@@ -164,8 +164,9 @@ public class ProductServiceImpl implements ProductService {
 
     // Function to search  product by name
     @Override
-    public List<ProductEntity> searchProduct(String query) {
-        return productRepository.searchProduct(query);
+    public List<ProductResponseDto> searchProduct(String query) {
+        var productEntities = productRepository.searchProduct(query);
+        return ProductMapper.mapToProductDtoList(productEntities);
     }
 }
 

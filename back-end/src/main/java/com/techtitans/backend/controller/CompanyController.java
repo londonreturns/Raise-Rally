@@ -77,7 +77,7 @@ public class CompanyController {
 
     //Build search company REST API
     @GetMapping("/search")
-    public ResponseEntity<List<CompanyEntity>> searchCompanies(@RequestParam("query") String query) {
+    public ResponseEntity<List<CompanyResponseDto>> searchCompanies(@RequestParam("query") String query) {
         return ResponseEntity.ok(companyService.searchCompanies(query));
     }
 }
