@@ -49,7 +49,6 @@ public class CompanyServiceImpl implements CompanyService {
         return CompanyMapper.mapToCompanyDto(company);
     }
 
-
     // Method to retrieve all companies
     @Override
     public List<CompanyResponseDto> getAllCompanies() {
@@ -81,6 +80,12 @@ public class CompanyServiceImpl implements CompanyService {
         CompanyEntity companyEntityFromDatabase = companyRepository.findById(companyId)
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Company does not exist with the given ID: " + companyId));
+
+        // New encrypted password
+        String newEncryptedPassword = PasswordEncryptionService.encrypt(newCompany.getPassword());
+        if (!companyEntityFromDatabase.getPassword().equals(newEncryptedPassword)) {
+            throw new ValidationException("Invalid password");
+        }
 
         // Update attributes
         updateCompany(newCompany, companyEntityFromDatabase);

@@ -3,6 +3,7 @@ package com.techtitans.backend.controller;
 import com.techtitans.backend.constants.PathConstants;
 import com.techtitans.backend.dto.backer.BackerRequestDto;
 import com.techtitans.backend.dto.backer.BackerResponseDto;
+import com.techtitans.backend.dto.backer.BackerUpdateRequestDto;
 import com.techtitans.backend.service.BackerService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,12 +57,12 @@ public class BackerController {
     }
 
     // Build update backer from API
-    @PutMapping(PathConstants.GET_BY_ID_PATH)
+    @PatchMapping(PathConstants.GET_BY_ID_PATH)
     public ResponseEntity<BackerResponseDto> updateBackerById(
             @PathVariable("id") int backerId,
-            @RequestBody BackerRequestDto backerRequestDto
+            @RequestBody BackerUpdateRequestDto backerUpdateRequestDto
     ){
-        BackerResponseDto savedBacker = backerService.updateBackerById(backerId, backerRequestDto);
+        BackerResponseDto savedBacker = backerService.updateBackerById(backerId, backerUpdateRequestDto);
         return new ResponseEntity<>(savedBacker, HttpStatus.OK);
     }
 

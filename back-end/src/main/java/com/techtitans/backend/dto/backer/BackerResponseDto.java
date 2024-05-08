@@ -18,4 +18,10 @@ public class BackerResponseDto implements Serializable {
     private String name;
     private String email;
     private List<Integer> contributionIds;
+
+    public BackerResponseDto(int backerId, String name, String email) {
+        this.backer_id = backerId;
+        this.name = name;
+        this.email = email;
+    }
 }

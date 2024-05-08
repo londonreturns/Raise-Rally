@@ -2,6 +2,7 @@ package com.techtitans.backend.service.impl;
 
 import com.techtitans.backend.dto.backer.BackerRequestDto;
 import com.techtitans.backend.dto.backer.BackerResponseDto;
+import com.techtitans.backend.dto.backer.BackerUpdateRequestDto;
 import com.techtitans.backend.entity.BackerEntity;
 import com.techtitans.backend.exception.ResourceNotFoundException;
 import com.techtitans.backend.exception.ValidationException;
@@ -67,15 +68,22 @@ public class BackerServiceImpl implements BackerService {
 
     @Override
     // Function to update backer details by id
-    public BackerResponseDto updateBackerById(int backerId, BackerRequestDto backerRequestDto) {
+    public BackerResponseDto updateBackerById(int backerId, BackerUpdateRequestDto backerUpdateRequestDto) {
         // Validate request dto
-        validateRequest(backerRequestDto);
+        validateRequest(backerUpdateRequestDto);
         // Check if id exists
         BackerEntity backerEntityFromDatabase = backerRepository.findById(backerId)
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Backer does not exists with the given id " + backerId));
+
+        // New encrypted password
+        String newEncryptedPassword = PasswordEncryptionService.encrypt(backerUpdateRequestDto.getPassword());
+        if (!backerEntityFromDatabase.getPassword().equals(newEncryptedPassword)) {
+            throw new ValidationException("Invalid password");
+        }
+
         // Update details
-        updateAttributes(backerEntityFromDatabase, backerRequestDto);
+        updateAttributes(backerEntityFromDatabase, backerUpdateRequestDto);
         // Save details to database
         BackerEntity savedBacker = backerRepository.save(backerEntityFromDatabase);
         return BackerMapper.mapToBackerDto(savedBacker);
@@ -93,10 +101,9 @@ public class BackerServiceImpl implements BackerService {
     }
 
     // Update attributes of entity
-    public void updateAttributes(BackerEntity backerEntity, BackerRequestDto backerRequestDto){
-        backerEntity.setName(backerRequestDto.getName());
-        backerEntity.setEmail(backerRequestDto.getEmail());
-        backerEntity.setPassword(PasswordEncryptionService.encrypt(backerRequestDto.getPassword()));
+    public void updateAttributes(BackerEntity backerEntity, BackerUpdateRequestDto backerUpdateRequestDto){
+        backerEntity.setName(backerUpdateRequestDto.getName());
+        backerEntity.setPassword(PasswordEncryptionService.encrypt(backerUpdateRequestDto.getPassword()));
     }
 
     // Validate RequestDTO
@@ -104,6 +111,15 @@ public class BackerServiceImpl implements BackerService {
         if (!Validation.isNameValid(backerRequestDto.getName()) ||
                 !Validation.isEmailValid(backerRequestDto.getEmail()) ||
                 !Validation.isPasswordValid(backerRequestDto.getPassword())) {
+            throw new ValidationException("Validation error");
+        }
+    }
+
+    // Validate RequestDTO
+    public static void validateRequest(BackerUpdateRequestDto backerUpdateRequestDto){
+        if (!Validation.isNameValid(backerUpdateRequestDto.getName()) ||
+                !Validation.isPasswordValid(backerUpdateRequestDto.getPassword()) ||
+                !Validation.isPasswordValid(backerUpdateRequestDto.getConfirmPassword())) {
             throw new ValidationException("Validation error");
         }
     }
