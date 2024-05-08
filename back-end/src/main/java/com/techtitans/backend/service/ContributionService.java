@@ -10,4 +10,6 @@ public interface ContributionService {
     ContributionDto getContribution(int contributionId);
 
     List<ContributionDto> getContributionsByBacker(int backerId);
+
+    List<List<ContributionDto>> getContributionsByProduct(int productId);
 }

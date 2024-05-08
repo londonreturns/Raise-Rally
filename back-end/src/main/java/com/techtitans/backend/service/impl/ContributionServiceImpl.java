@@ -1,12 +1,16 @@
 package com.techtitans.backend.service.impl;
 
 import com.techtitans.backend.dto.contribution.ContributionDto;
+import com.techtitans.backend.entity.BenefitEntity;
 import com.techtitans.backend.entity.ContributionEntity;
+import com.techtitans.backend.entity.ProductEntity;
 import com.techtitans.backend.exception.ResourceNotFoundException;
+import com.techtitans.backend.mapper.BenefitMapper;
 import com.techtitans.backend.mapper.ContributionMapper;
 import com.techtitans.backend.repository.BackerRepository;
 import com.techtitans.backend.repository.BenefitRepository;
 import com.techtitans.backend.repository.ContributionRepository;
+import com.techtitans.backend.repository.ProductRepository;
 import com.techtitans.backend.service.ContributionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +30,10 @@ public class ContributionServiceImpl implements ContributionService {
     // Dependency Injection
     @Autowired
     BenefitRepository benefitRepository;
+
+    // Dependency Injection
+    @Autowired
+    ProductRepository productRepository;
 
     // Function to add contribution
     public ContributionDto addContribution(ContributionDto contributionDto){
@@ -63,5 +71,20 @@ public class ContributionServiceImpl implements ContributionService {
 
         List<ContributionEntity> contributions = contributionRepository.findContributionEntitiesByBackerBackerId(backerId);
         return contributions.stream().map(ContributionMapper::mapToContributionDto).toList();
+    }
+
+    @Override
+    public List<List<ContributionDto>> getContributionsByProduct(int productId) {
+        // Check if product exists
+        productRepository.findById(productId).orElseThrow(
+                () -> new RuntimeException("Product with id " + productId + " not found")
+        );
+
+        // Get benefits of product
+        List<BenefitEntity> benefits = benefitRepository.getBenefitEntitiesByProductProductId(productId);
+
+        // Get contributions
+        List<List<ContributionEntity>> contributions = benefits.stream().map(benefitEntity -> contributionRepository.findContributionEntitiesByBenefitBenefitId(benefitEntity.getBenefitId())).toList();
+        return contributions.stream().map(contributionEntities -> contributionEntities.stream().map(ContributionMapper::mapToContributionDto).toList()).toList();
     }
 }
