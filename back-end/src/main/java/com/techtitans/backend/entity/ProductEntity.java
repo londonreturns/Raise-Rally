@@ -53,5 +53,6 @@ public class ProductEntity {
         this.endDate = endDate;
         this.benefits = benefits;
         this.category = category;
+        this.company = company;
     }
 }
