@@ -21,14 +21,14 @@ public class KhaltiController {
     private KhaltiService khaltiService;
 
     // Initiate payment
-    @PostMapping("/initiate")
+    @PostMapping({PathConstants.INITIATE})
     public Object khaltiInitiate(@RequestBody KhaltiInitiateRequestDto body) {
         System.out.println();
         return khaltiService.initiatePayment(body);
     }
 
     // Callback payment
-    @GetMapping("/callback")
+    @GetMapping(PathConstants.CALLBACK)
     public ResponseEntity<KhaltiCallbackResponseDto> khaltiCallback(@RequestBody KhaltiCallbackRequestDto callback) {
         KhaltiCallbackResponseDto o = khaltiService.checkCallback(callback);
         return new ResponseEntity<>(o, HttpStatus.OK);

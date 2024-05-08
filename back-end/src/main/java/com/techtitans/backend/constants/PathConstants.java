@@ -40,4 +40,10 @@ public class PathConstants {
 
     // Path for contribution
     public static final String CONTRIBUTION = "/api/contributions";
+
+    // Path for initiate
+    public static final String INITIATE = "/initiate";
+
+    // Path for callback
+    public static final String CALLBACK = "/callback";
 }

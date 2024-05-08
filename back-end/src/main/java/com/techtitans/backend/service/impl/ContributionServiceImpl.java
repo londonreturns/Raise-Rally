@@ -43,4 +43,12 @@ public class ContributionServiceImpl implements ContributionService {
         ContributionEntity savedContribution = contributionRepository.save(contributionEntity);
         return ContributionMapper.mapToContributionDto(savedContribution);
     }
+
+    @Override
+    public ContributionDto getContribution(int contributionId) {
+        // Check if contribution  exists
+        ContributionEntity contributionEntity = contributionRepository.findById(contributionId).orElseThrow(() ->
+                new ResourceNotFoundException("Contribution does not exists with the given id " + contributionId));
+        return ContributionMapper.mapToContributionDto(contributionEntity);
+    }
 }
