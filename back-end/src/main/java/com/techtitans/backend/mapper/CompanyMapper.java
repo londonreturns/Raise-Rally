@@ -71,8 +71,8 @@ public class CompanyMapper {
                 companyDto.getDescription(),
                 companyDto.getEmail(),
                 PasswordEncryptionService.encrypt(companyDto.getPassword()),
-                companyDto.isActive(),
-                companyDto.isTicked(),
+                true, // Active by default while creating
+                false, //Not verified by default  while creating
                 companyDto.getProducts()
         );
     }
