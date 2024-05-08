@@ -11,6 +11,8 @@ import com.techtitans.backend.service.ContributionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ContributionServiceImpl implements ContributionService {
     // Dependency Injection
@@ -50,5 +52,16 @@ public class ContributionServiceImpl implements ContributionService {
         ContributionEntity contributionEntity = contributionRepository.findById(contributionId).orElseThrow(() ->
                 new ResourceNotFoundException("Contribution does not exists with the given id " + contributionId));
         return ContributionMapper.mapToContributionDto(contributionEntity);
+    }
+
+    @Override
+    public List<ContributionDto> getContributionsByBacker(int backerId) {
+        // Check if backer id exists
+        backerRepository.findById(backerId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Backer does not exists with the given id " + backerId));
+
+        List<ContributionEntity> contributions = contributionRepository.findContributionEntitiesByBackerBackerId(backerId);
+        return contributions.stream().map(ContributionMapper::mapToContributionDto).toList();
     }
 }
