@@ -2,6 +2,7 @@ package com.techtitans.backend.service.impl;
 
 import com.techtitans.backend.dto.company.CompanyRequestDto;
 import com.techtitans.backend.dto.company.CompanyResponseDto;
+import com.techtitans.backend.dto.company.CompanyUpdateRequestDto;
 import com.techtitans.backend.entity.CompanyEntity;
 import com.techtitans.backend.exception.ResourceNotFoundException;
 import com.techtitans.backend.exception.ValidationException;
@@ -73,38 +74,42 @@ public class CompanyServiceImpl implements CompanyService {
 
     // Method to update company details by ID
     @Override
-    public CompanyResponseDto updateCompanyById(int companyId, CompanyRequestDto companyRequestDto) {
+    public CompanyResponseDto updateCompanyById(int companyId, CompanyUpdateRequestDto newCompany) {
         // Validate request dto
-        validateRequest(companyRequestDto);
+        validateRequest(newCompany);
         // Check if company with the given ID exists
         CompanyEntity companyEntityFromDatabase = companyRepository.findById(companyId)
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Company does not exist with the given ID: " + companyId));
 
         // Update attributes
-        updateAttributes(companyEntityFromDatabase, companyRequestDto);
+        updateCompany(newCompany, companyEntityFromDatabase);
 
-        // Save updated company details to the database
+        // Save to database
         CompanyEntity savedCompany = companyRepository.save(companyEntityFromDatabase);
 
-        // Map the saved company entity to DTO and return
         return CompanyMapper.mapToCompanyDto(savedCompany);
     }
 
-    // Helper method to update fields of the company entity with new information
-    private void updateAttributes(CompanyEntity companyEntity, CompanyRequestDto companyRequestDto) {
-        companyEntity.setName(companyRequestDto.getName());
-        companyEntity.setDescription(companyRequestDto.getDescription());
-        companyEntity.setEmail(companyRequestDto.getEmail());
-        companyEntity.setPassword(PasswordEncryptionService.encrypt(companyRequestDto.getPassword()));
-        companyEntity.setActive(companyRequestDto.isActive());
-        companyEntity.setTicked(companyRequestDto.isTicked());
+    public void updateCompany(CompanyUpdateRequestDto companyUpdateRequestDto, CompanyEntity companyEntity) {
+        companyEntity.setName(companyUpdateRequestDto.getName());
+        companyEntity.setDescription(companyUpdateRequestDto.getDescription());
+        companyEntity.setPassword(companyUpdateRequestDto.getPassword());
     }
 
     public static void validateRequest(CompanyRequestDto companyRequestDto) {
         if (!Validation.isNameValid(companyRequestDto.getName()) ||
-                !Validation.isEmailValid(companyRequestDto.getEmail()) ||
-                !Validation.isPasswordValid(companyRequestDto.getPassword())) {
+                (!Validation.isEmailValid(companyRequestDto.getEmail())) ||
+                (!Validation.isPasswordValid(companyRequestDto.getPassword()))) {
+            throw new ValidationException("Validation error");
+        }
+    }
+
+    public static void validateRequest(CompanyUpdateRequestDto companyUpdateRequestDto){
+        if (!Validation.isNameValid(companyUpdateRequestDto.getName()) ||
+                (!Validation.isPasswordValid(companyUpdateRequestDto.getPassword())) ||
+                (!Validation.isPasswordValid(companyUpdateRequestDto.getConfirmPassword()))
+        ) {
             throw new ValidationException("Validation error");
         }
     }

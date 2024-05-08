@@ -3,6 +3,7 @@ package com.techtitans.backend.controller;
 import com.techtitans.backend.constants.PathConstants;
 import com.techtitans.backend.dto.company.CompanyRequestDto;
 import com.techtitans.backend.dto.company.CompanyResponseDto;
+import com.techtitans.backend.dto.company.CompanyUpdateRequestDto;
 import com.techtitans.backend.entity.CompanyEntity;
 import com.techtitans.backend.service.CompanyService;
 import lombok.AllArgsConstructor;
@@ -61,9 +62,9 @@ public class CompanyController {
     @PutMapping(PathConstants.GET_BY_ID_PATH)
     public ResponseEntity<CompanyResponseDto> updateCompanyById(
             @PathVariable("id") int companyId,
-            @RequestBody CompanyRequestDto companyRequestDto
-    ) {
-        CompanyResponseDto updatedCompany = companyService.updateCompanyById(companyId, companyRequestDto);
+            @RequestBody CompanyUpdateRequestDto newCompany
+    ){
+        CompanyResponseDto updatedCompany = companyService.updateCompanyById(companyId, newCompany);
         return new ResponseEntity<>(updatedCompany, HttpStatus.OK);
     }
 
