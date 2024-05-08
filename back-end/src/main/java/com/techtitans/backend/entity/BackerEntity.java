@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Data
 @AllArgsConstructor
@@ -25,4 +27,7 @@ public class BackerEntity {
 
     @Column(name = "password")
     private String password;
+
+    @OneToMany(mappedBy = "backer", cascade = CascadeType.ALL)
+    private List<ContributionEntity> contributions;
 }

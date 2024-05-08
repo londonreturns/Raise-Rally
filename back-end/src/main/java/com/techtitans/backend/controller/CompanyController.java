@@ -3,7 +3,6 @@ package com.techtitans.backend.controller;
 import com.techtitans.backend.constants.PathConstants;
 import com.techtitans.backend.dto.company.CompanyRequestDto;
 import com.techtitans.backend.dto.company.CompanyResponseDto;
-import com.techtitans.backend.entity.CompanyEntity;
 import com.techtitans.backend.service.CompanyService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +55,6 @@ public class CompanyController {
         return new ResponseEntity<>(company, HttpStatus.OK);
     }
 
-
     // Build update company REST API
     @PutMapping(PathConstants.GET_BY_ID_PATH)
     public ResponseEntity<CompanyResponseDto> updateCompanyById(
@@ -88,5 +86,3 @@ public class CompanyController {
         return ResponseEntity.ok(this.companyService.enableCompany(id, enabled));
     }
 }
-
-

@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @Setter
@@ -16,4 +17,5 @@ public class BackerResponseDto implements Serializable {
     private int backer_id;
     private String name;
     private String email;
+    private List<Integer> contributionIds;
 }

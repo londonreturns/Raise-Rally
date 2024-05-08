@@ -3,6 +3,11 @@ package com.techtitans.backend.mapper;
 import com.techtitans.backend.dto.benefit.BenefitRequestDto;
 import com.techtitans.backend.dto.benefit.BenefitResponseDto;
 import com.techtitans.backend.entity.BenefitEntity;
+import com.techtitans.backend.entity.ContributionEntity;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class BenefitMapper {
     // Mapping benefit request dto to entity
@@ -12,7 +17,8 @@ public class BenefitMapper {
                 benefitRequestDto.getBenefitName(),
                 benefitRequestDto.getBenefitDescription(),
                 benefitRequestDto.getPrice(),
-                benefitRequestDto.getProduct()
+                benefitRequestDto.getProduct(),
+                benefitRequestDto.getContributions()
         );
     }
 
@@ -23,7 +29,8 @@ public class BenefitMapper {
                 benefitEntity.getBenefitName(),
                 benefitEntity.getBenefitDescription(),
                 benefitEntity.getPrice().getPriceId(),
-                benefitEntity.getProduct().getProductId()
+                benefitEntity.getProduct().getProductId(),
+                benefitEntity.getContributions().stream().map(ContributionEntity::getId).toList()
         );
     }
 }
