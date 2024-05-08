@@ -7,10 +7,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
@@ -29,5 +26,14 @@ public class ContributionController {
     ) {
         ContributionDto savedContributionDto = contributionService.addContribution(contributionDto);
         return new ResponseEntity<>(savedContributionDto, HttpStatus.OK);
+    }
+
+    // Get contributions from id
+    @GetMapping(PathConstants.GET_BY_ID_PATH)
+    public ResponseEntity<ContributionDto> getAllContributions(
+            @PathVariable("id") int contributionId
+    ) {
+        ContributionDto contribution = contributionService.getContribution(contributionId);
+        return new ResponseEntity<>(contribution, HttpStatus.OK);
     }
 }
