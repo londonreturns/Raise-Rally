@@ -14,6 +14,7 @@ import com.techtitans.backend.service.CompanyService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -24,6 +25,7 @@ public class CompanyServiceImpl implements CompanyService {
     // Dependency Injection
     @Autowired
     private CompanyRepository companyRepository;
+
     // Method to create a new company
     @Override
     public CompanyResponseDto createCompany(CompanyRequestDto companyRequestDto) {
@@ -70,8 +72,6 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
 
-
-
     // Method to update company details by ID
     @Override
     public CompanyResponseDto updateCompanyById(int companyId, CompanyUpdateRequestDto newCompany) {
@@ -97,7 +97,7 @@ public class CompanyServiceImpl implements CompanyService {
         companyEntity.setPassword(companyUpdateRequestDto.getPassword());
     }
 
-    public static void validateRequest(CompanyRequestDto companyRequestDto){
+    public static void validateRequest(CompanyRequestDto companyRequestDto) {
         if (!Validation.isNameValid(companyRequestDto.getName()) ||
                 (!Validation.isEmailValid(companyRequestDto.getEmail())) ||
                 (!Validation.isPasswordValid(companyRequestDto.getPassword()))) {
@@ -127,8 +127,20 @@ public class CompanyServiceImpl implements CompanyService {
 
     //Function to search company by name
     @Override
-    public List<CompanyEntity> searchCompanies(String query) {
-        return companyRepository.searchCompanies(query);
+    public List<CompanyResponseDto> searchCompanies(String query) {
+        var companyEntities = companyRepository.searchCompanies(query);
+        return CompanyMapper.mapToCompanyDtoList(companyEntities);
+    }
+
+    //Function to enable/disable  company by id
+    @Override
+    public CompanyResponseDto enableCompany(int id, boolean enable) {
+        CompanyEntity companyEntityFromDatabase = companyRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Company does not exist with the given ID: " + id));
+        companyEntityFromDatabase.setActive(enable);
+        companyRepository.save(companyEntityFromDatabase);
+        return CompanyMapper.mapToCompanyDto(companyEntityFromDatabase);
     }
 }
 

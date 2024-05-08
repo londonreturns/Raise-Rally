@@ -22,5 +22,5 @@ public interface ProductService {
 
     List<ProductResponseDto> findAllProductsByCompany(int companyId);
 
-    List<ProductEntity> searchProduct(String query);
+    List<ProductResponseDto> searchProduct(String query);
 }

@@ -125,7 +125,7 @@ function Productadd() {
           <div className="row ">
             <div className="col-lg-8"></div>
             <div className="col-lg-4 text-end pb-4">
-              <button className="btn btn-danger" onClick={handleNext}>
+              <button className="btn btn-primary" onClick={handleNext}>
                 Next
               </button>
             </div>

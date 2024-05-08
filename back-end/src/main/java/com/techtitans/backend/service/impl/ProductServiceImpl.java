@@ -1,10 +1,13 @@
 package com.techtitans.backend.service.impl;
 
+import com.techtitans.backend.dto.backer.BackerRequestDto;
 import com.techtitans.backend.dto.product.ProductRequestDto;
 import com.techtitans.backend.dto.product.ProductResponseDto;
 import com.techtitans.backend.entity.*;
+import com.techtitans.backend.exception.ValidationException;
 import com.techtitans.backend.mapper.ProductMapper;
 import com.techtitans.backend.repository.*;
+import com.techtitans.backend.security.Validation;
 import com.techtitans.backend.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,6 +37,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductResponseDto addProduct(ProductRequestDto productDto) {
         // Assign attributes to product
+        validateRequest(productDto);
         ProductEntity productEntity = new ProductEntity();
         productEntity.setProductName(productDto.getProductName());
         productEntity.setProductDescription(productDto.getProductDescription());
@@ -93,6 +97,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     // Function to update product
     public ProductResponseDto updateProduct(int productId, ProductRequestDto productRequestDto) {
+        validateRequest(productRequestDto);
         // Find the existing product entity
         ProductEntity existingProduct = productRepository.findById(productId).orElseThrow(
                 () -> new RuntimeException("Product with id " + productId + " not found")
@@ -164,8 +169,21 @@ public class ProductServiceImpl implements ProductService {
 
     // Function to search  product by name
     @Override
-    public List<ProductEntity> searchProduct(String query) {
-        return productRepository.searchProduct(query);
+    public List<ProductResponseDto> searchProduct(String query) {
+        var productEntities = productRepository.searchProduct(query);
+        return ProductMapper.mapToProductDtoList(productEntities);
+    }
+
+    //Validate productRequestDto
+     public static void validateRequest(ProductRequestDto productRequestDto){
+        if (!Validation.isNameValid(productRequestDto.getProductName()) ||
+                !Validation.isDescriptionValid(productRequestDto.getProductDescription()) ||
+                !Validation.isAmountValid(productRequestDto.getCurrentAmount()) ||
+                !Validation.isGoalValid(productRequestDto.getProductGoal()) ||
+                !Validation.isDateValid(productRequestDto.getStartDate()) ||
+                !Validation.isDateValid(productRequestDto.getEndDate())) {
+            throw new ValidationException("Validation error");
+        }
     }
 }
 

@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import "./Registration.css";
 import raiserallyLogo from "../assets/raiserally-logo.png";
 import { FaRegUserCircle } from "react-icons/fa";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
 
-
 function Registration() {
+  const nav=useNavigate();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -84,7 +86,7 @@ function Registration() {
         }
 
         console.log('Registration response:', response.data);
-
+        nav("/login")
         setTimeout(() => {
           console.log('Registration successful');
         }, 1000);
@@ -121,22 +123,33 @@ function Registration() {
   const handleUserTypeChange = (e) => {
     setUserType(e.target.value);
     if (error) {
-      window.location.reload();
+      setError('');
     }
   };
 
   const handleCompanyDescriptionChange = (e) => {
-    setCompanyDescription(e.target.value);
+      const inputText = e.target.value;
+  const words = inputText.split(' '); // Split input text by spaces
+  const maxWords = 20; // Define the maximum number of words
+
+  if (words.length <= maxWords) {
+    setCompanyDescription(inputText); // Update the state if within word limit
+  } else {
+    // If the number of words exceeds the limit, truncate the input
+    setCompanyDescription(words.slice(0, maxWords).join(' '));
+  }
+
   };
+  
 
   return (
-    <div className=" d-flex justify-content-center align-items-center bg-light">
-      <div className="row ">
-        <div className="col-lg-12 col-md-12 col-sm-12 col-12 pt- d-flex justify-content-center">
-          <div className=" shadow w-75">
+    <div className="d-flex justify-content-center align-items-center bg-light vh-100">
+      <div className="row">
+        <div className="col-lg-12 col-md-6 col-sm-12 col-12 pt-3 d-flex justify-content-center">
+          <div className="shadow w-100">
             <div className="card-body p-3">
-            <div className='d-flex justify-content-center  ps-5'>
-            <img src={raiserallyLogo} className=" logo " alt="Raise Rally" style={{width:70}}/>
+              <div className="d-flex justify-content-center ps-5">
+                <img src={raiserallyLogo} className="logo" alt="Raise Rally" style={{ width: 70 }} />
               </div>
               <h2 className="text-center mb-4">Create your Raise Rally Account</h2>
               {error && <div className="alert alert-danger mb-4">{error}</div>}
@@ -147,7 +160,7 @@ function Registration() {
                   <div className="invalid-feedback">{validationErrors.username}</div>
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="email" className="form-label"> <MdOutlineMailOutline/> Email address</label>
+                  <label htmlFor="email" className="form-label"> <MdOutlineMailOutline /> Email address</label>
                   <input type="email" id="email" className={`form-control ${validationErrors.email && 'is-invalid'}`} value={email} onChange={handleEmailChange} required />
                   <div className="invalid-feedback">{validationErrors.email}</div>
                 </div>
@@ -165,37 +178,44 @@ function Registration() {
                 </div>
                 <div className="mb-4">
                   <label className="form-label">User Type</label>
-                  <div className="d-flex justify-content-between">
-                    <div className="form-check">
-                      <input className="form-check-input" type="radio" name="userType" id="company" value="company" checked={userType === 'company'} onChange={handleUserTypeChange} />
-                      <label className="form-check-label pb-3" htmlFor="company">Company</label>
-                      {userType === 'company' && (
-                        <textarea
-                          type="text"
-                          rows="4"
-                          className="form-control pt-2"
-                          placeholder="Enter company description"
-                          value={companyDescription}
-                          onChange={handleCompanyDescriptionChange}
-                          ></textarea>
-                      )}
+                  <div className="row">
+                    <div className="col">
+                      <div className="form-check">
+                        <input className="form-check-input" type="radio" name="userType" id="company" value="company" checked={userType === 'company'} onChange={handleUserTypeChange} />
+                        <label className="form-check-label pb-3" htmlFor="company">Company</label>
+                      </div>
                     </div>
-                    <div className="form-check">
-                      <input className="form-check-input" type="radio" name="userType" id="backers" value="backers" checked={userType === 'backers'} onChange={handleUserTypeChange} />
-                      <label className="form-check-label" htmlFor="backers">Backers</label>
+                    <div className="col">
+                      <div className="form-check">
+                        <input className="form-check-input" type="radio" name="userType" id="backers" value="backers" checked={userType === 'backers'} onChange={handleUserTypeChange} />
+                        <label className="form-check-label" htmlFor="backers">Backers</label>
+                      </div>
                     </div>
-                    <div className="form-check">
-                      <input className="form-check-input" type="radio" name="userType" id="admin" value="admin" checked={userType === 'admin'} onChange={handleUserTypeChange} />
-                      <label className="form-check-label" htmlFor="admin">Admin</label>
+                    <div className="col">
+                      <div className="form-check">
+                        <input className="form-check-input" type="radio" name="userType" id="admin" value="admin" checked={userType === 'admin'} onChange={handleUserTypeChange} />
+                        <label className="form-check-label" htmlFor="admin">Admin</label>
+                      </div>
                     </div>
                   </div>
                 </div>
+                {userType === 'company' && 
+                <div className="mb-3">
+                <textarea
+                rows="4"
+                id="companyDescription"
+                className='form-control company-description' // Add a class for styling
+                placeholder="Enter company description"
+                value={companyDescription}
+                onChange={handleCompanyDescriptionChange}                    
+                ></textarea>
+                </div>
+                }
                 <div className="text-center">
                   <button className="btn btn-primary btn-lg btn-block" type="submit">Register</button>
                 </div>
               </form>
-              <p className="mt-4 text-center">Already have an account? 
-              <Link to='/login'>Sign In</Link></p>
+              <p className="mt-4 text-center">Already have an account? <Link to='/login'>Sign In</Link></p>
             </div>
           </div>
         </div>

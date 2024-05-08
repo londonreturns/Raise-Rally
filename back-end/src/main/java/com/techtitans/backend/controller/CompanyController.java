@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @AllArgsConstructor
@@ -35,7 +36,7 @@ public class CompanyController {
     @GetMapping(PathConstants.GET_BY_ID_PATH)
     public ResponseEntity<CompanyResponseDto> getCompanyById(
             @PathVariable("id") int id
-    ){
+    ) {
         CompanyResponseDto company = companyService.getCompanyById(id);
         return new ResponseEntity<>(company, HttpStatus.OK);
     }
@@ -51,7 +52,7 @@ public class CompanyController {
     @GetMapping(PathConstants.GET_BY_EMAIL_PATH)
     public ResponseEntity<CompanyResponseDto> getCompanyByEmail(
             @PathVariable("email") String email
-    ){
+    ) {
         CompanyResponseDto company = companyService.getCompanyByEmail(email);
         return new ResponseEntity<>(company, HttpStatus.OK);
     }
@@ -71,15 +72,21 @@ public class CompanyController {
     @DeleteMapping(PathConstants.GET_BY_ID_PATH)
     public ResponseEntity<String> deleteCompanyById(
             @PathVariable("id") int companyId
-    ){
+    ) {
         companyService.deleteCompanyById(companyId);
         return new ResponseEntity<>("Company deleted", HttpStatus.OK);
     }
 
     //Build search company REST API
     @GetMapping("/search")
-    public ResponseEntity<List<CompanyEntity>> searchCompanies(@RequestParam("query") String query) {
+    public ResponseEntity<List<CompanyResponseDto>> searchCompanies(@RequestParam("query") String query) {
         return ResponseEntity.ok(companyService.searchCompanies(query));
+    }
+
+    //Build company REST API for enable and disable function
+    @GetMapping("/enable/{id}/{enabled}")
+    public ResponseEntity<CompanyResponseDto> enableCompany(@PathVariable("enabled") boolean enabled, @PathVariable int id) {
+        return ResponseEntity.ok(this.companyService.enableCompany(id, enabled));
     }
 }
 
