@@ -25,4 +25,6 @@ public interface CompanyService {
     List<CompanyResponseDto> searchCompanies(String query);
 
     CompanyResponseDto enableCompany(int id, boolean enable);
+
+    CompanyResponseDto verifyCompany(int id, boolean verify);
 }

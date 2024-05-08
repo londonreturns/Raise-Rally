@@ -132,7 +132,7 @@ public class CompanyServiceImpl implements CompanyService {
         return CompanyMapper.mapToCompanyDtoList(companyEntities);
     }
 
-    //Function to enable/disable  company by id
+    // Function to enable/disable a company by id
     @Override
     public CompanyResponseDto enableCompany(int id, boolean enable) {
         CompanyEntity companyEntityFromDatabase = companyRepository.findById(id)
@@ -142,5 +142,16 @@ public class CompanyServiceImpl implements CompanyService {
         companyRepository.save(companyEntityFromDatabase);
         return CompanyMapper.mapToCompanyDto(companyEntityFromDatabase);
     }
+
+    // Function to verify or unverify a company by id
+    public CompanyResponseDto verifyCompany(int id, boolean verify) {
+        CompanyEntity companyEntityFromDatabase = companyRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Company does not exist with the given ID: " + id));
+        companyEntityFromDatabase.setTicked(verify);
+        companyRepository.save(companyEntityFromDatabase);
+        return CompanyMapper.mapToCompanyDto(companyEntityFromDatabase);
+    }
+
 }
 
