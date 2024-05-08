@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface ContributionRepository extends JpaRepository<ContributionEntity, Integer> {
     List<ContributionEntity> findContributionEntitiesByBackerBackerId(int backerId);
+
+    List<ContributionEntity> findContributionEntitiesByBenefitBenefitId(int benefitId);
 }

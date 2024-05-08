@@ -41,10 +41,19 @@ public class ContributionController {
 
     // Get contributions from backer id
     @GetMapping("/backer" + PathConstants.GET_BY_ID_PATH)
-    public ResponseEntity<List<ContributionDto>> getContributionById(
+    public ResponseEntity<List<ContributionDto>> getContributionByBackerId(
             @PathVariable("id") int backerId
     ){
         List<ContributionDto> contributionsByBacker = contributionService.getContributionsByBacker(backerId);
         return new ResponseEntity<>(contributionsByBacker, HttpStatus.OK);
+    }
+
+    // Get contributions from product id
+    @GetMapping("/product" + PathConstants.GET_BY_ID_PATH)
+    public ResponseEntity<List<List<ContributionDto>>> getContributionByProductId(
+            @PathVariable("id") int productId
+    ){
+        List<List<ContributionDto>> contributions = contributionService.getContributionsByProduct(productId);
+        return new ResponseEntity<>(contributions, HttpStatus.OK);
     }
 }
