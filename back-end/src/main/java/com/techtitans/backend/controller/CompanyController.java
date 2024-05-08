@@ -58,7 +58,7 @@ public class CompanyController {
     }
 
     // Build update company REST API
-    @PutMapping(PathConstants.GET_BY_ID_PATH)
+    @PatchMapping(PathConstants.GET_BY_ID_PATH)
     public ResponseEntity<CompanyResponseDto> updateCompanyById(
             @PathVariable("id") int companyId,
             @RequestBody CompanyUpdateRequestDto newCompany

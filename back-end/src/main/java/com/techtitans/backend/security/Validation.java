@@ -1,7 +1,5 @@
 package com.techtitans.backend.security;
 
-import com.techtitans.backend.entity.ProductEntity;
-
 import java.time.LocalDate;
 import java.util.regex.Pattern;
 
@@ -58,5 +56,9 @@ public class Validation {
     public static boolean isDateValid(LocalDate date) {
         return date != null && date.isAfter(LocalDate.now());
     }
-}
 
+    // Date is after validation
+    public static boolean isDateValid(LocalDate startDate, LocalDate endDate) {
+        return startDate.isBefore(endDate);
+    }
+}

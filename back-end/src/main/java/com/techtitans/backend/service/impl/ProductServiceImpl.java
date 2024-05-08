@@ -1,6 +1,5 @@
 package com.techtitans.backend.service.impl;
 
-import com.techtitans.backend.dto.backer.BackerRequestDto;
 import com.techtitans.backend.dto.product.ProductRequestDto;
 import com.techtitans.backend.dto.product.ProductResponseDto;
 import com.techtitans.backend.entity.*;
@@ -181,7 +180,9 @@ public class ProductServiceImpl implements ProductService {
                 !Validation.isAmountValid(productRequestDto.getCurrentAmount()) ||
                 !Validation.isGoalValid(productRequestDto.getProductGoal()) ||
                 !Validation.isDateValid(productRequestDto.getStartDate()) ||
-                !Validation.isDateValid(productRequestDto.getEndDate())) {
+                !Validation.isDateValid(productRequestDto.getEndDate()) ||
+                !Validation.isDateValid(productRequestDto.getStartDate(), productRequestDto.getEndDate())
+        ) {
             throw new ValidationException("Validation error");
         }
     }

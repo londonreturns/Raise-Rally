@@ -9,12 +9,20 @@ import com.techtitans.backend.security.PasswordEncryptionService;
 public class BackerMapper {
     // Mapping backer entity to company response dto
     public static BackerResponseDto mapToBackerDto(BackerEntity backerEntity) {
-        return new BackerResponseDto(
-                backerEntity.getBackerId(),
-                backerEntity.getName(),
-                backerEntity.getEmail(),
-                backerEntity.getContributions().stream().map(ContributionEntity::getId).toList()
-        );
+        try{
+            return new BackerResponseDto(
+                    backerEntity.getBackerId(),
+                    backerEntity.getName(),
+                    backerEntity.getEmail(),
+                    backerEntity.getContributions().stream().map(ContributionEntity::getId).toList()
+            );
+        }catch (Exception e){
+            return new BackerResponseDto(
+                    backerEntity.getBackerId(),
+                    backerEntity.getName(),
+                    backerEntity.getEmail()
+            );
+        }
     }
 
     // Mapping backer request entity to backer entity
