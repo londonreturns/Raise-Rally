@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -16,4 +17,5 @@ public class BenefitResponseDto implements Serializable {
     private String benefitDescription;
     private int priceId;
     private int productId;
+    private List<Integer> contributionIds;
 }

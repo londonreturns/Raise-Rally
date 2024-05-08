@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Table(name = "benefit_table")
 @Getter
@@ -29,4 +31,7 @@ public class BenefitEntity {
     @ManyToOne
     @JoinColumn(name = "product_id")
     private ProductEntity product;
+
+    @OneToMany(mappedBy = "benefit", cascade = CascadeType.ALL)
+    private List<ContributionEntity> contributions;
 }

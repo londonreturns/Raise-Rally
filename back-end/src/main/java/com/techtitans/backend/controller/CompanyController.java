@@ -57,7 +57,6 @@ public class CompanyController {
         return new ResponseEntity<>(company, HttpStatus.OK);
     }
 
-
     // Build update company REST API
     @PutMapping(PathConstants.GET_BY_ID_PATH)
     public ResponseEntity<CompanyResponseDto> updateCompanyById(
@@ -95,5 +94,3 @@ public class CompanyController {
         return ResponseEntity.ok(this.companyService.verifyCompany(id, verified));
     }
 }
-
-

@@ -25,7 +25,8 @@ public class AdminController {
     // Build add admin API
     @PostMapping
     public ResponseEntity<AdminResponseDto> createAdmin(
-            @RequestBody AdminRequestDto adminRequestDto) {
+            @RequestBody AdminRequestDto adminRequestDto
+    ) {
         AdminResponseDto savedAdmin = adminService.createAdmin(adminRequestDto);
         return new ResponseEntity<>(savedAdmin, HttpStatus.OK);
     }

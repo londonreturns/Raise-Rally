@@ -1,5 +1,6 @@
 package com.techtitans.backend.controller;
 
+import com.techtitans.backend.constants.PathConstants;
 import com.techtitans.backend.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,7 +13,7 @@ import java.io.IOException;
 
 // Request mapping for the controller
 @RestController
-@RequestMapping("/api/image")
+@RequestMapping(PathConstants.IMAGE)
 public class ImageController {
     // Service Dependency Injection
     @Autowired
