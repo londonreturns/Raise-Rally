@@ -62,7 +62,7 @@ public class CompanyController {
     public ResponseEntity<CompanyResponseDto> updateCompanyById(
             @PathVariable("id") int companyId,
             @RequestBody CompanyUpdateRequestDto newCompany
-    ){
+    ) {
         CompanyResponseDto updatedCompany = companyService.updateCompanyById(companyId, newCompany);
         return new ResponseEntity<>(updatedCompany, HttpStatus.OK);
     }
@@ -76,10 +76,16 @@ public class CompanyController {
         return new ResponseEntity<>("Company deleted", HttpStatus.OK);
     }
 
-    //Build search company REST API
+    //Build search company REST API for backer
     @GetMapping("/search")
     public ResponseEntity<List<CompanyResponseDto>> searchCompanies(@RequestParam("query") String query) {
-        return ResponseEntity.ok(companyService.searchCompanies(query));
+        return ResponseEntity.ok(companyService.searchCompanies(query, false));
+    }
+
+    //Build search company REST API for admin
+    @GetMapping("admin/search")
+    public ResponseEntity<List<CompanyResponseDto>> adminSearchCompanies(@RequestParam("query") String query) {
+        return ResponseEntity.ok(companyService.searchCompanies(query, true));
     }
 
     //Build company REST API for enable and disable function

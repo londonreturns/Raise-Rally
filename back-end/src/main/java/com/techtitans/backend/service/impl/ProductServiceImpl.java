@@ -171,9 +171,15 @@ public class ProductServiceImpl implements ProductService {
 
     // Function to search  product by name
     @Override
-    public List<ProductResponseDto> searchProduct(String query) {
+    public List<ProductResponseDto> searchProduct(String query, boolean isAdmin) {
         var productEntities = productRepository.searchProduct(query);
-        return ProductMapper.mapToProductDtoList(productEntities);
+        if (!isAdmin)
+            productEntities = productEntities.stream()
+                    .filter(productEntity -> productEntity.getCompany().isActive() && productEntity.isActive())
+                    .toList();
+
+        return productEntities.stream()
+                .map(ProductMapper::mapToProductDtoList).toList();
     }
 
     //Function to disable/enable  product by id
@@ -188,7 +194,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     //Validate productRequestDto
-     public static void validateRequest(ProductRequestDto productRequestDto){
+    public static void validateRequest(ProductRequestDto productRequestDto) {
         if (!Validation.isNameValid(productRequestDto.getProductName()) ||
                 !Validation.isDescriptionValid(productRequestDto.getProductDescription()) ||
                 !Validation.isAmountValid(productRequestDto.getCurrentAmount()) ||

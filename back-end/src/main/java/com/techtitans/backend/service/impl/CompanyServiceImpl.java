@@ -110,7 +110,7 @@ public class CompanyServiceImpl implements CompanyService {
         }
     }
 
-    public static void validateRequest(CompanyUpdateRequestDto companyUpdateRequestDto){
+    public static void validateRequest(CompanyUpdateRequestDto companyUpdateRequestDto) {
         if (!Validation.isNameValid(companyUpdateRequestDto.getName()) ||
                 (!Validation.isPasswordValid(companyUpdateRequestDto.getNewPassword())) ||
                 (!Validation.isPasswordValid(companyUpdateRequestDto.getOldPassword()))
@@ -131,10 +131,16 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     //Function to search company by name
+    //For admin, view all the companies
+    //For backer, view the products that are active only
     @Override
-    public List<CompanyResponseDto> searchCompanies(String query) {
+    public List<CompanyResponseDto> searchCompanies(String query, boolean isAdmin) {
         var companyEntities = companyRepository.searchCompanies(query);
-        return CompanyMapper.mapToCompanyDtoList(companyEntities);
+        companyEntities.forEach(a-> System.out.println(a.isActive()));
+        if (!isAdmin)
+            companyEntities = companyEntities.stream().filter(CompanyEntity::isActive).toList();
+
+        return companyEntities.stream().map(CompanyMapper::mapToCompanyDto).toList();
     }
 
     // Function to enable/disable a company by id
