@@ -76,9 +76,9 @@ public class BackerServiceImpl implements BackerService {
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Backer does not exists with the given id " + backerId));
 
-        // New encrypted password
-        String newEncryptedPassword = PasswordEncryptionService.encrypt(backerUpdateRequestDto.getPassword());
-        if (!backerEntityFromDatabase.getPassword().equals(newEncryptedPassword)) {
+        // Old encrypted password
+        String encryptedPassword = PasswordEncryptionService.encrypt(backerUpdateRequestDto.getOldPassword());
+        if (!backerEntityFromDatabase.getPassword().equals(encryptedPassword)) {
             throw new ValidationException("Invalid password");
         }
 
@@ -93,7 +93,7 @@ public class BackerServiceImpl implements BackerService {
     // Function to delete backer by id
     public void deleteBackerById(int backerId) {
         // Check if id exists
-        BackerEntity backerEntityFromDatabase = backerRepository.findById(backerId)
+        backerRepository.findById(backerId)
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Backer does not exists with the given id " + backerId));
         // Delete backer from database
@@ -103,7 +103,7 @@ public class BackerServiceImpl implements BackerService {
     // Update attributes of entity
     public void updateAttributes(BackerEntity backerEntity, BackerUpdateRequestDto backerUpdateRequestDto){
         backerEntity.setName(backerUpdateRequestDto.getName());
-        backerEntity.setPassword(PasswordEncryptionService.encrypt(backerUpdateRequestDto.getPassword()));
+        backerEntity.setPassword(PasswordEncryptionService.encrypt(backerUpdateRequestDto.getNewPassword()));
     }
 
     // Validate RequestDTO
@@ -118,8 +118,8 @@ public class BackerServiceImpl implements BackerService {
     // Validate RequestDTO
     public static void validateRequest(BackerUpdateRequestDto backerUpdateRequestDto){
         if (!Validation.isNameValid(backerUpdateRequestDto.getName()) ||
-                !Validation.isPasswordValid(backerUpdateRequestDto.getPassword()) ||
-                !Validation.isPasswordValid(backerUpdateRequestDto.getConfirmPassword())) {
+                !Validation.isPasswordValid(backerUpdateRequestDto.getNewPassword()) ||
+                !Validation.isPasswordValid(backerUpdateRequestDto.getOldPassword())) {
             throw new ValidationException("Validation error");
         }
     }

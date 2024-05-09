@@ -14,6 +14,6 @@ public class CompanyUpdateRequestDto {
     private int companyId;
     private String name;
     private String description;
-    private String password;
-    private String confirmPassword;
+    private String oldPassword;
+    private String newPassword;
 }
