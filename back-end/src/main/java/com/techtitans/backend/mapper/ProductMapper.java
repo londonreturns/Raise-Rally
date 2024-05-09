@@ -19,6 +19,7 @@ public class ProductMapper {
                 productRequestDto.getProductName(),
                 productRequestDto.getProductDescription(),
                 productRequestDto.getProductGoal(),
+                productRequestDto.isActive(),
                 productRequestDto.getCurrentAmount(),
                 productRequestDto.getStartDate(),
                 productRequestDto.getEndDate(),
@@ -28,38 +29,36 @@ public class ProductMapper {
         );
     }
 
-    public static List<ProductResponseDto> mapToProductDtoList(List<ProductEntity> productEntities) {
-        var productDtoList = new ArrayList<ProductResponseDto>();
-        productEntities.forEach(productEntity -> {
-            try {
-                productDtoList.add(new ProductResponseDto(
-                        productEntity.getProductId(),
-                        productEntity.getProductName(),
-                        productEntity.getProductDescription(),
-                        productEntity.getProductGoal(),
-                        productEntity.getCurrentAmount(),
-                        productEntity.getStartDate(),
-                        productEntity.getEndDate(),
-                        productEntity.getBenefits().stream().map(BenefitEntity::getBenefitId).collect(Collectors.toList()),
-                        productEntity.getCategory().getCategoryId(),
-                        productEntity.getCompany().getCompanyId()
-                ));
-            } catch (Exception e) {
-                productDtoList.add(new ProductResponseDto(
-                        productEntity.getProductId(),
-                        productEntity.getProductName(),
-                        productEntity.getProductDescription(),
-                        productEntity.getProductGoal(),
-                        productEntity.getCurrentAmount(),
-                        productEntity.getStartDate(),
-                        productEntity.getEndDate(),
-                        productEntity.getBenefits().stream().map(BenefitEntity::getBenefitId).collect(Collectors.toList()),
-                        productEntity.getCategory().getCategoryId(),
-                        productEntity.getCompany().getCompanyId()
-                ));
-            }
-        });
-        return productDtoList;
+    public static ProductResponseDto mapToProductDtoList(ProductEntity productEntity) {
+        try {
+            return new ProductResponseDto(
+                    productEntity.getProductId(),
+                    productEntity.getProductName(),
+                    productEntity.getProductDescription(),
+                    productEntity.getProductGoal(),
+                    productEntity.isActive(),
+                    productEntity.getCurrentAmount(),
+                    productEntity.getStartDate(),
+                    productEntity.getEndDate(),
+                    productEntity.getBenefits().stream().map(BenefitEntity::getBenefitId).collect(Collectors.toList()),
+                    productEntity.getCategory().getCategoryId(),
+                    productEntity.getCompany().getCompanyId()
+            );
+        } catch (Exception e) {
+            return new ProductResponseDto(
+                    productEntity.getProductId(),
+                    productEntity.getProductName(),
+                    productEntity.getProductDescription(),
+                    productEntity.getProductGoal(),
+                    productEntity.isActive(),
+                    productEntity.getCurrentAmount(),
+                    productEntity.getStartDate(),
+                    productEntity.getEndDate(),
+                    productEntity.getBenefits().stream().map(BenefitEntity::getBenefitId).collect(Collectors.toList()),
+                    productEntity.getCategory().getCategoryId(),
+                    productEntity.getCompany().getCompanyId()
+            );
+        }
     }
 
 
@@ -70,6 +69,7 @@ public class ProductMapper {
                 productEntity.getProductName(),
                 productEntity.getProductDescription(),
                 productEntity.getProductGoal(),
+                productEntity.isActive(),
                 productEntity.getCurrentAmount(),
                 productEntity.getStartDate(),
                 productEntity.getEndDate(),

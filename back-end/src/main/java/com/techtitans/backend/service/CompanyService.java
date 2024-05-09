@@ -22,7 +22,7 @@ public interface CompanyService {
 
     CompanyResponseDto getCompanyByEmail(String email);
 
-    List<CompanyResponseDto> searchCompanies(String query);
+    List<CompanyResponseDto> searchCompanies(String query, boolean isAdmin);
 
     CompanyResponseDto enableCompany(int id, boolean enable);
 

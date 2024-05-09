@@ -22,5 +22,7 @@ public interface ProductService {
 
     List<ProductResponseDto> findAllProductsByCompany(int companyId);
 
-    List<ProductResponseDto> searchProduct(String query);
+    List<ProductResponseDto> searchProduct(String query, boolean isAdmin);
+
+    ProductResponseDto enableProduct(int id, boolean enabled);
 }

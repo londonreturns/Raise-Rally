@@ -3,7 +3,9 @@ package com.techtitans.backend.service.impl;
 import com.techtitans.backend.dto.product.ProductRequestDto;
 import com.techtitans.backend.dto.product.ProductResponseDto;
 import com.techtitans.backend.entity.*;
+import com.techtitans.backend.exception.ResourceNotFoundException;
 import com.techtitans.backend.exception.ValidationException;
+import com.techtitans.backend.mapper.CompanyMapper;
 import com.techtitans.backend.mapper.ProductMapper;
 import com.techtitans.backend.repository.*;
 import com.techtitans.backend.security.Validation;
@@ -68,6 +70,7 @@ public class ProductServiceImpl implements ProductService {
             benefitEntities.add(benefitRepository.save(benefit));
         }
         savedProduct.setBenefits(benefitEntities);
+        savedProduct.setActive(true);
 
         // Save product
         savedProduct = productRepository.save(savedProduct);
@@ -168,13 +171,30 @@ public class ProductServiceImpl implements ProductService {
 
     // Function to search  product by name
     @Override
-    public List<ProductResponseDto> searchProduct(String query) {
+    public List<ProductResponseDto> searchProduct(String query, boolean isAdmin) {
         var productEntities = productRepository.searchProduct(query);
-        return ProductMapper.mapToProductDtoList(productEntities);
+        if (!isAdmin)
+            productEntities = productEntities.stream()
+                    .filter(productEntity -> productEntity.getCompany().isActive() && productEntity.isActive())
+                    .toList();
+
+        return productEntities.stream()
+                .map(ProductMapper::mapToProductDtoList).toList();
+    }
+
+    //Function to disable/enable  product by id
+    @Override
+    public ProductResponseDto enableProduct(int id, boolean enable) {
+        ProductEntity productEntityFromDatabase = productRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Product does not exist with the given ID: " + id));
+        productEntityFromDatabase.setActive(enable);
+        productRepository.save(productEntityFromDatabase);
+        return ProductMapper.mapToProductDto(productEntityFromDatabase);
     }
 
     //Validate productRequestDto
-     public static void validateRequest(ProductRequestDto productRequestDto){
+    public static void validateRequest(ProductRequestDto productRequestDto) {
         if (!Validation.isNameValid(productRequestDto.getProductName()) ||
                 !Validation.isDescriptionValid(productRequestDto.getProductDescription()) ||
                 !Validation.isAmountValid(productRequestDto.getCurrentAmount()) ||

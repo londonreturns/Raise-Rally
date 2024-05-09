@@ -1,6 +1,7 @@
 package com.techtitans.backend.controller;
 
 import com.techtitans.backend.constants.PathConstants;
+import com.techtitans.backend.dto.company.CompanyResponseDto;
 import com.techtitans.backend.dto.product.ProductRequestDto;
 import com.techtitans.backend.dto.product.ProductResponseDto;
 import com.techtitans.backend.entity.CompanyEntity;
@@ -52,7 +53,7 @@ public class ProductController {
     public ResponseEntity<ProductResponseDto> updateProduct(
             @PathVariable("id") int productId,
             @RequestBody ProductRequestDto productRequestDto
-    ){
+    ) {
         ProductResponseDto updatedProduct = productService.updateProduct(productId, productRequestDto);
         return new ResponseEntity<>(updatedProduct, HttpStatus.OK);
     }
@@ -60,8 +61,8 @@ public class ProductController {
     // Build delete product by API
     @DeleteMapping(PathConstants.GET_BY_ID_PATH)
     public ResponseEntity<String> deleteProductById(
-        @PathVariable("id") int productId
-    ){
+            @PathVariable("id") int productId
+    ) {
         productService.deleteProduct(productId);
         return new ResponseEntity<>("Product deleted", HttpStatus.OK);
     }
@@ -70,7 +71,7 @@ public class ProductController {
     @GetMapping("/category" + PathConstants.GET_BY_ID_PATH)
     public ResponseEntity<List<ProductResponseDto>> getAllProductsByCategory(
             @PathVariable("id") int categoryId
-    ){
+    ) {
         List<ProductResponseDto> products = productService.findAllProductsByCategory(categoryId);
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
@@ -79,13 +80,27 @@ public class ProductController {
     @GetMapping("/company" + PathConstants.GET_BY_ID_PATH)
     public ResponseEntity<List<ProductResponseDto>> getAllProductsByCompany(
             @PathVariable("id") int companyId
-    ){
+    ) {
         List<ProductResponseDto> products = productService.findAllProductsByCompany(companyId);
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
+    //Build get product REST API for backer
     @GetMapping("/search")
     public ResponseEntity<List<ProductResponseDto>> searchProduct(@RequestParam("query") String query) {
-        return ResponseEntity.ok(productService.searchProduct(query));
+        return ResponseEntity.ok(productService.searchProduct(query, false));
     }
+
+    //Build get product REST API for admin
+    @GetMapping("admin/search")
+    public ResponseEntity<List<ProductResponseDto>> adminSearchProduct(@RequestParam("query") String query) {
+        return ResponseEntity.ok(productService.searchProduct(query, true));
+    }
+
+    //Build product REST API for enable and disable function
+    @PatchMapping("/enable/{id}/{enabled}")
+    public ResponseEntity<ProductResponseDto> enableProduct(@PathVariable("enabled") boolean enabled, @PathVariable int id) {
+        return ResponseEntity.ok(this.productService.enableProduct(id, enabled));
+    }
+
 }

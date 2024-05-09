@@ -81,9 +81,9 @@ public class CompanyServiceImpl implements CompanyService {
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Company does not exist with the given ID: " + companyId));
 
-        // New encrypted password
-        String newEncryptedPassword = PasswordEncryptionService.encrypt(newCompany.getPassword());
-        if (!companyEntityFromDatabase.getPassword().equals(newEncryptedPassword)) {
+        // Old encrypted password
+        String encryptedPassword = PasswordEncryptionService.encrypt(newCompany.getOldPassword());
+        if (!companyEntityFromDatabase.getPassword().equals(encryptedPassword)) {
             throw new ValidationException("Invalid password");
         }
 
@@ -99,7 +99,7 @@ public class CompanyServiceImpl implements CompanyService {
     public void updateCompany(CompanyUpdateRequestDto companyUpdateRequestDto, CompanyEntity companyEntity) {
         companyEntity.setName(companyUpdateRequestDto.getName());
         companyEntity.setDescription(companyUpdateRequestDto.getDescription());
-        companyEntity.setPassword(companyUpdateRequestDto.getPassword());
+        companyEntity.setPassword(companyUpdateRequestDto.getNewPassword());
     }
 
     public static void validateRequest(CompanyRequestDto companyRequestDto) {
@@ -110,10 +110,10 @@ public class CompanyServiceImpl implements CompanyService {
         }
     }
 
-    public static void validateRequest(CompanyUpdateRequestDto companyUpdateRequestDto){
+    public static void validateRequest(CompanyUpdateRequestDto companyUpdateRequestDto) {
         if (!Validation.isNameValid(companyUpdateRequestDto.getName()) ||
-                (!Validation.isPasswordValid(companyUpdateRequestDto.getPassword())) ||
-                (!Validation.isPasswordValid(companyUpdateRequestDto.getConfirmPassword()))
+                (!Validation.isPasswordValid(companyUpdateRequestDto.getNewPassword())) ||
+                (!Validation.isPasswordValid(companyUpdateRequestDto.getOldPassword()))
         ) {
             throw new ValidationException("Validation error");
         }
@@ -123,7 +123,7 @@ public class CompanyServiceImpl implements CompanyService {
 // Function to delete company by ID
     public void deleteCompanyById(int companyId) {
         // Check if company exists
-        CompanyEntity companyEntityFromDatabase = companyRepository.findById(companyId)
+        companyRepository.findById(companyId)
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Company does not exist with the given ID: " + companyId));
         // Delete company from the database
@@ -131,10 +131,16 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     //Function to search company by name
+    //For admin, view all the companies
+    //For backer, view the products that are active only
     @Override
-    public List<CompanyResponseDto> searchCompanies(String query) {
+    public List<CompanyResponseDto> searchCompanies(String query, boolean isAdmin) {
         var companyEntities = companyRepository.searchCompanies(query);
-        return CompanyMapper.mapToCompanyDtoList(companyEntities);
+        companyEntities.forEach(a-> System.out.println(a.isActive()));
+        if (!isAdmin)
+            companyEntities = companyEntities.stream().filter(CompanyEntity::isActive).toList();
+
+        return companyEntities.stream().map(CompanyMapper::mapToCompanyDto).toList();
     }
 
     // Function to enable/disable a company by id
