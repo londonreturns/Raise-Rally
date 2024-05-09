@@ -1,6 +1,7 @@
 package com.techtitans.backend.controller;
 
 import com.techtitans.backend.constants.PathConstants;
+import com.techtitans.backend.dto.company.CompanyResponseDto;
 import com.techtitans.backend.dto.product.ProductRequestDto;
 import com.techtitans.backend.dto.product.ProductResponseDto;
 import com.techtitans.backend.entity.CompanyEntity;
@@ -88,4 +89,11 @@ public class ProductController {
     public ResponseEntity<List<ProductResponseDto>> searchProduct(@RequestParam("query") String query) {
         return ResponseEntity.ok(productService.searchProduct(query));
     }
+
+    //Build product REST API for enable and disable function
+    @PatchMapping("/enable/{id}/{enabled}")
+    public ResponseEntity<ProductResponseDto> enableProduct(@PathVariable("enabled") boolean enabled, @PathVariable int id) {
+        return ResponseEntity.ok(this.productService.enableProduct(id, enabled));
+    }
+
 }
