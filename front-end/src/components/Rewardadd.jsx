@@ -1,12 +1,18 @@
 import React, { useState } from "react";
-import { useNavigate,Link } from "react-router-dom";
+import { useNavigate,Link, useLocation } from "react-router-dom";
 import postAxios from "../hooks/postAxios";
-
+import getAxios from "../hooks/getAxios";
 function Rewardadd() {
   const { data, postData } = postAxios("http://localhost:8080/api/products");
+  var email = localStorage.getItem("email");
+
+  const { data1, error, loading } = getAxios(`http://localhost:8080/api/companies/email/${email}`);
+  
+  
   const post = () => {
-    console.log(data);
-    var productData = localStorage.getItem("Addproduct");
+    const location=useLocation();
+    console.log(location.state);
+    var productData = localStorage.getItem("product");
     var parsedData = JSON.parse(productData);
     // sending to the database
     // Constructing the data object
@@ -41,11 +47,11 @@ function Rewardadd() {
         },
       ],
       category: {
-        categoryId: parsedData.categoryId,
+        categoryId: parsedData.selectedCategory,
       },
       company: {
         // keeping company id static for try
-        companyId: 1,
+        companyId: data1.email,
       },
     });
     localStorage.removeItem("Addproduct");
@@ -109,7 +115,7 @@ function Rewardadd() {
       console.log("Benefit 3 Description:", benefit3Description);
       console.log("Benefit 3 Amount:", benefit3Amount);
 
-      // navigateTo("/hello");
+       navigateTo("/company/addimage");
     } else {
       console.error("Please fill in all fields.");
     }
@@ -236,10 +242,8 @@ function Rewardadd() {
               </div>
               <div className="col-lg-4"></div>
               <div className="col-lg-4 text-end pb-4">
-                <button
+                <button onClick={handleNext}
                   className="btn btn-primary text-white "
-                  data-bs-toggle="modal"
-                  data-bs-target="#exampleModal"
                 >
                   Continue
                 </button>

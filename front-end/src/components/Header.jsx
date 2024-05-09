@@ -4,14 +4,6 @@ import profile from "../assets/profile.webp";
 import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 function Header() {
-  const location = useLocation();
-  useEffect(() => {
-    if (location.state && location.state.loggedIn) {
-      alert("Logged in successfully !");
-      // Clear the state after showing the alert from login.jsx file
-      navigate(location.loggedIn, { state: null });
-    }
-  }, [location]);
   const navigate = useNavigate();
   return (
     <>
@@ -39,6 +31,7 @@ function Header() {
               placeholder="Search Company or Products"
               aria-label="Search"
             />
+            {localStorage.getItem("userType") ? (
             <div className="dropdown">
             <a
               className="dropdown-toggle d-flex align-items-center"
@@ -88,7 +81,35 @@ function Header() {
               </li>
             </ul>
           </div>
-          </div>
+         ) : (
+          <div>
+                <div className="d-flex align-items-center ms-auto">
+                  <Link to="/login">
+                    <button
+                      type="button"
+                      className=" btn btn-outline-dark px-3 me-2"
+                    >
+                      Login
+                    </button>
+                  </Link>
+                  <Link to="/signup">
+                    <button
+                      type="button"
+                      className="text-white btn btn-primary  me-3 "
+                    >
+                      Sign up for free
+                    </button>
+                  </Link>
+                  <a
+                    className="btn btn-subtle px-3"
+                    href="https://github.com/mdbootstrap/mdb-ui-kit"
+                    role="button"
+                  >
+                    <i className="fab fa-github" />
+                  </a>
+                </div>
+              </div>
+            )}         </div>
 
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <div className="navbar-nav d-block d-md-none mb-2 ">

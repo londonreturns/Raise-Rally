@@ -1,5 +1,6 @@
 import React from 'react';
 import './about.css';
+import aboutus from "./assets/Aboutus.png";
 import Footer from './components/Footer';
 import Header from './components/Header';
 
@@ -25,7 +26,7 @@ function About() {
                   <span>Many People's Fund</span>
                 </div>
                 <figure className="image-1">
-                    <img src="https://gaviaspreview.com/wp/krowd/wp-content/uploads/2020/05/image-7.jpg" alt="" />
+                    <img src={aboutus} alt="" />
                 </figure>
               </div>
             </div>
