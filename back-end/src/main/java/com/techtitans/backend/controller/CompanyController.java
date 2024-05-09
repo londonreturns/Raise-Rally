@@ -84,13 +84,13 @@ public class CompanyController {
 
     //Build company REST API for enable and disable function
     @PatchMapping("/enable/{id}/{enabled}")
-    public ResponseEntity<CompanyResponseDto> enableCompany(@PathVariable("enabled") boolean enabled, @PathVariable int id) {
+    public ResponseEntity<CompanyResponseDto> enableCompany(@PathVariable("enabled") boolean enabled, @PathVariable("id") int id) {
         return ResponseEntity.ok(this.companyService.enableCompany(id, enabled));
     }
 
     //Build REST API for verifying company
     @PatchMapping("/verify/{id}/{verified}")
-    public ResponseEntity<CompanyResponseDto> verifyCompany(@PathVariable("verified") boolean verified, @PathVariable int id) {
+    public ResponseEntity<CompanyResponseDto> verifyCompany(@PathVariable("verified") boolean verified, @PathVariable("id") int id) {
         return ResponseEntity.ok(this.companyService.verifyCompany(id, verified));
     }
 }
