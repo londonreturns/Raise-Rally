@@ -35,7 +35,7 @@ public class AdminController {
     // Build get admin from id from API
     @GetMapping(PathConstants.GET_BY_ID_PATH)
     public ResponseEntity<AdminResponseDto> getAdminById(
-            @PathVariable int id
+            @PathVariable("id") int id
     ){
         AdminResponseDto admin = adminService.getAdminById(id);
         return new ResponseEntity<>(admin, HttpStatus.OK);
