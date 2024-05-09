@@ -99,7 +99,7 @@ public class ProductController {
 
     //Build product REST API for enable and disable function
     @PatchMapping("/enable/{id}/{enabled}")
-    public ResponseEntity<ProductResponseDto> enableProduct(@PathVariable("enabled") boolean enabled, @PathVariable int id) {
+    public ResponseEntity<ProductResponseDto> enableProduct(@PathVariable("enabled") boolean enabled, @PathVariable("id") int id) {
         return ResponseEntity.ok(this.productService.enableProduct(id, enabled));
     }
 
