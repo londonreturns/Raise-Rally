@@ -1,18 +1,16 @@
-package com.techtitans.backend.dto.backer;
+package com.techtitans.backend.dto.admin;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.io.Serializable;
 
-@Data
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class BackerUpdateRequestDto implements Serializable {
-    private int backerId;
+@Data
+public class AdminUpdateRequestDto implements Serializable {
+    private int adminId;
     private String name;
     private String oldPassword;
     private String newPassword;

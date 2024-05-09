@@ -3,6 +3,7 @@ package com.techtitans.backend.controller;
 import com.techtitans.backend.constants.PathConstants;
 import com.techtitans.backend.dto.admin.AdminRequestDto;
 import com.techtitans.backend.dto.admin.AdminResponseDto;
+import com.techtitans.backend.dto.admin.AdminUpdateRequestDto;
 import com.techtitans.backend.service.AdminService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,12 +58,12 @@ public class AdminController {
     }
 
     // Build update admin from API
-    @PutMapping(PathConstants.GET_BY_ID_PATH)
+    @PatchMapping(PathConstants.GET_BY_ID_PATH)
     public ResponseEntity<AdminResponseDto> updateAdminById(
             @PathVariable("id") int adminId,
-            @RequestBody AdminRequestDto adminRequestDto
-    ){
-        AdminResponseDto savedAdmin = adminService.updateAdminById(adminId, adminRequestDto);
+            @RequestBody AdminUpdateRequestDto adminUpdateRequestDto
+            ){
+        AdminResponseDto savedAdmin = adminService.updateAdminById(adminId, adminUpdateRequestDto);
         return new ResponseEntity<>(savedAdmin, HttpStatus.OK);
     }
 
