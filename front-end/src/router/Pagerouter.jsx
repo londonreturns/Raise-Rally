@@ -10,6 +10,8 @@ import Productadd from "../components/Productadd";
 import Homepage from "../pages/Homepage";
 import Layout from "../pages/Layout";
 import Addimage from "../components/Addimage";
+import Trial from "../components/Trial";
+
 function Pagerouter() {
   const categories = ["art", "crafts", "dance", "film", "music", "technology"];
   const router = createBrowserRouter([
@@ -59,6 +61,10 @@ function Pagerouter() {
     {
       path:"/company/addimage",
       element:<Addimage/>
+    }
+    ,{
+      path:"/try",
+      element:<Trial/>
     }
   ]);
   return (

@@ -11,20 +11,20 @@ function Homepage() {
   const { data, error, loading } = getAxios(`http://localhost:3000/trial`);
 
   return (
-    <>
+    <div>
     
     {loading && <Loading/>}
     {error && <Error/>}
     <div className="row  gx-0">
                             {data && data.map((item) => (
-                                <Card key={item.id} {...item} />
+                                <Card key={item.name} {...item} />
                             ))}
                           
              </div>
 
      
    
-    </>
+    </div>
   );
 }
 

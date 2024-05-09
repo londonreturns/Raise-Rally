@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import getAxios from "../hooks/getAxios";
 function Productadd() {
   const Navigate = useNavigate();
-
+  
+  
 
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
@@ -46,6 +47,15 @@ function Productadd() {
       endDate &&
       goal
     ) {
+        const product = {
+          selectedCategory,
+          productName,
+          productDescription,
+          startDate,
+          endDate,
+          goal
+          
+        };
      // to  object to a string
     const productString = JSON.stringify(product);
 

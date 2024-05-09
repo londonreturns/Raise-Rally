@@ -1,61 +1,11 @@
 import React, { useState } from "react";
-import { useNavigate,Link, useLocation } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 import postAxios from "../hooks/postAxios";
 import getAxios from "../hooks/getAxios";
 function Rewardadd() {
-  const { data, postData } = postAxios("http://localhost:8080/api/products");
-  var email = localStorage.getItem("email");
-
-  const { data1, error, loading } = getAxios(`http://localhost:8080/api/companies/email/${email}`);
-  
-  
-  const post = () => {
-    const location=useLocation();
-    console.log(location.state);
-    var productData = localStorage.getItem("product");
-    var parsedData = JSON.parse(productData);
-    // sending to the database
-    // Constructing the data object
-
-    postData({
-      productName: parsedData.productName,
-      productDescription: parsedData.productDescription,
-      productGoal: parsedData.productGoal,
-      startDate: parsedData.startDate,
-      endDate: parsedData.endDate,
-      benefits: [
-        {
-          benefitName: benefit1,
-          benefitDescription: benefit1Description,
-          price: {
-            amount: benefit1Amount,
-          },
-        },
-        {
-          benefitName: benefit2,
-          benefitDescription: benefit2Description,
-          price: {
-            amount: benefit2Amount,
-          },
-        },
-        {
-          benefitName: benefit3,
-          benefitDescription: benefit3Description,
-          price: {
-            amount: benefit3Amount,
-          },
-        },
-      ],
-      category: {
-        categoryId: parsedData.selectedCategory,
-      },
-      company: {
-        // keeping company id static for try
-        companyId: data1.email,
-      },
-    });
-    localStorage.removeItem("Addproduct");
-  };
+  const { loading1, error1, data1, postData } = postAxios('http://localhost:8080/api/products');
+  const email=localStorage.getItem("email");
+  const { data, error, loading } = getAxios(`http://localhost:8080/api/companies/email/${email}`);
   const navigateTo = useNavigate();
 
   const [benefit1, setBenefit1] = useState("");
@@ -91,6 +41,55 @@ function Rewardadd() {
     }
   };
 
+  const post = () => {
+  // Accessing product data from local storage
+  var productData = localStorage.getItem("product");
+  var parsedData = JSON.parse(productData);
+  
+  // Sending data to the database
+ // Sending data to the database
+ postData({
+  productName: parsedData.productName,
+      productDescription: parsedData.productDescription,
+      productGoal: parsedData.goal,
+      startDate: parsedData.startDate,
+      endDate: parsedData.endDate,
+      benefits: [
+        {
+          benefitName: benefit1,
+          benefitDescription: benefit1Description,
+          price: {
+            amount: benefit1Amount
+          }
+        },
+        {
+          benefitName: benefit2,
+          benefitDescription: benefit2Description,
+          price: {
+            amount: benefit2Amount
+          }
+        },
+        {
+          benefitName: benefit3,
+          benefitDescription: benefit3Description,
+          price: {
+            amount: benefit3Amount
+          }
+        }
+      ],
+      category: {
+        categoryId: parsedData.selectedCategory
+      },
+      company: {
+                                  
+        companyId: data.companyId      // company id from the getAxios hook
+      }
+    });
+
+
+    // localStorage.removeItem("product");
+  };
+
   function handleNext() {
     if (
       benefit1 !== "" &&
@@ -103,18 +102,9 @@ function Rewardadd() {
       benefit3Description !== "" &&
       benefit3Amount !== ""
     ) {
-      // Accessing product data from local storage
+      
       post();
-      console.log("Benefit 1:", benefit1);
-      console.log("Benefit 1 Description:", benefit1Description);
-      console.log("Benefit 1 Amount:", benefit1Amount);
-      console.log("Benefit 2:", benefit2);
-      console.log("Benefit 2 Description:", benefit2Description);
-      console.log("Benefit 2 Amount:", benefit2Amount);
-      console.log("Benefit 3:", benefit3);
-      console.log("Benefit 3 Description:", benefit3Description);
-      console.log("Benefit 3 Amount:", benefit3Amount);
-
+      
        navigateTo("/company/addimage");
     } else {
       console.error("Please fill in all fields.");
