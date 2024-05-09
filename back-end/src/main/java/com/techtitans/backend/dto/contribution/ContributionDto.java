@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class ContributionDto {
     private int id;
     private int actualPaidPrice;
+    private String pidx;
     private int benefitId;
     private int backerId;
 }

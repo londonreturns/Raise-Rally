@@ -16,6 +16,7 @@ public class ContributionMapper {
         return new ContributionEntity(
                 contributionDto.getId(),
                 contributionDto.getActualPaidPrice(),
+                contributionDto.getPidx(),
                 benefit,
                 backer
         );
@@ -25,6 +26,7 @@ public class ContributionMapper {
         return new ContributionDto(
                 contributionEntity.getId(),
                 contributionEntity.getActualPaidPrice(),
+                contributionEntity.getPidx(),
                 contributionEntity.getBenefit().getBenefitId(),
                 contributionEntity.getBacker().getBackerId()
         );

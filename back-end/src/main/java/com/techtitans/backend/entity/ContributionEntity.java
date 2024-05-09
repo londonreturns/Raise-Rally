@@ -17,6 +17,8 @@ public class ContributionEntity {
 
     private int actualPaidPrice;
 
+    private String pidx;
+
     // JPA mapping
     @ManyToOne
     @JoinColumn(name = "benefitId")
