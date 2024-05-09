@@ -34,35 +34,6 @@ public class CompanyMapper {
 
     }
 
-    //Converting a list of CompanyEntity objects into a list of corresponding CompanyResponseDto objects
-    public static List<CompanyResponseDto> mapToCompanyDtoList(List<CompanyEntity> companyEntities) {
-        var companyDtoList = new ArrayList<CompanyResponseDto>();
-        companyEntities.forEach(companyEntity -> {
-            try {
-                companyDtoList.add(new CompanyResponseDto(
-                        companyEntity.getCompanyId(),
-                        companyEntity.getName(),
-                        companyEntity.getDescription(),
-                        companyEntity.getEmail(),
-                        companyEntity.isActive(),
-                        companyEntity.isTicked(),
-                        companyEntity.getProducts().stream().map(ProductMapper::mapToProductDto).toList()
-                ));
-            } catch (Exception e) {
-                companyDtoList.add(new CompanyResponseDto(
-                        companyEntity.getCompanyId(),
-                        companyEntity.getName(),
-                        companyEntity.getDescription(),
-                        companyEntity.getEmail(),
-                        companyEntity.isActive(),
-                        companyEntity.isTicked()
-                ));
-            }
-        });
-        return companyDtoList;
-    }
-
-
     // Method to map CompanyDto to Company JPA entity
     public static CompanyEntity mapToCompany(CompanyRequestDto companyDto) {
         return new CompanyEntity(
