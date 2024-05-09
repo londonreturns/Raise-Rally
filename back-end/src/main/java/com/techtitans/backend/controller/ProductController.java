@@ -103,4 +103,10 @@ public class ProductController {
         return ResponseEntity.ok(this.productService.enableProduct(id, enabled));
     }
 
+    //Build REST API for featuring product
+    @PatchMapping("/feature/{id}/{featured}")
+    public ResponseEntity<ProductResponseDto> featureProduct(@PathVariable("featured") boolean featured, @PathVariable("id") int id) {
+        return ResponseEntity.ok(this.productService.featureProduct(id, featured));
+    }
+
 }

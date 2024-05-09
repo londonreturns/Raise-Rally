@@ -23,6 +23,7 @@ public class ProductRequestDto implements Serializable {
     private String productDescription;
     private int productGoal;
     private boolean active;
+    private boolean featured;
     private int currentAmount;
     private LocalDate startDate;
     private LocalDate endDate;

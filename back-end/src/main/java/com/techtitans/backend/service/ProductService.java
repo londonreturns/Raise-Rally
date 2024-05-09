@@ -25,4 +25,6 @@ public interface ProductService {
     List<ProductResponseDto> searchProduct(String query, boolean isAdmin);
 
     ProductResponseDto enableProduct(int id, boolean enabled);
+
+    ProductResponseDto featureProduct(int id, boolean featured);
 }
