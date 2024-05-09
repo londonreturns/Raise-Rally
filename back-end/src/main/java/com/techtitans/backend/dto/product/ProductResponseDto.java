@@ -19,6 +19,7 @@ public class ProductResponseDto implements Serializable {
     private String productName;
     private String productDescription;
     private int productGoal;
+    private boolean active;
     private int currentAmount;
     private LocalDate startDate;
     private LocalDate endDate;
