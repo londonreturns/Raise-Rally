@@ -1,10 +1,8 @@
 import React, { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Card from '../components/Card';
 import getAxios from '../hooks/getAxios';
-import Header from '../components/Header';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
 function Cat({ categories }) {
     const { cat } = useParams();
     const { data, error, loading } = getAxios(`http://localhost:3000/categories/${cat}`);
@@ -20,16 +18,21 @@ function Cat({ categories }) {
     // Render the component id not error
     return (
         <>
-            <Header />
-            <Navbar />
-            <h2>Hello, I am {cat}</h2>
-            
+        <div className='ps-3'>
+           <nav aria-label="breadcrumb ">
+  <ol className="breadcrumb">
+    <li className="breadcrumb-item fs-6  "><Link className='text-decoration-none' to="/">Home</Link></li>
+    <li className="breadcrumb-item active fs-6  text-capitalize" aria-current="page">{cat}</li>
+  </ol>
+</nav>
+</div>
+
+
             <div className="row gx-0">
                             {data && data.map((item) => (
                                 <Card key={item.id} {...item} />
                             ))}
              </div>
-            <Footer/>
         </>
     );
 }

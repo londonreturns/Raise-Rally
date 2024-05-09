@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 import postAxios from "../hooks/postAxios";
 
 function Rewardadd() {
@@ -127,7 +127,7 @@ function Rewardadd() {
                   <nav aria-label="breadcrumb">
                     <ol className="breadcrumb">
                       <li className="breadcrumb-item">
-                        <a href="#">Add Product</a>
+                        <Link to="/company/addproduct" className="text-decoration-none">Add Product</Link>
                       </li>
                       <li
                         className="breadcrumb-item active"
@@ -251,48 +251,7 @@ function Rewardadd() {
       </div>
 
       <div>
-        <div
-          className="modal fade "
-          id="exampleModal"
-          tabIndex={-1}
-          aria-labelledby="exampleModalLabel"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content">
-              <div className="modal-header bg-dark-subtle">
-                <h1 className="modal-title fs-4" id="exampleModalLabel">
-                  Confirm AddProduct
-                </h1>
-                <button
-                  type="button"
-                  className="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                />
-              </div>
-              <div className="modal-footer ">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-success"
-                  onClick={() => {
-                    handleNext();
-                  }}
-                  {...(handleNext ? { "data-bs-dismiss": "modal" } : {})}
-                >
-                  Add
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+
       </div>
     </>
   );
