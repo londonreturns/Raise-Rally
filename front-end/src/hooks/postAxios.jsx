@@ -1,24 +1,22 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import axios from 'axios';
-// this is costume hook to post data to the api
-function postAxios(url) {
-  const [loading, setLoading] = useState(false);
+
+export default function postAxios(url) {
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [data, setData] = useState(null);
 
-  const postData = async (postData) => {
-    setLoading(true);
+  const makeRequest = useCallback(async (requestData) => {
+    setIsLoading(true);
+    setError(null);
     try {
-      const response = await axios.post(url, postData);
+      const response = await axios.post(url, requestData);
       setData(response.data);
-    } catch (error) {
-      setError(error);
-    } finally {
-      setLoading(false);
+    } catch (err) {
+      setError(err);
     }
-  };
+    setIsLoading(false);
+  }, [url]);
 
-  return { loading, error, data, postData };
+  return { makeRequest, data, isLoading, error };
 }
-
-export default postAxios;

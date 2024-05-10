@@ -29,12 +29,12 @@ function Card({
   };
 
   return (
-    <div className="col-lg-3 p-4 d-flex justify-content-around" onClick={()=>{
+    <div className="col-md-4 col-lg-3 p-4 d-flex justify-content-around" onClick={()=>{
       navigate("/detail");
     }}>
       {/* <div className="d-flex justify-content-center pt-4"> */}
       <div className="card">
-        <img src={imageSrc} className="card-img-top img-100" alt="..." />
+        <img src={imageSrc} className="card-img-top  img-100" alt="..." />
         <div className="card-body">
           <div className="row">
             <div className="col-10">
@@ -69,7 +69,7 @@ function Card({
               </div>
               <div>
                 <div
-                  className="progress progress-length "
+                  className="progress progress-length  "
                   role="progressbar"
                   aria-label="Basic example"
                   aria-valuenow={0}
@@ -77,7 +77,7 @@ function Card({
                   aria-valuemax={100}
                 >
                   <div
-                    className="progress-bar progress-color"
+                    className="progress-bar progress-color "
                     style={{ width: `${progressPercentage}%` }}
                   />
                 </div>

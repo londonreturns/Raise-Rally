@@ -1,29 +1,4 @@
 
-.about-section a,
-.about-section a:hover,
-.about-section a:focus,
-.about-sectiokn a:active {
-    text-decoration: none;
-    outline: none;
-}
-
-.about-section a,
-.about-section a:active,
-.about-section a:focus {
-    color: #6f6f6f;
-    text-decoration: none;
-    transition-timing-function: ease-in-out;
-    -ms-transition-timing-function: ease-in-out;
-    -moz-transition-timing-function: ease-in-out;
-    -webkit-transition-timing-function: ease-in-out;
-    -o-transition-timing-function: ease-in-out;
-    transition-duration: .2s;
-    -ms-transition-duration: .2s;
-    -moz-transition-duration: .2s;
-    -webkit-transition-duration: .2s;
-    -o-transition-duration: .2s;
-}
-
 .about-section ul {
     margin: 0;
     padding: 0;
@@ -285,3 +260,4 @@ transition: all 300ms ease;
 
 .about-section .image-column .video-link .link:hover{
 background-color: #191e34;
+}

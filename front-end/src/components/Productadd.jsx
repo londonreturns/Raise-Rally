@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import getAxios from "../hooks/getAxios";
 function Productadd() {
-  const Navigate=useNavigate();
+  const email=localStorage.getItem("email");
+  const { data, error, loading } = getAxios(`http://localhost:8080/api/companies/email/${email}`);
+  const companyId=data.companyId;
+  const Navigate = useNavigate();
+
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -10,7 +15,12 @@ function Productadd() {
   const [goal, setGoal] = useState("");
 
   function onStartChange(e) {
-    setStartDate(e.target.value);
+    const selectedDate = e.target.value;
+    setStartDate(selectedDate);
+    // Reset end date if it's before the selected start date
+    if (endDate < selectedDate) {
+      setEndDate("");
+    }
   }
 
   function onEndChange(e) {
@@ -20,14 +30,14 @@ function Productadd() {
   function handleCategorySelect(category) {
     setSelectedCategory(category);
   }
-  const handlegoal=(value)=>{
-    if(value<0){
+
+  const handlegoal = (value) => {
+    if (value < 0) {
       setGoal(0);
-    }
-    else{
+    } else {
       setGoal(value);
     }
-  }
+  };
 
   function handleNext() {
     if (
@@ -38,8 +48,23 @@ function Productadd() {
       endDate &&
       goal
     ) {
-      Navigate("/company/addreward")
-      console.log("All fields are filled.");
+        const product = {
+          selectedCategory,
+          productName,
+          productDescription,
+          startDate,
+          endDate,
+          goal,
+          companyId
+          
+        };
+     // to  object to a string
+    const productString = JSON.stringify(product);
+
+    //saving in local storage in local storage
+    localStorage.setItem("product", productString);
+    
+      Navigate("/company/addreward");
     } else {
       console.error("Please fill all fields and select a category.");
     }
@@ -69,12 +94,12 @@ function Productadd() {
             onChange={(e) => handleCategorySelect(e.target.value)}
           >
             <option value="">Select</option>
-            <option value="Cat1">Art</option>
-            <option value="Cat2">Crafts</option>
-            <option value="Cat3">Dance</option>
-            <option value="Cat4">Film</option>
-            <option value="Cat5">Music</option>
-            <option value="Cat6">Technology</option>
+            <option value="1">Art</option>
+            <option value="2">Crafts</option>
+            <option value="3">Dance</option>
+            <option value="4">Film</option>
+            <option value="5">Music</option>
+            <option value="6">Technology</option>
           </select>
           <br />
           <label>Product Name:</label>
@@ -97,6 +122,7 @@ function Productadd() {
           <input
             type="date"
             className="form-control addproduct"
+            min={new Date().toISOString().split("T")[0]}
             value={startDate}
             onChange={onStartChange}
           />
@@ -107,6 +133,7 @@ function Productadd() {
             className="form-control addproduct"
             value={endDate}
             onChange={onEndChange}
+            min={startDate}
           />
           <br />
           <div className="row">
@@ -116,7 +143,7 @@ function Productadd() {
                 type="number"
                 className="form-control no-arrows"
                 value={goal}
-                onChange={(e) => handlegoal((e.target.value))}
+                onChange={(e) => handlegoal(e.target.value)}
               />
             </div>
           </div>

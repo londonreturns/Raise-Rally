@@ -21,16 +21,19 @@ h6,
 li {
   font-family: "Oswald", sans-serif;
 }
-
+.form-control:focus {
+  border-color: #070984 !important;
+  box-shadow: 0 0 5px #070984 !important;
+}
 p {
   font-family: "Lato", sans-serif;
 }
 .nbar{
+  margin-top: 75px !important;
   background-color: var(--header-color);
 }
 .card {
   width: 300px;
-  height: auto !important;
   box-shadow: 0 6px 10px rgba(0, 0, 0, .2), 0 0 6px rgba(0, 0, 0, .1);
   transition: .3s transform cubic-bezier(.155, 1.105, .295, 1.12), .3s box-shadow, .3s -webkit-transform cubic-bezier(.155, 1.105, .295, 1.12);
   cursor: pointer;
@@ -42,7 +45,7 @@ p {
 }
 .line{
   width: 60px;
-  background-color: #7c4dff;
+  background-color: #fff !important;
   height: 2px ;
 }
 .card h3 {
@@ -98,7 +101,6 @@ ul a {
   color: #fff;
   text-decoration: none;
 }
-
 ul a.active {
   color: #8AF135 !important;
 }
@@ -134,7 +136,7 @@ ul a.active {
   padding-left: 120px;
 } */
 .contribution{
-  border: 2px solid rgb(210, 199, 199);
+  border: 1px solid rgb(42, 119, 195);
 }
 .no-arrows::-webkit-inner-spin-button,
 .no-arrows::-webkit-outer-spin-button {
@@ -146,9 +148,9 @@ ul a.active {
   cursor: pointer;
 }
 .no-arrows:focus{
-  border-color: #DC3545 !important; 
+  border-color: #3314b3 !important; 
   outline: none !important; 
-  box-shadow: 0 0 5px #DC3545 !important;
+  box-shadow: 0 0 5px #6f35dc !important;
 
 }
 .continueBtn{
@@ -174,14 +176,21 @@ ul a.active {
   cursor: pointer;
 }
 .addproduct:hover{
-  border: 1.5px solid #C8346E;
+  border: 1.5px solid #0f147f;
   cursor: pointer;
 }
 .addproduct:focus{
-  border-color: #DC3545 !important; 
+  border-color: #260aa2 !important; 
   outline: none !important; 
-  box-shadow: 0 0 5px #DC3545 !important;
+  box-shadow: 0 0 5px #1616dd !important;
 }
 .active{
   color: green !important;
+}
+.Addimage{
+  width: 350px;
+  height: auto;
+  padding-bottom: 10px;
+  background-color: #CBDCE1;
+  border: 2px dashed rgb(17, 193, 94);
 }
