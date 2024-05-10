@@ -1,4 +1,9 @@
 .company-description {
-    max-height: 100px; 
+    max-height: 75px; 
   }
+  .shadow {
+    width: 480px;
+    height: 770px;
+  }
+  
   
