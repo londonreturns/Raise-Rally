@@ -64,7 +64,7 @@ function Pagerouter() {
     }
     ,{
       path:"/try",
-      element:<Trial/>
+      element:<Trial/>  
     }
   ]);
   return (

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { FaFileUpload } from "react-icons/fa";
-
+import postAxios from '../hooks/postAxios';
 function Addimage() {
+  
     const [image1, setImage1] = useState(null);
     const [image2, setImage2] = useState(null);
     const [image3, setImage3] = useState(null);
@@ -30,7 +31,9 @@ function Addimage() {
                 break;
         }
     };
+  const handleNext=()=>{
 
+  }
     return (
         <> 
             <div className='text-center p-4 fs-5 fw-medium '>
@@ -104,7 +107,7 @@ function Addimage() {
                 >
                   Cancel
                 </button>
-                <button
+                <button onClick={handleNext}
                   type="button"
                   className="btn btn-success"
                  

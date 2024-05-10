@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import getAxios from "../hooks/getAxios";
 function Productadd() {
+  const email=localStorage.getItem("email");
+  const { data, error, loading } = getAxios(`http://localhost:8080/api/companies/email/${email}`);
+  const companyId=data.companyId;
   const Navigate = useNavigate();
-  
-  
 
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
@@ -53,7 +54,8 @@ function Productadd() {
           productDescription,
           startDate,
           endDate,
-          goal
+          goal,
+          companyId
           
         };
      // to  object to a string
