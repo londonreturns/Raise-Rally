@@ -71,6 +71,7 @@ public class ProductServiceImpl implements ProductService {
         }
         savedProduct.setBenefits(benefitEntities);
         savedProduct.setActive(true);
+        savedProduct.setFeatured(false);
 
         // Save product
         savedProduct = productRepository.save(savedProduct);
@@ -189,6 +190,16 @@ public class ProductServiceImpl implements ProductService {
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Product does not exist with the given ID: " + id));
         productEntityFromDatabase.setActive(enable);
+        productRepository.save(productEntityFromDatabase);
+        return ProductMapper.mapToProductDto(productEntityFromDatabase);
+    }
+
+    @Override
+    public ProductResponseDto featureProduct(int id, boolean featured) {
+        ProductEntity productEntityFromDatabase = productRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Product does not exist with the given ID: " + id));
+        productEntityFromDatabase.setFeatured(featured);
         productRepository.save(productEntityFromDatabase);
         return ProductMapper.mapToProductDto(productEntityFromDatabase);
     }
