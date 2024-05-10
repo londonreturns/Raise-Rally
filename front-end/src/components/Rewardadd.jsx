@@ -1,10 +1,17 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import postAxios from "../hooks/postAxios";
 
 function Rewardadd() {
-  const { makeRequest, isLoading, error, data } = postAxios("http://localhost:8080/api/products");
+  const { makeRequest,data} = postAxios("http://localhost:8080/api/products");
   const navigateTo = useNavigate();
+  useEffect(() => {
+    if (data) {
+      localStorage.setItem("productId", data.productId);
+      navigateTo("/company/addimage");
+    }
+  }, [data]); 
+  
   const [benefit1, setBenefit1] = useState("");
   const [benefit1Description, setBenefit1Description] = useState("");
   const [benefit1Amount, setBenefit1Amount] = useState("");
@@ -27,53 +34,6 @@ function Rewardadd() {
   const endDate=parsedData.endDate;
   const companyId=parsedData.companyId;
   const categoryId=parseInt(parsedData.selectedCategory);
-//   console.log("productName:", productName);
-// console.log("Type of productName:", typeof productName);
-
-// console.log("productDescription:", productDescription);
-// console.log("Type of productDescription:", typeof productDescription);
-
-// console.log("goal:", goal);
-// console.log("Type of goal:", typeof goal);
-
-// console.log("startDate:", startDate);
-// console.log("Type of startDate:", typeof startDate);
-
-// console.log("endDate:", endDate);
-// console.log("Type of endDate:", typeof endDate);
-
-// console.log("companyId:", companyId);
-// console.log("Type of companyId:", typeof companyId);
-
-// console.log("categoryId:", categoryId);
-// console.log("Type of categoryId:", typeof categoryId);
-
-// console.log("benefit1:", benefit1);
-// console.log("Type of benefit1:", typeof benefit1);
-
-// console.log("benefit1Description:", benefit1Description);
-// console.log("Type of benefit1Description:", typeof benefit1Description);
-
-// console.log("benefit1Amount:", benefit1Amount);
-// console.log("Type of benefit1Amount:", typeof parseInt(benefit1Amount));
-
-// console.log("benefit2:", benefit2);
-// console.log("Type of benefit2:", typeof benefit2);
-
-// console.log("benefit2Description:", benefit2Description);
-// console.log("Type of benefit2Description:", typeof benefit2Description);
-
-// console.log("benefit2Amount:", benefit2Amount);
-// console.log("Type of benefit2Amount:", typeof parseInt(benefit2Amount));
-
-// console.log("benefit3:", benefit3);
-// console.log("Type of benefit3:", typeof benefit3);
-
-// console.log("benefit3Description:", benefit3Description);
-// console.log("Type of benefit3Description:", typeof benefit3Description);
-
-// console.log("benefit3Amount:", parseInt(benefit3Amount));
-// console.log("Type of benefit3Amount:", typeof parseInt(benefit3Amount));
 
 const postData = {
       productName: productName,
@@ -127,12 +87,13 @@ const postData = {
       benefit3Description !== "" &&
       benefit3Amount !== ""
     ) {
-      console.log("Request Payload:", postData); // Log the postData object before making the request
+      console.log("Request Payload:", postData);
       makeRequest(postData);
     } else {
       console.error("Please fill in all fields.");
     }
   };
+  
 
   const handleAmount1 = (amount) => {
     if (amount < 0) {
@@ -279,8 +240,7 @@ const postData = {
               <div className="col-lg-4 text-end pb-4">
                 <button
                   className="btn btn-primary text-white "
-                  data-bs-toggle="modal"
-                  data-bs-target="#exampleModal"
+                  onClick={handleNext}
                 >
                   Continue
                 </button>
@@ -291,48 +251,7 @@ const postData = {
         </div>
       </div>
 
-      <div>
-        <div
-          className="modal fade "
-          id="exampleModal"
-          tabIndex={-1}
-          aria-labelledby="exampleModalLabel"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content">
-              <div className="modal-header bg-dark-subtle">
-                <h1 className="modal-title fs-4" id="exampleModalLabel">
-                  Confirm AddProduct
-                </h1>
-                <button
-                  type="button"
-                  className="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                />
-              </div>
-              <div className="modal-footer ">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-success"
-                  onClick={handleNext}
-                  data-bs-dismiss="modal"
-                >
-                  Add
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+
     </>
   );
 }
