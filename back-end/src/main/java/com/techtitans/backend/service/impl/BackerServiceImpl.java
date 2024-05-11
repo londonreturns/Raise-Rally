@@ -29,7 +29,8 @@ public class BackerServiceImpl implements BackerService {
     // Function to create company
     public BackerResponseDto createBacker(BackerRequestDto backerRequestDto) {
         // Validate request dto
-        validateRequest(backerRequestDto);
+        int nameMaxLength = 50;
+        validateRequest(backerRequestDto, nameMaxLength);
         BackerEntity backerEntity = BackerMapper.mapToBacker(backerRequestDto);
         BackerEntity savedBacker = backerRepository.save(backerEntity);
         return BackerMapper.mapToBackerDto(savedBacker);
@@ -69,7 +70,8 @@ public class BackerServiceImpl implements BackerService {
     // Function to update backer details by id
     public BackerResponseDto updateBackerById(int backerId, BackerUpdateRequestDto backerUpdateRequestDto) {
         // Validate request dto
-        validateRequest(backerUpdateRequestDto);
+        int nameMaxLength = 50;
+        validateRequest(backerUpdateRequestDto, nameMaxLength);
         // Check if id exists
         BackerEntity backerEntityFromDatabase = backerRepository.findById(backerId)
                 .orElseThrow(() ->
@@ -105,18 +107,18 @@ public class BackerServiceImpl implements BackerService {
         backerEntity.setPassword(PasswordEncryptionService.encrypt(backerUpdateRequestDto.getNewPassword()));
     }
 
-    // Validate RequestDTO
-    public static void validateRequest(BackerRequestDto backerRequestDto){
-        if (!Validation.isNameValid(backerRequestDto.getName()) ||
+    // Validate RequestDTO while creating
+    public static void validateRequest(BackerRequestDto backerRequestDto, int nameMaxLength){
+        if (!Validation.isNameValid(backerRequestDto.getName(),  nameMaxLength) ||
                 !Validation.isEmailValid(backerRequestDto.getEmail()) ||
                 !Validation.isPasswordValid(backerRequestDto.getPassword())) {
             throw new ValidationException("Validation error");
         }
     }
 
-    // Validate RequestDTO
-    public static void validateRequest(BackerUpdateRequestDto backerUpdateRequestDto){
-        if (!Validation.isNameValid(backerUpdateRequestDto.getName()) ||
+    // Validate RequestDTO while updating
+    public static void validateRequest(BackerUpdateRequestDto backerUpdateRequestDto , int nameMaxLength){
+        if (!Validation.isNameValid(backerUpdateRequestDto.getName(),  nameMaxLength) ||
                 !Validation.isPasswordValid(backerUpdateRequestDto.getNewPassword()) ||
                 !Validation.isPasswordValid(backerUpdateRequestDto.getOldPassword())) {
             throw new ValidationException("Validation error");

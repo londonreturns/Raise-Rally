@@ -36,11 +36,16 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ContributionRepository contributionRepository;
 
+    @Autowired
+    private BackerRepository backerRepository;
+
     // Function to add product
     @Override
     public ProductResponseDto addProduct(ProductRequestDto productDto) {
         // Assign attributes to product
-        validateRequest(productDto);
+        int nameMaxLength = 50;
+        int descMaxLength = 100;
+        validateRequest(productDto, nameMaxLength, descMaxLength);
         ProductEntity productEntity = new ProductEntity();
         productEntity.setProductName(productDto.getProductName());
         productEntity.setProductDescription(productDto.getProductDescription());
@@ -102,7 +107,9 @@ public class ProductServiceImpl implements ProductService {
     @Override
     // Function to update product
     public ProductResponseDto updateProduct(int productId, ProductRequestDto productRequestDto) {
-        validateRequest(productRequestDto);
+        int nameMaxLength = 50;
+        int descMaxLength = 100;
+        validateRequest(productRequestDto, nameMaxLength, descMaxLength);
         // Find the existing product entity
         ProductEntity existingProduct = productRepository.findById(productId).orElseThrow(
                 () -> new RuntimeException("Product with id " + productId + " not found")
@@ -219,11 +226,22 @@ public class ProductServiceImpl implements ProductService {
         return contributionRepository.countBackersByProductId(productId);
     }
 
+    @Override
+    public List<ProductResponseDto> findFundedProductsByBackerId(int backerId) {
+        // Find the existing product entity
+        backerRepository.findById(backerId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Backer does not exist with the given ID: " + backerId));
+
+        List<ProductEntity> products = productRepository.findFundedProductsByBackerId(backerId);
+        return products.stream().map(ProductMapper::mapToProductDto).toList();
+    }
+
 
     //Validate productRequestDto
-    public static void validateRequest(ProductRequestDto productRequestDto) {
-        if (!Validation.isNameValid(productRequestDto.getProductName()) ||
-                !Validation.isDescriptionValid(productRequestDto.getProductDescription()) ||
+    public static void validateRequest(ProductRequestDto productRequestDto , int nameMaxLength , int descMaxLength) {
+        if (!Validation.isNameValid(productRequestDto.getProductName(), nameMaxLength) ||
+                !Validation.isDescriptionValid(productRequestDto.getProductDescription(), descMaxLength) ||
                 !Validation.isAmountValid(productRequestDto.getCurrentAmount()) ||
                 !Validation.isGoalValid(productRequestDto.getProductGoal()) ||
                 !Validation.isDateValid(productRequestDto.getStartDate(), productRequestDto.getEndDate())

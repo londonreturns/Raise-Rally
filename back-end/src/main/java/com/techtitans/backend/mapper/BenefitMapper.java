@@ -28,7 +28,7 @@ public class BenefitMapper {
                 benefitEntity.getBenefitId(),
                 benefitEntity.getBenefitName(),
                 benefitEntity.getBenefitDescription(),
-                benefitEntity.getPrice().getPriceId(),
+                PriceMapper.mapToPriceDto(benefitEntity.getPrice()),
                 benefitEntity.getProduct().getProductId(),
                 benefitEntity.getContributions().stream().map(ContributionEntity::getId).toList()
         );
