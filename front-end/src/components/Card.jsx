@@ -5,6 +5,7 @@ import { IoIosTime } from "react-icons/io";
 import { FaHeart } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import useImageConverter from "../hooks/imageConverter";
+import LoadingCard from "./LoadingCard";
 
 function Card({
   productName,
@@ -17,12 +18,12 @@ function Card({
   productId,
   active,
   categoryId,
-  
 }) {
   if (!active) {
     return null;
   }
-  const { data } = getAxios(`http://localhost:8080/api/companies/${companyId}`);
+
+  const { data,loading } = getAxios(`http://localhost:8080/api/companies/${companyId}`);
 
   const progressPercentage = (productGoal / currentAmount) * 100;
   const endDateMillis = new Date(endDate).getTime();
@@ -80,72 +81,78 @@ function Card({
       }}
     >
       <div className="card">
-        {convertedFile && (
-          <img src={URL.createObjectURL(convertedFile)} className="card-img-top border border-bottom  img-100" alt="..." />
-        )}
-        <div className="card-body">
-          <div className="row">
-            <div className="col-10">
-              <h5 className="card-title preview1-text">{productName}</h5>
-            </div>
-            <div className="col-2">{shouldShowHeart()}</div>
-          </div>
-          <div className="row ">
-            <div className="d-flex justify-content-between text-center">
-              <div>
-                <p className="fs-6 text-body-secondary fw-semibold">{companyName}</p>
-              </div>
-              <div>{shouldShowVerified()}</div>
-            </div>
-          </div>
-          <div className="col">
-            <div className="row mb-4">
-              <p className="card-text preview-text">{productDescription}</p>
-            </div>
-
-            <div className="row py-1">
-              <div className="d-flex justify-content-start text-center">
-                <div className="pe-2">
-                  <h5>रू{currentAmount}</h5>
+        {loading ? (
+          <LoadingCard />
+        ) : (
+          <>
+            {convertedFile && (
+              <img src={URL.createObjectURL(convertedFile)} className="card-img-top border border-bottom  img-100" alt="..." />
+            )}
+            <div className="card-body">
+              <div className="row">
+                <div className="col-10">
+                  <h5 className="card-title preview1-text">{productName}</h5>
                 </div>
-                <div>NPR Raised</div>
-                <div className="ms-auto mb-2 ">
-                  <div className="row">
-                    <div className="col-lg-1"></div>
-                    <div className="col-lg-10 btn btn-secondary disabled ">
-                      {getCategoryName(categoryId)}
+                <div className="col-2">{shouldShowHeart()}</div>
+              </div>
+              <div className="row ">
+                <div className="d-flex justify-content-between text-center">
+                  <div>
+                    <p className="fs-6 text-body-secondary fw-semibold">{companyName}</p>
+                  </div>
+                  <div>{shouldShowVerified()}</div>
+                </div>
+              </div>
+              <div className="col">
+                <div className="row mb-4">
+                  <p className="card-text preview-text">{productDescription}</p>
+                </div>
+
+                <div className="row py-1">
+                  <div className="d-flex justify-content-start text-center">
+                    <div className="pe-2">
+                      <h5>रू{currentAmount}</h5>
+                    </div>
+                    <div>NPR Raised</div>
+                    <div className="ms-auto mb-2 ">
+                      <div className="row">
+                        <div className="col-lg-1"></div>
+                        <div className="col-lg-10 btn btn-secondary disabled ">
+                          {getCategoryName(categoryId)}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <div
+                      className="progress progress-length  "
+                      role="progressbar"
+                      aria-label="Basic example"
+                      aria-valuenow={0}
+                      aria-valuemin={0}
+                      aria-valuemax={100}
+                    >
+                      <div
+                        className="progress-bar progress-color "
+                        style={{ width: `${progressPercentage}%` }}
+                      />
                     </div>
                   </div>
                 </div>
-              </div>
-              <div>
-                <div
-                  className="progress progress-length  "
-                  role="progressbar"
-                  aria-label="Basic example"
-                  aria-valuenow={0}
-                  aria-valuemin={0}
-                  aria-valuemax={100}
-                >
-                  <div
-                    className="progress-bar progress-color "
-                    style={{ width: `${progressPercentage}%` }}
-                  />
+                <div className="row">
+                  <small className="text-body-secondary">
+                    <div className="d-flex justify-content-start align-content-center">
+                      <div>
+                        <IoIosTime size={25} />
+                      </div>
+                      <div className="ps-2 fs-6">{daysleft} days left</div>
+                    </div>
+                  </small>
                 </div>
               </div>
             </div>
-            <div className="row">
-              <small className="text-body-secondary">
-                <div className="d-flex justify-content-start align-content-center">
-                  <div>
-                    <IoIosTime size={25} />
-                  </div>
-                  <div className="ps-2 fs-6">{daysleft} days left</div>
-                </div>
-              </small>
-            </div>
-          </div>
-        </div>
+          </>
+        )}
       </div>
     </div>
   );
