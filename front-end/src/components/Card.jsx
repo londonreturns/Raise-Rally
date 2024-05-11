@@ -16,9 +16,14 @@ function Card({
   companyId,
   productGoal,
   productId,
+  active,
+  categoryId,
+  
 }) {
+  if (!active) {
+    return null;
+  }
   const { data } = getAxios(`http://localhost:8080/api/companies/${companyId}`);
-  const { data1 } = getAxios(`http://localhost:8080/api/images/${productId}_1.jpeg`);
 
   const progressPercentage = (productGoal / currentAmount) * 100;
   const endDateMillis = new Date(endDate).getTime();
@@ -47,11 +52,31 @@ function Card({
     convertImage(imageUrl);
   }, [convertImage]); // Run this effect only once after initial render
 
+  // Function to get category name based on categoryId
+  const getCategoryName = (categoryId) => {
+    switch (categoryId) {
+      case 1:
+        return "Art";
+      case 2:
+        return "Craft";
+      case 3:
+        return "Dance";
+      case 4:
+        return "Film";
+      case 5:
+        return "Music";
+      case 6:
+        return "Technology";
+      default:
+        return "Unknown";
+    }
+  };
+
   return (
     <div
       className="col-md-4 col-lg-3 p-4 d-flex justify-content-around"
       onClick={() => {
-        navigate("/detail");
+        navigate(`detail?productId=${productId}`);
       }}
     >
       <div className="card">
@@ -84,6 +109,14 @@ function Card({
                   <h5>रू{currentAmount}</h5>
                 </div>
                 <div>NPR Raised</div>
+                <div className="ms-auto mb-2 ">
+                  <div className="row">
+                    <div className="col-lg-1"></div>
+                    <div className="col-lg-10 btn btn-secondary disabled ">
+                      {getCategoryName(categoryId)}
+                    </div>
+                  </div>
+                </div>
               </div>
               <div>
                 <div

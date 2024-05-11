@@ -47,8 +47,9 @@ function Pagerouter() {
       element: <About />,
     },
     {
-      path: "/detail",
-      element: <Detail />,
+      
+        path: "/detail",
+        element: <Detail />,
     },
     {
       path: "/company/addproduct",
