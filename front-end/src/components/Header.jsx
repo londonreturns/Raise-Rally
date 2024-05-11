@@ -55,12 +55,7 @@ function Header() {
             >
               <li>
                 <a className="dropdown-item" href="#">
-                  My profile
-                </a>
-              </li>
-              <li>
-                <a className="dropdown-item" href="#">
-                  Settings
+                  My Dashboard
                 </a>
               </li>
               <li>
