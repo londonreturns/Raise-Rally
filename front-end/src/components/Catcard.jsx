@@ -6,7 +6,7 @@ import { FaHeart } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import useImageConverter from "../hooks/imageConverter";
 
-function Card({
+function Catcard({
   productName,
   productDescription,
   currentAmount,
@@ -17,8 +17,10 @@ function Card({
   productId,
   active,
   categoryId,
+  currentCategory
   
 }) {
+
   if (!active) {
     return null;
   }
@@ -70,7 +72,8 @@ function Card({
         return "Unknown";
     }
   };
-
+  
+  console.log()
   return (
     <div
       className="col-md-4 col-lg-3 p-4 d-flex justify-content-around"
@@ -151,4 +154,4 @@ function Card({
   );
 }
 
-export default Card;
+export default Catcard;

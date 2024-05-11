@@ -16,22 +16,22 @@ function Pagerouter() {
   const categories = ["art", "crafts", "dance", "film", "music", "technology"];
   const router = createBrowserRouter([
     {
-      path: "/",
-      element: <Layout />,
-      children: [
-        {
-          path: "/",
-          element: <Homepage />,
-        },
-        {
-          path: "/categories/:cat",
-          element: <Cat categories={categories} />,
-        },
-        {
-          path: "*",
-          element: <Error404 />,
-        },
-      ],
+      path:"/",
+      element:<Homepage/>
+    },
+    {
+      path: "/categories/:cat",
+      element: <Cat categories={categories} />,
+
+    },
+    {
+      path: "/categories/:cat/detail",
+      element: <Detail />,
+    }
+    ,
+    {
+      path: "*",
+      element: <Error404 />,
     },
     {
       path: "/login",
@@ -41,15 +41,14 @@ function Pagerouter() {
       path: "/signup",
       element: <Registration />,
     },
-    
+
     {
       path: "/aboutus",
       element: <About />,
     },
     {
-      
-        path: "/detail",
-        element: <Detail />,
+      path: "/detail",
+      element: <Detail />,
     },
     {
       path: "/company/addproduct",
@@ -60,13 +59,13 @@ function Pagerouter() {
       element: <Rewardadd />,
     },
     {
-      path:"/company/addimage",
-      element:<Addimage/>
-    }
-    ,{
-      path:"/try",
-      element:<Trial/>  
-    }
+      path: "/company/addimage",
+      element: <Addimage />,
+    },
+    {
+      path: "/try",
+      element: <Trial />,
+    },
   ]);
   return (
     <>

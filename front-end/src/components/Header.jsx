@@ -1,15 +1,31 @@
 import React from "react";
-import { useState,useEffect } from "react";
 import logo from "../assets/raiserally-logo.png";
 import profile from "../assets/profile.webp";
+import { useState } from "react";
 import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
 function Header({ onSearch }) {
+  const location = useLocation();
+  const isDetailPage = location.pathname.includes("/detail");
+
   const [searchQuery, setSearchQuery] = useState("");
+
   const handleSearchInputChange = (event) => {
     const query = event.target.value;
     setSearchQuery(query);
     onSearch(query);
   };
+
+  const renderSearchField = !isDetailPage && (
+    <input
+      type="search"
+      id="form1"
+      className="form-control w-50 border border-1 border-dark-subtle"
+      placeholder="Search Company or Products"
+      aria-label="Search"
+      value={searchQuery}
+      onChange={handleSearchInputChange}
+    />
+  );
   const navigate = useNavigate();
   return (
     <>
@@ -30,15 +46,8 @@ function Header({ onSearch }) {
           >
             <span className="navbar-toggler-icon " />
           </button>
-          <input
-              type="search"
-              id="form1"
-              class="form-control w-50 border border-1 border-dark-subtle"
-              placeholder="Search Company or Products"
-              aria-label="Search"
-              value={searchQuery}
-            onChange={handleSearchInputChange}
-            />
+          {renderSearchField}
+          
             {localStorage.getItem("userType") ? (
             <div className="dropdown">
             <a
