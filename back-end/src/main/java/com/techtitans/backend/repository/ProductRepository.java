@@ -2,6 +2,8 @@ package com.techtitans.backend.repository;
 
 import com.techtitans.backend.entity.CompanyEntity;
 import com.techtitans.backend.entity.ProductEntity;
+import jakarta.persistence.EntityManager;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -19,4 +21,13 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Integer>
     @Query("SELECT p FROM ProductEntity p WHERE " +
             "p.productName LIKE CONCAT('%', :query, '%')")
     List<ProductEntity> searchProduct(@Param("query") String query);
+
+    //Custom query for finding product through name
+    @Query("SELECT p " +
+            "FROM ProductEntity p " +
+            "JOIN BenefitEntity b ON p.productId = b.product.productId " +
+            "JOIN ContributionEntity c ON b.benefitId = c.benefit.benefitId " +
+            "WHERE c.backer.backerId = :backerId")
+    List<ProductEntity> findFundedProductsByBackerId(@Param("backerId") int backerId);
+
 }
