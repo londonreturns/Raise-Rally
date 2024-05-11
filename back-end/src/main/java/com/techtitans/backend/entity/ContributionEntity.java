@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "contribution_table")
 @Data
@@ -17,7 +19,9 @@ public class ContributionEntity {
 
     private int actualPaidPrice;
 
-    private String pidx;
+    private String paymentId;
+
+    private LocalDate paymentDate;
 
     // JPA mapping
     @ManyToOne

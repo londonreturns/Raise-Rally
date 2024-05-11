@@ -77,7 +77,7 @@ public class ImageServiceImpl implements ImageService {
     // Method to check if a file is too large
     public void checkIfFileTooLarge(MultipartFile file) throws IOException {
         
-        long maxSizeBytes = 5 * 1024 * 1024; // 5 MB maximum file size
+        long maxSizeBytes = 7 * 1024 * 1024; // 5 MB maximum file size
         long sizeBytes = file.getSize();
 
         if (sizeBytes > maxSizeBytes) {

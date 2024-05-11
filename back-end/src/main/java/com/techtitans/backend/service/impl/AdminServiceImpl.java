@@ -60,7 +60,7 @@ public class AdminServiceImpl implements AdminService {
     public AdminResponseDto getAdminByEmail(String adminEmail) {
         // Check if entity exists
         AdminEntity adminEntity = adminRepository.fetchByEmail(adminEmail).orElseThrow(() ->
-                new ResourceNotFoundException("Backer does not exists with the given email " + adminEmail));;
+                new ResourceNotFoundException("Admin does not exists with the given email " + adminEmail));;
         return AdminMapper.mapToAdminDto(adminEntity);
     }
 
