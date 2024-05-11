@@ -14,6 +14,7 @@ function DetailCard({
   backer,
   productId
 }) {
+ 
   const progressPercentage = (currentAmount / productGoal) * 100;
   const endDateMillis = new Date(endDate).getTime();
   const today = new Date().getTime();
@@ -21,7 +22,7 @@ function DetailCard({
   const diff = endDateMillis - today;
   const daysLeft = Math.round(diff / dayInMillis);
 
-  const { data, error, loading } = getAxios("http://localhost:3000/benefits");
+  
   const [amount, setAmount] = useState("");
   const [pledge, setPledge] = useState("");
 
@@ -180,9 +181,7 @@ function DetailCard({
                   </div>
                   <div className="col container">
                     <div className="row container">
-                      {data.map((item) => (
-                        <Contributioncard key={item.benefitId} {...item} />
-                      ))}
+                    <Contributioncard productId={productId} />
                     </div>
                   </div>
                 </div>
