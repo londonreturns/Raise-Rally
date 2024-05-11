@@ -5,7 +5,6 @@ import com.techtitans.backend.dto.product.ProductResponseDto;
 import com.techtitans.backend.entity.*;
 import com.techtitans.backend.exception.ResourceNotFoundException;
 import com.techtitans.backend.exception.ValidationException;
-import com.techtitans.backend.mapper.CompanyMapper;
 import com.techtitans.backend.mapper.ProductMapper;
 import com.techtitans.backend.repository.*;
 import com.techtitans.backend.security.Validation;
@@ -33,6 +32,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private PriceRepository priceRepository;
+
+    @Autowired
+    private ContributionRepository contributionRepository;
 
     // Function to add product
     @Override
@@ -173,6 +175,7 @@ public class ProductServiceImpl implements ProductService {
     // Function to search  product by name
     @Override
     public List<ProductResponseDto> searchProduct(String query, boolean isAdmin) {
+        // Find the existing product entity
         var productEntities = productRepository.searchProduct(query);
         if (!isAdmin)
             productEntities = productEntities.stream()
@@ -186,6 +189,7 @@ public class ProductServiceImpl implements ProductService {
     //Function to disable/enable  product by id
     @Override
     public ProductResponseDto enableProduct(int id, boolean enable) {
+        // Find the existing product entity
         ProductEntity productEntityFromDatabase = productRepository.findById(id)
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Product does not exist with the given ID: " + id));
@@ -196,6 +200,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductResponseDto featureProduct(int id, boolean featured) {
+        // Find the existing product entity
         ProductEntity productEntityFromDatabase = productRepository.findById(id)
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Product does not exist with the given ID: " + id));
@@ -203,6 +208,17 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(productEntityFromDatabase);
         return ProductMapper.mapToProductDto(productEntityFromDatabase);
     }
+
+    @Override
+    public Integer findBackerCountByProductId(int productId) {
+        // Find the existing product entity
+        productRepository.findById(productId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Product does not exist with the given ID: " + productId));
+
+        return contributionRepository.countBackersByProductId(productId);
+    }
+
 
     //Validate productRequestDto
     public static void validateRequest(ProductRequestDto productRequestDto) {

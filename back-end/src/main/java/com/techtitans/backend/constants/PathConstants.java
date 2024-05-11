@@ -35,15 +35,9 @@ public class PathConstants {
     // Path for image
     public static final String IMAGE = "/api/images";
 
-    // Path for khalti
-    public static final String KHALTI = "/api/khalti";
-
     // Path for contribution
     public static final String CONTRIBUTION = "/api/contributions";
 
-    // Path for initiate
-    public static final String INITIATE = "/initiate";
-
-    // Path for callback
-    public static final String CALLBACK = "/callback";
+    // Path for number of
+    public static final String NUMBEROF = "/numberof";
 }

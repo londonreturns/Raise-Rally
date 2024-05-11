@@ -27,4 +27,6 @@ public interface ProductService {
     ProductResponseDto enableProduct(int id, boolean enabled);
 
     ProductResponseDto featureProduct(int id, boolean featured);
+
+    Integer findBackerCountByProductId(int productId);
 }

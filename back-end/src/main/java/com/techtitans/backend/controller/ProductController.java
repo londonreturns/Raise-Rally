@@ -109,4 +109,12 @@ public class ProductController {
         return ResponseEntity.ok(this.productService.featureProduct(id, featured));
     }
 
+    // Get number of backers by product
+    @GetMapping(PathConstants.NUMBEROF + "backers-by-product/{id}")
+    public ResponseEntity<Integer> getNumberOfBackers(
+            @PathVariable("id") int id
+    ) {
+        Integer backerCount = productService.findBackerCountByProductId(id);
+        return new ResponseEntity<>(backerCount, HttpStatus.OK);
+    }
 }
