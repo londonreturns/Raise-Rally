@@ -60,7 +60,7 @@ function Header({ onSearch }) {
             >
               <img
                 src={profile}
-                className="rounded-circle"
+                className="rounded-circle border border-1 border-dark-subtle"
                 width="43"
                 height="43"
                 alt="..."

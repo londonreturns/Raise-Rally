@@ -81,7 +81,7 @@ function Card({
     >
       <div className="card">
         {convertedFile && (
-          <img src={URL.createObjectURL(convertedFile)} className="card-img-top  img-100" alt="..." />
+          <img src={URL.createObjectURL(convertedFile)} className="card-img-top border border-bottom  img-100" alt="..." />
         )}
         <div className="card-body">
           <div className="row">
