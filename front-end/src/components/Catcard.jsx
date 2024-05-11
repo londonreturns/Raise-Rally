@@ -79,6 +79,7 @@ function Catcard({
       className="col-md-4 col-lg-3 p-4 d-flex justify-content-around"
       onClick={() => {
         navigate(`/categories/${getCategoryName(categoryId).toLowerCase()}/detail?productId=${productId}`);
+        localStorage.setItem("benefitIds",benefitIds);
 
       }}
     >

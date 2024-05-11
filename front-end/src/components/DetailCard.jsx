@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import Contributioncard from "../components/Contributioncard";
-import { Link } from "react-router-dom";
+import { Link, json } from "react-router-dom";
 import getAxios from "../hooks/getAxios";
 import { IoChevronBackOutline } from "react-icons/io5";
 import useImageConverter from "../hooks/imageConverter";
+
+
+
 
 function DetailCard({
   productName,
@@ -11,13 +14,47 @@ function DetailCard({
   productDescription,
   productGoal,
   currentAmount,
-  backer,
   productId,
-  benefitIds,
 }) {
+  //backer by 
+  const { data: backerNo } = getAxios(
+    `http://localhost:8080/api/products/numberofbackers-by-product/${productId}`
+  );
+  //accesing through local storage
+  let allbenefits = localStorage.getItem("allbenefits");
+  let benefits=JSON.parse(allbenefits);
+  let benefit1=benefits[0];
+  let benefit2=benefits[1];
+  let benefit3=benefits[2];
+  //for comparing the benefit amount1
+  const {data:amount1}=getAxios(`http://localhost:8080/api/price/${benefit1}`);
+  const price1=amount1.amount;
+  const {data:amount2}=getAxios(`http://localhost:8080/api/price/${benefit2}`);
+  const price2=amount2.amount;
+  const {data:amount3}=getAxios(`http://localhost:8080/api/price/${benefit3}`); 
+  const price3=amount3.amount;
+  const [amount, setAmount] = useState("");
+  const [pledge, setPledge] = useState("");
+  const TotalAmount = (event) => {
+    setAmount(event.target.value);
+  };
+  useEffect(() => {
+    // if amount from hook is empty skip
+    if (amount === "") return;
+    const prices = [price1, price2, price3];
+    let pledgeAmount = "";
+    for (let i = 2; i >= 0; i--) { 
+      if (prices[i] <= amount) {
+        pledgeAmount = prices[i];
+        break;
+      }
+    }
+    setPledge(pledgeAmount);
+  }, [amount, price1, price2, price3]);
+  
 
-  //backer by id 
-  const {data:backerNo}=getAxios(`http://localhost:8080/api/products/numberofbackers-by-product/${productId}`);
+
+
   const progressPercentage = (currentAmount / productGoal) * 100;
   const endDateMillis = new Date(endDate).getTime();
   const today = new Date().getTime();
@@ -25,13 +62,10 @@ function DetailCard({
   const diff = endDateMillis - today;
   const daysLeft = Math.round(diff / dayInMillis);
 
-  //for effect for perk 
-   
-  const [amount, setAmount] = useState("");
-  const [pledge, setPledge] = useState("");
-  const TotalAmount = (event) => {
-    setAmount(event.target.value);
-  };
+
+
+
+
 
   const { convertedFile: convertedFile1, convertImage: convertImage1 } =
     useImageConverter();
@@ -51,7 +85,7 @@ function DetailCard({
     convertImage2(imageUrl2);
     convertImage3(imageUrl3);
   }, [productId, convertImage1, convertImage2, convertImage3]);
-
+  handlenext()
   return (
     <>
       <Link to="/" className="text-decoration-none">
@@ -228,25 +262,24 @@ function DetailCard({
                             />
                           </div>
                         </div>
-                        <div className="col-lg-4 continueBtn text-center text-white pt-1">
+                        <div className="col-lg-4 continueBtn text-center text-white pt-1" onClick={handlenext}>
                           <p>Pledge {amount ? `रू${amount}` : ""}</p>
                         </div>
                       </div>
                       <div className="row">
-                        <p>Perk {amount ? `रू${pledge}` : ""}</p>
+                        <p> Perk {amount ? `रू${pledge}` : ""} </p>
                       </div>
                     </div>
                   </div>
                   <div className="col container">
                     <div className="row container">
                       {/* <Contributioncard benefitId= {benefitIds}/> */}
-                      {benefitIds && benefitIds.length > 0 && (
+                      {benefits && benefits.length > 0 && (
                         <>
-                         <Contributioncard benefitId={benefitIds[0]} />
-                         <Contributioncard benefitId={benefitIds[1]} />
-                         <Contributioncard benefitId={benefitIds[2]} />
+                          <Contributioncard Id={benefit1} />
+                          <Contributioncard Id={benefit2} />
+                          <Contributioncard Id={benefit3} />
                         </>
-                       
                       )}
                     </div>
                   </div>

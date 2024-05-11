@@ -19,7 +19,7 @@ function Payment() {
   fetch("/create-payment-intent", {
     method: "POST",
     headers: {
-      "Content-Type": "application/json", // Set the content type to JSON
+      "Content-Type": "application/json", 
     },
     body: JSON.stringify({
       currency: "NPR",
