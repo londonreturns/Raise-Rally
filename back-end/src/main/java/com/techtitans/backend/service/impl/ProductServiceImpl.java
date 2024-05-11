@@ -5,7 +5,6 @@ import com.techtitans.backend.dto.product.ProductResponseDto;
 import com.techtitans.backend.entity.*;
 import com.techtitans.backend.exception.ResourceNotFoundException;
 import com.techtitans.backend.exception.ValidationException;
-import com.techtitans.backend.mapper.CompanyMapper;
 import com.techtitans.backend.mapper.ProductMapper;
 import com.techtitans.backend.repository.*;
 import com.techtitans.backend.security.Validation;
@@ -34,11 +33,19 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private PriceRepository priceRepository;
 
+    @Autowired
+    private ContributionRepository contributionRepository;
+
+    @Autowired
+    private BackerRepository backerRepository;
+
     // Function to add product
     @Override
     public ProductResponseDto addProduct(ProductRequestDto productDto) {
         // Assign attributes to product
-        validateRequest(productDto);
+        int nameMaxLength = 50;
+        int descMaxLength = 100;
+        validateRequest(productDto, nameMaxLength, descMaxLength);
         ProductEntity productEntity = new ProductEntity();
         productEntity.setProductName(productDto.getProductName());
         productEntity.setProductDescription(productDto.getProductDescription());
@@ -71,6 +78,7 @@ public class ProductServiceImpl implements ProductService {
         }
         savedProduct.setBenefits(benefitEntities);
         savedProduct.setActive(true);
+        savedProduct.setFeatured(false);
 
         // Save product
         savedProduct = productRepository.save(savedProduct);
@@ -99,7 +107,9 @@ public class ProductServiceImpl implements ProductService {
     @Override
     // Function to update product
     public ProductResponseDto updateProduct(int productId, ProductRequestDto productRequestDto) {
-        validateRequest(productRequestDto);
+        int nameMaxLength = 50;
+        int descMaxLength = 100;
+        validateRequest(productRequestDto, nameMaxLength, descMaxLength);
         // Find the existing product entity
         ProductEntity existingProduct = productRepository.findById(productId).orElseThrow(
                 () -> new RuntimeException("Product with id " + productId + " not found")
@@ -172,6 +182,7 @@ public class ProductServiceImpl implements ProductService {
     // Function to search  product by name
     @Override
     public List<ProductResponseDto> searchProduct(String query, boolean isAdmin) {
+        // Find the existing product entity
         var productEntities = productRepository.searchProduct(query);
         if (!isAdmin)
             productEntities = productEntities.stream()
@@ -185,6 +196,7 @@ public class ProductServiceImpl implements ProductService {
     //Function to disable/enable  product by id
     @Override
     public ProductResponseDto enableProduct(int id, boolean enable) {
+        // Find the existing product entity
         ProductEntity productEntityFromDatabase = productRepository.findById(id)
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Product does not exist with the given ID: " + id));
@@ -193,19 +205,48 @@ public class ProductServiceImpl implements ProductService {
         return ProductMapper.mapToProductDto(productEntityFromDatabase);
     }
 
+    @Override
+    public ProductResponseDto featureProduct(int id, boolean featured) {
+        // Find the existing product entity
+        ProductEntity productEntityFromDatabase = productRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Product does not exist with the given ID: " + id));
+        productEntityFromDatabase.setFeatured(featured);
+        productRepository.save(productEntityFromDatabase);
+        return ProductMapper.mapToProductDto(productEntityFromDatabase);
+    }
+
+    @Override
+    public Integer findBackerCountByProductId(int productId) {
+        // Find the existing product entity
+        productRepository.findById(productId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Product does not exist with the given ID: " + productId));
+
+        return contributionRepository.countBackersByProductId(productId);
+    }
+
+    @Override
+    public List<ProductResponseDto> findFundedProductsByBackerId(int backerId) {
+        // Find the existing product entity
+        backerRepository.findById(backerId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Backer does not exist with the given ID: " + backerId));
+
+        List<ProductEntity> products = productRepository.findFundedProductsByBackerId(backerId);
+        return products.stream().map(ProductMapper::mapToProductDto).toList();
+    }
+
+
     //Validate productRequestDto
-    public static void validateRequest(ProductRequestDto productRequestDto) {
-        if (!Validation.isNameValid(productRequestDto.getProductName()) ||
-                !Validation.isDescriptionValid(productRequestDto.getProductDescription()) ||
+    public static void validateRequest(ProductRequestDto productRequestDto , int nameMaxLength , int descMaxLength) {
+        if (!Validation.isNameValid(productRequestDto.getProductName(), nameMaxLength) ||
+                !Validation.isDescriptionValid(productRequestDto.getProductDescription(), descMaxLength) ||
                 !Validation.isAmountValid(productRequestDto.getCurrentAmount()) ||
                 !Validation.isGoalValid(productRequestDto.getProductGoal()) ||
-                !Validation.isDateValid(productRequestDto.getStartDate()) ||
-                !Validation.isDateValid(productRequestDto.getEndDate()) ||
                 !Validation.isDateValid(productRequestDto.getStartDate(), productRequestDto.getEndDate())
         ) {
             throw new ValidationException("Validation error");
         }
     }
 }
-
-

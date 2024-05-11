@@ -145,7 +145,7 @@ function Registration() {
   return (
     <div className="d-flex justify-content-center align-items-center bg-light vh-100">
       <div className="row">
-        <div className="col-lg-12 col-md-6 col-sm-12 col-12 pt-3 d-flex justify-content-center">
+        <div className="col-lg-12 col-md-6 col-sm-6 col-12 pt-3 d-flex justify-content-center">
           <div className="shadow w-100">
             <div className="card-body p-3">
               <div className="d-flex justify-content-center ps-5">

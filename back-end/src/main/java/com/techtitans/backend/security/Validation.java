@@ -10,12 +10,12 @@ public class Validation {
     private static final Pattern PASSWORD_PATTERN = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,15}$");
 
     // Name validation
-    public static boolean isNameValid(String name){
-        if (name == null) {
+    public static boolean isNameValid(String name, int maxLength){
+        if (name == null || name.length() > maxLength) {
             return false;
         }
         String strippedName = name.strip();
-        return !strippedName.isEmpty() && NAME_PATTERN.matcher(strippedName).matches();
+        return !strippedName.isEmpty() && strippedName.length() <= maxLength && NAME_PATTERN.matcher(strippedName).matches();
     }
 
     // Email validation
@@ -38,9 +38,10 @@ public class Validation {
 
 
     // Product Description validation
-    public static boolean isDescriptionValid(String description) {
-        return description != null && !description.isBlank();
+    public static boolean isDescriptionValid(String description, int maxLength) {
+        return description != null && !description.isBlank() && description.length() <= maxLength;
     }
+
 
     // Goal validation
     public static boolean isGoalValid(int goal) {

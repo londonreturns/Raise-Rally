@@ -99,8 +99,31 @@ public class ProductController {
 
     //Build product REST API for enable and disable function
     @PatchMapping("/enable/{id}/{enabled}")
-    public ResponseEntity<ProductResponseDto> enableProduct(@PathVariable("enabled") boolean enabled, @PathVariable int id) {
+    public ResponseEntity<ProductResponseDto> enableProduct(@PathVariable("enabled") boolean enabled, @PathVariable("id") int id) {
         return ResponseEntity.ok(this.productService.enableProduct(id, enabled));
     }
 
+    //Build REST API for featuring product
+    @PatchMapping("/feature/{id}/{featured}")
+    public ResponseEntity<ProductResponseDto> featureProduct(@PathVariable("featured") boolean featured, @PathVariable("id") int id) {
+        return ResponseEntity.ok(this.productService.featureProduct(id, featured));
+    }
+
+    // Get number of backers by product
+    @GetMapping(PathConstants.NUMBEROF + "backers-by-product/{id}")
+    public ResponseEntity<Integer> getNumberOfBackers(
+            @PathVariable("id") int id
+    ) {
+        Integer backerCount = productService.findBackerCountByProductId(id);
+        return new ResponseEntity<>(backerCount, HttpStatus.OK);
+    }
+
+    // Get funded products by backer id
+    @GetMapping("/fundedproducts" + PathConstants.GET_BY_ID_PATH)
+    public ResponseEntity<List<ProductResponseDto>> getFundedProductsByBackerId(
+            @PathVariable("id") int backerId
+    ){
+        List<ProductResponseDto> products = productService.findFundedProductsByBackerId(backerId);
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
 }

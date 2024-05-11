@@ -34,7 +34,7 @@ public class BackerController {
     // Build get backer from id from API
     @GetMapping(PathConstants.GET_BY_ID_PATH)
     public ResponseEntity<BackerResponseDto> getBackerById(
-            @PathVariable int id
+            @PathVariable("id") int id
     ){
         BackerResponseDto backer = backerService.getBackerById(id);
         return new ResponseEntity<>(backer, HttpStatus.OK);

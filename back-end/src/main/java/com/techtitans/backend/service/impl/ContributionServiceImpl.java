@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ContributionServiceImpl implements ContributionService {
@@ -84,7 +85,16 @@ public class ContributionServiceImpl implements ContributionService {
         List<BenefitEntity> benefits = benefitRepository.getBenefitEntitiesByProductProductId(productId);
 
         // Get contributions
-        List<List<ContributionEntity>> contributions = benefits.stream().map(benefitEntity -> contributionRepository.findContributionEntitiesByBenefitBenefitId(benefitEntity.getBenefitId())).toList();
-        return contributions.stream().map(contributionEntities -> contributionEntities.stream().map(ContributionMapper::mapToContributionDto).toList()).toList();
+        List<List<ContributionEntity>> contributions = benefits.stream()
+                .map(benefitEntity -> contributionRepository.findContributionEntitiesByBenefitBenefitId(benefitEntity.getBenefitId()))
+                .toList();
+
+        return contributions.stream()
+                .flatMap(List::stream) // Flatten the nested lists
+                .map(ContributionMapper::mapToContributionDto)
+                .collect(Collectors.groupingBy(ContributionDto::getBenefitId)) // Group by benefit ID
+                .values().stream()
+                .toList();
     }
+
 }

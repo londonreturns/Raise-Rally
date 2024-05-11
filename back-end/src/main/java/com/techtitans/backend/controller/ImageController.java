@@ -43,7 +43,7 @@ public class ImageController {
         try {
             byte[] imageData = imageService.downloadImage(imageName);
             return ResponseEntity.status(HttpStatus.OK
-                    ).contentType(MediaType.valueOf("image/png"))
+                    ).contentType(MediaType.valueOf("image/jpeg"))
                     .body(imageData);
         } catch (IOException e) {
             return new ResponseEntity<>("Image not found", HttpStatus.INTERNAL_SERVER_ERROR);

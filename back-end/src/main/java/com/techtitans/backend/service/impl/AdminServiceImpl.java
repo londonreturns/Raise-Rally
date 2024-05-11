@@ -30,7 +30,8 @@ public class AdminServiceImpl implements AdminService {
     @Override
     // Function to create admin
     public AdminResponseDto createAdmin(AdminRequestDto adminRequestDto){
-        validateRequest(adminRequestDto);
+        int nameMaxLength = 50; // Maximum length for name
+        validateRequest(adminRequestDto, nameMaxLength);
         AdminEntity adminEntity = AdminMapper.mapToAdminEntity(adminRequestDto);
         AdminEntity savedAdmin = adminRepository.save(adminEntity);
         return  AdminMapper.mapToAdminDto(savedAdmin);
@@ -60,7 +61,7 @@ public class AdminServiceImpl implements AdminService {
     public AdminResponseDto getAdminByEmail(String adminEmail) {
         // Check if entity exists
         AdminEntity adminEntity = adminRepository.fetchByEmail(adminEmail).orElseThrow(() ->
-                new ResourceNotFoundException("Backer does not exists with the given email " + adminEmail));;
+                new ResourceNotFoundException("Admin does not exists with the given email " + adminEmail));;
         return AdminMapper.mapToAdminDto(adminEntity);
     }
 
@@ -68,7 +69,8 @@ public class AdminServiceImpl implements AdminService {
     // Function to update admin details by id
     public AdminResponseDto updateAdminById(int adminId, AdminUpdateRequestDto adminUpdateRequestDto) {
         // Validate request dto
-        validateRequest(adminUpdateRequestDto);
+        int nameMaxLength = 50; // Maximum length for name
+        validateRequest(adminUpdateRequestDto, nameMaxLength);
         // Check if id exists
         AdminEntity adminEntityFromDatabase = adminRepository.findById(adminId)
                 .orElseThrow(() ->
@@ -104,18 +106,19 @@ public class AdminServiceImpl implements AdminService {
         adminRepository.deleteById(adminId);
     }
 
-    // Validate RequestDTO
-    public static void validateRequest(AdminUpdateRequestDto adminUpdateRequestDto){
-        if (!Validation.isNameValid(adminUpdateRequestDto.getName()) ||
+    // Validate while updating
+    public static void validateRequest(AdminUpdateRequestDto adminUpdateRequestDto, int  nameMaxLength){
+        if (!Validation.isNameValid(adminUpdateRequestDto.getName(), nameMaxLength) ||
                 !Validation.isPasswordValid(adminUpdateRequestDto.getOldPassword()) ||
                 !Validation.isPasswordValid(adminUpdateRequestDto.getNewPassword())) {
             throw new ValidationException("Validation error");
         }
     }
 
-    // Validate RequestDTO
-    public static void validateRequest(AdminRequestDto adminRequestDto){
-        if (!Validation.isNameValid(adminRequestDto.getName()) ||
+
+    // Validate RequestDTO while creating
+    public static void validateRequest(AdminRequestDto adminRequestDto, int nameMaxLength){
+        if (!Validation.isNameValid(adminRequestDto.getName(), nameMaxLength) ||
                 !Validation.isEmailValid(adminRequestDto.getEmail()) ||
                 !Validation.isPasswordValid(adminRequestDto.getPassword())) {
             throw new ValidationException("Validation error");
