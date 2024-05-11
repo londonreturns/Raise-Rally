@@ -1,11 +1,16 @@
 import React from 'react';
+import { useEffect } from 'react';
 import './about.css';
 import aboutus from "./assets/Aboutus.png";
 import Footer from './components/Footer';
 import Header from './components/Header';
 
 function About() {
+  useEffect(() => {
+    window.scrollTo(0, 0); 
+  }, []);
   return (
+    
     <>
     <Header/>
       <section className="about-section ">

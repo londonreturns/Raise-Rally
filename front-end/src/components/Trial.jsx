@@ -1,47 +1,54 @@
-import React, { useEffect } from 'react';
-import axios from 'axios';
+import React from 'react'
 
-function Trial() {
-  useEffect(() => {
-    axios
-      .post("http://localhost:8080/api/products", {
-        "productName": "Sample Product",
-        "productDescription": "Description",
-        "productGoal": 2500,
-        "startDate": "2024-05-15",
-        "endDate": "2024-06-15",
-        "benefits": [
-          {
-            "benefitName": "Benefit 1",
-            "benefitDescription": "Benefit Description 1",
-            "price": {
-              "amount": 100
-            }
-          },
-          {
-            "benefitName": "Benefit 2",
-            "benefitDescription": "Benefit Description 2",
-            "price": {
-              "amount": 150
-            }
-          }
-        ],
-        "category": {
-          "categoryId": 1
-        },
-        "company": {
-          "companyId": 1
-        }
-      })
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
+function trial() {
+  return (
+    <div className=' d-flex justify-content-center align-content-center placeholder-glow'>
+            <div className="card laceholder-glow"  aria-hidden="true">
+          <div  className="card-img-top border border-bottom  img-100 bg-secondary placeholder-glow" alt="..." >
+            
+          </div>
+        <div className="card-body">
+          <div className="row ">
+            <div className="col-10">
+            <h5 className="card-title preview1-text "><span class="placeholder col-9"></span></h5>
+              <h5 className="card-title preview1-text "><span class="placeholder col-4 me-3"></span><span class="placeholder col-6"></span></h5>
+              <h5 className="card-title preview1-text "><span class="placeholder col-2 me-3"></span><span class="placeholder col-6"></span></h5>
 
-  return <div></div>;
+            </div>
+            <div className="col-2"></div>
+          </div>
+          <div className="row ">
+            <div className="d-flex justify-content-between text-center">
+              <div>
+              <span class="placeholder col-7"></span>
+              </div>
+            </div>
+          </div>
+          <div className="col">
+            <div className="row mb-4">
+            <span class="placeholder col-12 rounded-pill"></span>
+            </div>
+
+           
+              </div>
+              <div>
+
+                  <div
+                    className="progress-bar  "
+                    style={{ width: 0 }}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="row">
+              <small className="text-body-secondary">
+                
+                 
+                  
+              </small>
+            </div>
+          </div>
+  )
 }
 
-export default Trial;
+export default trial
