@@ -32,22 +32,6 @@ function DetailCard({
   const TotalAmount = (event) => {
     setAmount(event.target.value);
   };
-  // useEffect(() => {
-  //   // if amount from hook is empty skip
-  //   if (amount === "") return;
-
-  //   let pledgeAmount = "";
-  //   for (let i = data.length - 1; i >= 0; i--) {
-  //     if (data[i].amount <= amount) {
-  //       pledgeAmount = data[i].amount;
-  //       break;
-  //     }
-  //   }
-  //   setPledge(pledgeAmount);
-  // }, [amount, data]);
-  // const openModal = () => {
-  //   <></>;
-  // };
 
   const { convertedFile: convertedFile1, convertImage: convertImage1 } =
     useImageConverter();
