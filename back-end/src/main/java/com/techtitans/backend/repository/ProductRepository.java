@@ -22,6 +22,14 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Integer>
             "p.productName LIKE CONCAT('%', :query, '%')")
     List<ProductEntity> searchProduct(@Param("query") String query);
 
+    //Custom query for finding product through name for specific category
+    @Query("SELECT p FROM ProductEntity p WHERE " +
+            "p.productName LIKE CONCAT('%', :query, '%') AND p.category.categoryId = :categoryId")
+    List<ProductEntity> searchProductByCategory(
+            @Param("query") String query,
+            @Param("categoryId") int categoryId
+    );
+
     //Custom query for finding product through name
     @Query("SELECT p " +
             "FROM ProductEntity p " +
