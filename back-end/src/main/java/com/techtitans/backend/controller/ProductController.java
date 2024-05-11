@@ -91,6 +91,24 @@ public class ProductController {
         return ResponseEntity.ok(productService.searchProduct(query, false));
     }
 
+    //Build get product for specific REST API for backer
+    @GetMapping("/search/category" + PathConstants.GET_BY_ID_PATH)
+    public ResponseEntity<List<ProductResponseDto>> searchProductByCategory(
+            @RequestParam("query") String query,
+            @PathVariable("id") int categoryId
+    ) {
+        return ResponseEntity.ok(productService.searchProductByCategory(query, false, categoryId));
+    }
+
+    //Build get product for specific REST API for backer
+    @GetMapping("/admin/search/category" + PathConstants.GET_BY_ID_PATH)
+    public ResponseEntity<List<ProductResponseDto>> adminSearchProductByCategory(
+            @RequestParam("query") String query,
+            @PathVariable("id") int categoryId
+    ) {
+        return ResponseEntity.ok(productService.searchProductByCategory(query, true, categoryId));
+    }
+
     //Build get product REST API for admin
     @GetMapping("admin/search")
     public ResponseEntity<List<ProductResponseDto>> adminSearchProduct(@RequestParam("query") String query) {
