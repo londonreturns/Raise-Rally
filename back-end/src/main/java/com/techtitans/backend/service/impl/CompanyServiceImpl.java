@@ -30,7 +30,9 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     public CompanyResponseDto createCompany(CompanyRequestDto companyRequestDto) {
         // Validate request dto
-        validateRequest(companyRequestDto);
+        int  nameMaxLength = 50;
+        int descMaxLength = 100;
+        validateRequest(companyRequestDto, nameMaxLength, descMaxLength);
         // Map CompanyRequestDto to CompanyEntity
         CompanyEntity companyEntity = CompanyMapper.mapToCompany(companyRequestDto);
         // Save the CompanyEntity to the repository
@@ -75,7 +77,9 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     public CompanyResponseDto updateCompanyById(int companyId, CompanyUpdateRequestDto newCompany) {
         // Validate request dto
-        validateRequest(newCompany);
+        int nameMaxLength = 50;
+        int descMaxLength = 100;
+        validateRequest(newCompany, nameMaxLength, descMaxLength);
         // Check if company with the given ID exists
         CompanyEntity companyEntityFromDatabase = companyRepository.findById(companyId)
                 .orElseThrow(() ->
@@ -102,16 +106,18 @@ public class CompanyServiceImpl implements CompanyService {
         companyEntity.setPassword(companyUpdateRequestDto.getNewPassword());
     }
 
-    public static void validateRequest(CompanyRequestDto companyRequestDto) {
-        if (!Validation.isNameValid(companyRequestDto.getName()) ||
+    public static void validateRequest(CompanyRequestDto companyRequestDto ,int nameMaxLength, int descMaxLength) {
+        if (!Validation.isNameValid(companyRequestDto.getName(), nameMaxLength) ||
+                (!Validation.isDescriptionValid(companyRequestDto.getDescription(), descMaxLength))||
                 (!Validation.isEmailValid(companyRequestDto.getEmail())) ||
                 (!Validation.isPasswordValid(companyRequestDto.getPassword()))) {
             throw new ValidationException("Validation error");
         }
     }
 
-    public static void validateRequest(CompanyUpdateRequestDto companyUpdateRequestDto) {
-        if (!Validation.isNameValid(companyUpdateRequestDto.getName()) ||
+    public static void validateRequest(CompanyUpdateRequestDto companyUpdateRequestDto, int nameMaxLength, int descMaxLength) {
+        if (!Validation.isNameValid(companyUpdateRequestDto.getName(), nameMaxLength) ||
+                (!Validation.isDescriptionValid(companyUpdateRequestDto.getDescription(), descMaxLength))||
                 (!Validation.isPasswordValid(companyUpdateRequestDto.getNewPassword())) ||
                 (!Validation.isPasswordValid(companyUpdateRequestDto.getOldPassword()))
         ) {
