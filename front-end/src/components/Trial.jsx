@@ -1,47 +1,27 @@
 import React, { useEffect } from 'react';
-import axios from 'axios';
+import useImageConverter from '../hooks/imageConverter';
 
 function Trial() {
-  useEffect(() => {
-    axios
-      .post("http://localhost:8080/api/products", {
-        "productName": "Sample Product",
-        "productDescription": "Description",
-        "productGoal": 2500,
-        "startDate": "2024-05-15",
-        "endDate": "2024-06-15",
-        "benefits": [
-          {
-            "benefitName": "Benefit 1",
-            "benefitDescription": "Benefit Description 1",
-            "price": {
-              "amount": 100
-            }
-          },
-          {
-            "benefitName": "Benefit 2",
-            "benefitDescription": "Benefit Description 2",
-            "price": {
-              "amount": 150
-            }
-          }
-        ],
-        "category": {
-          "categoryId": 1
-        },
-        "company": {
-          "companyId": 1
-        }
-      })
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
+  const { convertedFile, convertImage } = useImageConverter();
 
-  return <div></div>;
+  useEffect(() => {
+    // URL of the image to convert
+    const imageUrl = "http://localhost:8080/api/images/1_3.jpeg";
+    // Call the convertImage function when the component mounts
+    convertImage(imageUrl);
+  }, [convertImage]); // Run this effect only once after initial render
+
+  return (
+    <div>
+      {convertedFile && (
+        <div>
+          <p>Converted File:</p>
+          {/* Display the converted image */}
+          <img src={URL.createObjectURL(convertedFile)} alt="Converted" />
+        </div>
+      )}
+    </div>
+  );
 }
 
 export default Trial;

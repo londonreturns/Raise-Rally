@@ -1,9 +1,15 @@
 import React from "react";
+import { useState,useEffect } from "react";
 import logo from "../assets/raiserally-logo.png";
 import profile from "../assets/profile.webp";
 import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
-import { useEffect } from "react";
-function Header() {
+function Header({ onSearch }) {
+  const [searchQuery, setSearchQuery] = useState("");
+  const handleSearchInputChange = (event) => {
+    const query = event.target.value;
+    setSearchQuery(query);
+    onSearch(query);
+  };
   const navigate = useNavigate();
   return (
     <>
@@ -30,6 +36,8 @@ function Header() {
               class="form-control w-50 border border-1 border-dark-subtle"
               placeholder="Search Company or Products"
               aria-label="Search"
+              value={searchQuery}
+            onChange={handleSearchInputChange}
             />
             {localStorage.getItem("userType") ? (
             <div className="dropdown">
@@ -39,6 +47,7 @@ function Header() {
               id="navbarDropdownMenuAvatar"
               data-bs-toggle="dropdown"
               aria-expanded="false"
+              
             >
               <img
                 src={profile}
