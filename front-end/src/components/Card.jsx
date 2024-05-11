@@ -3,7 +3,6 @@ import { MdVerified } from "react-icons/md";
 import { IoIosTime } from "react-icons/io";
 import { FaHeart } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
-import getAxios from "../hooks/getAxios";
 //Card takes Props from it's parent component
 function Card({
   imageSrc,
@@ -15,7 +14,11 @@ function Card({
   progressPercentage,
   companyVerified,
   productVerified,
+  active,
 }) {
+  if (!active) {
+    return null;
+  }
   const navigate=useNavigate();
   // Renders heart icon if company is verified
   const shouldShowApproval = () => {
@@ -97,7 +100,7 @@ function Card({
         </div>
       </div>
     </div>
-    // </div>
+   
   );
 }
 
