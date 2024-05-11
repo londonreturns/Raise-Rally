@@ -117,4 +117,13 @@ public class ProductController {
         Integer backerCount = productService.findBackerCountByProductId(id);
         return new ResponseEntity<>(backerCount, HttpStatus.OK);
     }
+
+    // Get funded products by backer id
+    @GetMapping("/fundedproducts" + PathConstants.GET_BY_ID_PATH)
+    public ResponseEntity<List<ProductResponseDto>> getFundedProductsByBackerId(
+            @PathVariable("id") int backerId
+    ){
+        List<ProductResponseDto> products = productService.findFundedProductsByBackerId(backerId);
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
 }

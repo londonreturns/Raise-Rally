@@ -36,6 +36,9 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ContributionRepository contributionRepository;
 
+    @Autowired
+    private BackerRepository backerRepository;
+
     // Function to add product
     @Override
     public ProductResponseDto addProduct(ProductRequestDto productDto) {
@@ -217,6 +220,17 @@ public class ProductServiceImpl implements ProductService {
                         new ResourceNotFoundException("Product does not exist with the given ID: " + productId));
 
         return contributionRepository.countBackersByProductId(productId);
+    }
+
+    @Override
+    public List<ProductResponseDto> findFundedProductsByBackerId(int backerId) {
+        // Find the existing product entity
+        backerRepository.findById(backerId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Backer does not exist with the given ID: " + backerId));
+
+        List<ProductEntity> products = productRepository.findFundedProductsByBackerId(backerId);
+        return products.stream().map(ProductMapper::mapToProductDto).toList();
     }
 
 

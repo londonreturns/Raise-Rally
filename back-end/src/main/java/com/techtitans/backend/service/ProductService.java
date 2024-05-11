@@ -29,4 +29,6 @@ public interface ProductService {
     ProductResponseDto featureProduct(int id, boolean featured);
 
     Integer findBackerCountByProductId(int productId);
+
+    List<ProductResponseDto> findFundedProductsByBackerId(int backerId);
 }
