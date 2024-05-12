@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import postAxios from '../hooks/postAxios';
 import { FaFileUpload } from "react-icons/fa";
+import Productadd from './Productadd';
 function Addimage() {
-  const { makeRequest, isLoading, error } = postAxios("http://localhost:8080/api/images/1");
+  const ProductId=localStorage.getItem('productId');
+  const { makeRequest, isLoading, error } = postAxios(`http://localhost:8080/api/images/${ProductId}`);
 
   const [selectedImages, setSelectedImages] = useState([null, null, null]);
 
