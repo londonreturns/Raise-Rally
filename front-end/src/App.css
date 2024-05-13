@@ -195,3 +195,23 @@ ul a.active {
   background-color: #CBDCE1;
   border: 2px dashed rgb(17, 193, 94);
 }
+.item{
+  width: 19.5rem !important;
+  height: auto !important;
+}
+.item:hover .absolute-hidden {
+  opacity: 1;
+  transition: opacity 0.4s ease;
+ 
+}
+.item:hover .photo{
+  opacity: 0.8;
+}
+.absolute-hidden {
+  opacity: 0;
+  transition: opacity 0.3s ease-in; 
+}
+.progress-color{
+  background-color: #84dd63 !important;
+}
+

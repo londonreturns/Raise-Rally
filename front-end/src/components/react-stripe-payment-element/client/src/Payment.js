@@ -23,7 +23,7 @@ function Payment() {
     },
     body: JSON.stringify({
       currency: "NPR",
-      amount: 9000,
+      amount: 2000,
       automatic_payment_methods: { enabled: true }
     }),
   }).then(async (result) => {
