@@ -26,7 +26,7 @@ function Homepage() {
       <Header onSearch={setSearchQuery} />
       {loading && <Loading />}
       {productsError && <Error />}
-      <div className="row gx-0">
+      <div className="row gx-0 vh-100">
       {productsData.length === 0 && 
             <> 
             <div className='d-flex justify-content-center p-5 mt-5'>

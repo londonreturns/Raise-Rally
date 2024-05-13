@@ -11,6 +11,7 @@ import Homepage from "../pages/Homepage";
 import Layout from "../pages/Layout";
 import Addimage from "../components/Addimage";
 import Trial from "../components/Trial";
+import Dashboard from "../pages/admin/Dashboard";
 
 function Pagerouter() {
   const categories = ["art", "crafts", "dance", "film", "music", "technology"];
@@ -65,6 +66,10 @@ function Pagerouter() {
     {
       path: "/try",
       element: <Trial />,
+    }, 
+    {
+      path: "/dashboard",
+      element: <Dashboard/>,
     },
   ]);
   return (
