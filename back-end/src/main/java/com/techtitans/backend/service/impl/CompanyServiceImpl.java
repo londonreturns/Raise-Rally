@@ -69,8 +69,6 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
 
-
-
     // Method to update company details by ID
     @Override
     public CompanyResponseDto updateCompanyById(int companyId, CompanyRequestDto companyRequestDto) {
@@ -120,10 +118,6 @@ public class CompanyServiceImpl implements CompanyService {
         companyRepository.deleteById(companyId);
     }
 
-    //Function to search company by name
-    @Override
-    public List<CompanyEntity> searchCompanies(String query) {
-        return companyRepository.searchCompanies(query);
-    }
+
 }
 
