@@ -15,13 +15,13 @@ function Card({
   productId,
   active,
   categoryId,
-  benefitIds
+  benefitIds,
 }) {
   if (!active) {
     return null;
   }
 
-  const { data} = getAxios(`http://localhost:8080/api/companies/${companyId}`);
+  const { data } = getAxios(`http://localhost:8080/api/companies/${companyId}`);
 
   const progressPercentage = (productGoal / currentAmount) * 100;
   const endDateMillis = new Date(endDate).getTime();
@@ -33,14 +33,22 @@ function Card({
   const navigate = useNavigate();
 
   const shouldShowHeart = () => {
-    return featured == true ? <div className="btn btn-light disabled opacity-100"><FaHeart size={20}/> 
-    </div>   : null;
+    return featured == true ? (
+      <div className="btn btn-light disabled opacity-100 ">
+        <FaHeart size={20} />
+      </div>
+    ) : null;
   };
   const verified = data.ticked;
   const shouldShowVerified = () => {
-    return verified == true ?  <div className="btn btn-warning  disabled opacity-100">
-    <span><VscVerifiedFilled size={23}/> </span><span className=" fs-6 ">TRUST PROVEN</span>
-</div>   : null;
+    return verified == true ? (
+      <div className="btn btn-warning  disabled opacity-100 ">
+        <span>
+          <VscVerifiedFilled size={23} />{" "}
+        </span>
+        <span className=" fs-6 ">TRUST PROVEN</span>
+      </div>
+    ) : null;
   };
   const companyName = data.name;
 
@@ -74,59 +82,71 @@ function Card({
   };
 
   return (
-  <>
+    <>
       {/* dispaly-block  */}
-      <div className="main-section  d-block col-md-4 col-lg-3 p-4 d-flex justify-content-around">
+      <div className="main-section  d-block col-md-4 col-lg-3  d-flex justify-content-around">
         {/* secondary section */}
         <div className="secondary-section  bg-body ">
           {/* image section  */}
-         <div className="item">
-          <div className="  me-3 pb-2 image position-relative">
+          <div className="item">
+            <div className="  me-3 pb-2 image position-relative">
+
+              <div >
+                {/* image inside here  */}
+                {convertedFile && (
+                  <img
+                    src={URL.createObjectURL(convertedFile)}
+                    className="w-100 rounded  photo"
+                    alt="..." 
+                  />
+                )}
+              </div>
               <div className=" text-white position-absolute absolute-hidden top-0 start-0 m-2  d-block ">
                 {/* verified  */}
                 {shouldShowVerified()}
               </div>
               <div className="text-white position-absolute absolute-hidden top-0 end-0 m-2">
                 {/* featured  product */}
-{shouldShowHeart()}
+                {shouldShowHeart()}
               </div>
-              <div >
-
-              {/* image inside here  */}
-              {convertedFile && (
-                <img src={URL.createObjectURL(convertedFile)} className="w-100 rounded photo" alt="..." />
-              )}
-                </div>
-                <div className=" text-white position-absolute absolute-hidden bottom-0 start-50 translate-middle-x mb-5">
+              <div className=" text-white position-absolute absolute-hidden bottom-0 start-50 translate-middle-x mb-3">
                 {/* View project  */}
-                <div className="btn btn-light w-100" onClick={() => {
-                  
-navigate(`/categories/${getCategoryName(categoryId).toLowerCase()}/detail?productId=${productId}`);
-let allbenefits=JSON.stringify(benefitIds);
-localStorage.setItem("allbenefits",allbenefits);
-
-}}> 
-                     <span className=" fs-6 text-uppercase">View campaign</span>
-                </div>  
- 
+                <div
+                  className="btn btn-light w-100"
+                  onClick={() => {
+                    navigate(
+                      `/categories/${getCategoryName(
+                        categoryId
+                      ).toLowerCase()}/detail?productId=${productId}`
+                    );
+                    let allbenefits = JSON.stringify(benefitIds);
+                    localStorage.setItem("allbenefits", allbenefits);
+                  }}
+                >
+                  <span className=" fs-6 text-uppercase">View campaign</span>
+                </div>
               </div>
+            </div>
 
+            {/* content section  */}
+            <div className="content ">
+              
+              <div>
+                            <div className="progress my-2 bg-secondary-emphasis me-3" role="progressbar" aria-label="Info example" aria-valuenow={50} aria-valuemin={0} aria-valuemax={100}>
+  <div className="progress-bar progress-color" style={{width: 60}} />
+</div>
+                <h4 className="fs-6 text-secondary" style={{ fontSize: 20 }}>
+                  {getCategoryName(categoryId)}
+                </h4>
               </div>
-
-          {/* content section  */}
-          <div className="content ">
-            <div><h4 className="fs-6 text-secondary" style={{ fontSize: 20 }}>{getCategoryName(categoryId)}</h4></div>
-            <div>
-              <p style={{ fontSize: 18}}>
-              {productName}
-              </p>
+              <div>
+                <p style={{ fontSize: 18 }}>{productName}</p>
               </div>
-          </div>
+            </div>
           </div>
         </div>
       </div>
-  
-</>
+    </>
   );
 }
 
