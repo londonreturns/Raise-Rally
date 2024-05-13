@@ -15,6 +15,7 @@ import com.techtitans.backend.service.ContributionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,6 +50,17 @@ public class ContributionServiceImpl implements ContributionService {
         benefitRepository.findById(contributionEntity.getBenefit().getBenefitId()).orElseThrow(
                 () -> new ResourceNotFoundException("Benefit with id " + contributionEntity.getBenefit().getBenefitId() + " not found")
         );
+
+        // Check if contribution date is within the product's start and end dates
+        LocalDate contributionDate = contributionEntity.getPaymentDate();
+        ProductEntity productEntity = productRepository.findById(contributionEntity.getBenefit().getProduct().getProductId())
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Product with id " + contributionEntity.getBenefit().getProduct().getProductId() + " not found"));
+
+        if (contributionDate.isBefore(productEntity.getStartDate()) || contributionDate.isAfter(productEntity.getEndDate())) {
+            throw new IllegalArgumentException("Contribution date must be within the product's start and end dates.");
+        }
+
 
         // Save to database
         ContributionEntity savedContribution = contributionRepository.save(contributionEntity);
