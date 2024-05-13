@@ -18,20 +18,7 @@ function ProductDashboard() {
   useEffect(() => {
     // Set products data with placeholder raw data
     setProducts(rawData);
-  }, []); // Empty dependency array to fetch data only once on component mount
-
-  // const fetchData = async () => {
-  //   try {
-  //     const response = await axios.get(`YOUR_API_ENDPOINT?search=${searchTerm}`);
-  //     setProducts(response.data);
-  //   } catch (error) {
-  //     console.error('Error fetching data:', error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   fetchData();
-  // }, [searchTerm]);
+  }, []); 
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);

@@ -196,12 +196,16 @@ ul a.active {
 }
 .item:hover .photo{
   opacity: 0.8;
+  transition: opacity 0.3s ease-in; 
 }
 .absolute-hidden {
   opacity: 0;
   transition: opacity 0.3s ease-in; 
 }
 .progress-color{
-  background-color: #84dd63 !important;
+  background-color: #5882d8 !important;
 }
-
+.dashboard a.active {
+  color: var(--button-color) !important; 
+  font-weight: bolder;
+}
