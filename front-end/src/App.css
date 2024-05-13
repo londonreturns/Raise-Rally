@@ -3,6 +3,7 @@
   --header-color: #0F2923!important;
   --footer-color:#F7F7F8 !important;
   --button-color: #3F51B5 !important;
+
 }
 
 
@@ -26,13 +27,13 @@ li {
   box-shadow: 0 0 5px #070984 !important;
 }
 p {
-  font-family: "Lato", sans-serif;
+  font-family: "Lato", sans-serif !important;
 }
 .nbar{
   margin-top: 75px !important;
   background-color: var(--header-color);
 }
-.card {
+/* .card {
   width: 300px !important;
   height: 200px;
   border: 1px solid var( --button-color) !important;
@@ -44,15 +45,15 @@ p {
 .card:hover {
   transform: scale(1.01);
   box-shadow: 0 10px 20px rgba(0, 0, 0, .3), 0 4px 8px rgba(0, 0, 0, .15);
-}
+} */
 .line{
   width: 60px;
   background-color: #fff !important;
   height: 2px ;
 }
-.card h3 {
+/* .card h3 {
   font-weight: 600;
-}
+} */
 
 .preview1-text,
 .preview-text {
@@ -195,4 +196,16 @@ ul a.active {
   padding-bottom: 10px;
   background-color: #CBDCE1;
   border: 2px dashed rgb(17, 193, 94);
+}
+.item{
+  width: 19.5rem !important;
+  height: 29.5rem !important;
+}
+.item:hover .absolute-hidden {
+  opacity: 1;
+  transition: opacity 1s ease;
+}
+.absolute-hidden {
+  opacity: 0;
+  transition: opacity 0.3s ease-in; 
 }
