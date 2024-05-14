@@ -26,10 +26,10 @@ function Homepage() {
       <Header onSearch={setSearchQuery} />
       {loading && <Loading />}
       {productsError && <Error />}
-      <div className="row gx-0">
+      <div className="row gx-0 ">
       {productsData.length === 0 && 
             <> 
-            <div className='d-flex justify-content-center p-5 mt-5'>
+            <div className='d-flex justify-content-center p-5 mt-5 vh-100'>
               <div className='p-5 d-flex flex-column '>
                 <div><h2 className='fs-1'>Sorry </h2></div>
             <div className='ps-5'><IoSearchSharp  size={30}/></div>
@@ -48,6 +48,7 @@ function Homepage() {
       </div>
       <Footer />
     </div>
+    
   );
 }
 

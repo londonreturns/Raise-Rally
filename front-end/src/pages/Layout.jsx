@@ -6,9 +6,19 @@ import { Outlet } from 'react-router-dom'
 function Layout() {
   return (
     <>
-    <Header/>
+      
+      <div className="col-lg-4">
+      <ul>
+        <li>Dashboard</li>
+        <li>Backers</li>
+        <li>Company</li>
+        <li>Edit profile</li>
+      </ul>
+    </div>
+    <div className='col-lg-8'> 
     <Outlet/>
-    <Footer/>
+    </div>
+      
     </>
   )
 }

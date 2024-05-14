@@ -16,13 +16,13 @@ public class BackerEntity {
     @Id
     // Using database's autoincrement feature
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "backer_id")
+    @Column(name = "backer_id", unique = true, nullable = false)
     private int backerId;
 
     @Column(name = "name")
     private String name;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
 
     @Column(name = "password")

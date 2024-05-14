@@ -6,7 +6,6 @@ import Header from '../components/Header';
 import Loading from '../components/Loading';
 import Footer from '../components/Footer';
 import Catcard from '../components/Catcard';
-import LoadingCard from '../components/LoadingCard';
 
 function Cat({ categories }) {
     const { cat } = useParams();
@@ -48,21 +47,9 @@ function Cat({ categories }) {
     return (
         <>
             <Header onSearch={setSearchQuery} />
-            {loading && <Loading />}
-            {productsError && <Error />}
+
             <div className="row gx-0">
-            {productsData.length === 0 && 
-            <> 
-            <div className='d-flex justify-content-center p-5 mt-5'>
-              <div className='p-5 d-flex flex-column '>
-                <div><h2 className='fs-1 ps-3'>Sorry </h2></div>
-            <div className='ps-5'><IoSearchSharp  size={30}/></div>
-            
-            <div> <p className='fs-4 pb-5'> Item not found</p></div>
-            
-            </div>
-            </div>
-            </>}
+        
                 {productsData.map((productData) => (
                   
                     <Catcard

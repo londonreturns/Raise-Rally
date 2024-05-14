@@ -1,6 +1,7 @@
 // Importing all necessary files, react and useState hook
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { IoChevronBackOutline } from "react-icons/io5";
 import axios from "axios";
 import "./Login.css";
 import raiserallyLogo from "../assets/raiserally-logo.png";
@@ -115,6 +116,7 @@ function Login() {
       <div className="row justify-content-center">
         <div className="col-lg-12 col-md-6 col-sm-12 col-12">
           <div className="card shadow w-100 h-100 bg-body-tertiary">
+
             <div className="card-body px-3">
               <div className="d-flex justify-content-center ps-5">
                 <img src={raiserallyLogo} className=" logo " alt="Raise Rally" style={{ width: 100,height:80 }} />
@@ -208,6 +210,17 @@ function Login() {
                 Don't have an account?
                 <Link to="/signup"> Sign Up</Link>
               </p>
+              <div className="row">
+                <div className="col-lg-5">
+                <Link to="/" className="text-decoration-none d-flex justify-content-around align-content-center">
+          <div>
+            <IoChevronBackOutline size={20}/>
+          </div>
+          <div>Back to Homepage</div>
+      </Link>
+                </div>
+              </div>
+              
             </div>
           </div>
         </div>
