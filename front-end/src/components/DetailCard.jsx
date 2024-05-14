@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Contributioncard from "../components/Contributioncard";
-import { Link, json } from "react-router-dom";
+import { Link, json, useNavigate } from "react-router-dom";
 import getAxios from "../hooks/getAxios";
 import { IoChevronBackOutline } from "react-icons/io5";
 import useImageConverter from "../hooks/imageConverter";
-
-
-
 
 function DetailCard({
   productName,
@@ -16,23 +13,36 @@ function DetailCard({
   currentAmount,
   productId,
 }) {
-  //backer by 
+  //backer by email
+  const backerEmail = localStorage.getItem("email");
+  const { data: id } = getAxios(
+    `http://localhost:8080/api/backers/email/${backerEmail}`
+  );
+  const backerid=id;
+
+  //backer by
   const { data: backerNo } = getAxios(
     `http://localhost:8080/api/products/numberofbackers-by-product/${productId}`
   );
   //accesing through local storage
   let allbenefits = localStorage.getItem("allbenefits");
-  let benefits=JSON.parse(allbenefits);
-  let benefit1=benefits[0];
-  let benefit2=benefits[1];
-  let benefit3=benefits[2];
+  let benefits = JSON.parse(allbenefits);
+  let benefit1 = benefits[0];
+  let benefit2 = benefits[1];
+  let benefit3 = benefits[2];
   //for comparing the benefit amount1
-  const {data:amount1}=getAxios(`http://localhost:8080/api/price/${benefit1}`);
-  const price1=amount1.amount;
-  const {data:amount2}=getAxios(`http://localhost:8080/api/price/${benefit2}`);
-  const price2=amount2.amount;
-  const {data:amount3}=getAxios(`http://localhost:8080/api/price/${benefit3}`); 
-  const price3=amount3.amount;
+  const { data: amount1 } = getAxios(
+    `http://localhost:8080/api/price/${benefit1}`
+  );
+  const price1 = amount1.amount;
+  const { data: amount2 } = getAxios(
+    `http://localhost:8080/api/price/${benefit2}`
+  );
+  const price2 = amount2.amount;
+  const { data: amount3 } = getAxios(
+    `http://localhost:8080/api/price/${benefit3}`
+  );
+  const price3 = amount3.amount;
   const [amount, setAmount] = useState("");
   const [pledge, setPledge] = useState("");
   const TotalAmount = (event) => {
@@ -43,7 +53,7 @@ function DetailCard({
     if (amount === "") return;
     const prices = [price1, price2, price3];
     let pledgeAmount = "";
-    for (let i = 2; i >= 0; i--) { 
+    for (let i = 2; i >= 0; i--) {
       if (prices[i] <= amount) {
         pledgeAmount = prices[i];
         break;
@@ -51,9 +61,14 @@ function DetailCard({
     }
     setPledge(pledgeAmount);
   }, [amount, price1, price2, price3]);
-  
-
-
+  let benefitid;
+  if (pledge == price1) {
+    benefitid = 1;
+  } else if (pledge == price2) {
+    benefitid = 2;
+  } else if (pledge == price3) {
+    benefitid = 3;
+  }
 
   const progressPercentage = (currentAmount / productGoal) * 100;
   const endDateMillis = new Date(endDate).getTime();
@@ -61,11 +76,6 @@ function DetailCard({
   const dayInMillis = 1000 * 60 * 60 * 24;
   const diff = endDateMillis - today;
   const daysLeft = Math.round(diff / dayInMillis);
-
-
-
-
-
 
   const { convertedFile: convertedFile1, convertImage: convertImage1 } =
     useImageConverter();
@@ -85,17 +95,43 @@ function DetailCard({
     convertImage2(imageUrl2);
     convertImage3(imageUrl3);
   }, [productId, convertImage1, convertImage2, convertImage3]);
-  handlenext()
+  const handlenext = () => {
+    const currentDate = new Date();
+
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+    const day = String(currentDate.getDate()).padStart(2, "0");
+
+    const formattedDate = `${year}-${month}-${day}`;
+    if (amount != "") {
+      const actualPaidPrice = amount/100;
+      const paymentDate = formattedDate;
+      const benefitid = 2;
+      const backerId = backerid;
+      const paymentInfo = {
+        actualPaidPrice,
+        paymentDate,
+        benefitid,
+        backerId,
+      };
+
+      localStorage.setItem("paymentKey", JSON.stringify(paymentInfo));
+      
+
+      
+    }
+  };
   return (
     <>
-      <Link to="/" className="text-decoration-none">
+      
         <div className="ps-2 fw-semibold d-flex justify-content-start">
+        <Link to="/" className="text-decoration-none d-flex justify-content-around align-content-center">
           <div>
-            <IoChevronBackOutline />
+            <IoChevronBackOutline size={20}/>
           </div>
-          <div>Back to homepage</div>
-        </div>
+          <div>Back to Homepage</div>
       </Link>
+        </div>
       <div className="pt-5 pt-md-2">
         <div className="d-flex justify-content-center text-center">
           <div className="pt-5">
@@ -262,7 +298,12 @@ function DetailCard({
                             />
                           </div>
                         </div>
-                        <div className="col-lg-4 continueBtn text-center text-white pt-1" onClick={handlenext}>
+                        
+                        <div
+                          className="col-lg-4 continueBtn text-center text-white pt-1"
+                          onClick={handlenext}
+                          {...(amount !== "" ? { 'data-bs-dismiss': 'modal' } : {})}
+                        >
                           <p>Pledge {amount ? `रू${amount}` : ""}</p>
                         </div>
                       </div>

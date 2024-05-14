@@ -1,12 +1,9 @@
 import React, { useEffect } from "react";
 import getAxios from "../hooks/getAxios";
-import { MdVerified } from "react-icons/md";
-import { IoIosTime } from "react-icons/io";
+import { VscVerifiedFilled } from "react-icons/vsc";
 import { FaHeart } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import useImageConverter from "../hooks/imageConverter";
-import LoadingCard from "./LoadingCard";
-
 function Card({
   productName,
   productDescription,
@@ -18,13 +15,13 @@ function Card({
   productId,
   active,
   categoryId,
-  benefitIds
+  benefitIds,
 }) {
   if (!active) {
     return null;
   }
 
-  const { data,loading } = getAxios(`http://localhost:8080/api/companies/${companyId}`);
+  const { data } = getAxios(`http://localhost:8080/api/companies/${companyId}`);
 
   const progressPercentage = (productGoal / currentAmount) * 100;
   const endDateMillis = new Date(endDate).getTime();
@@ -36,11 +33,22 @@ function Card({
   const navigate = useNavigate();
 
   const shouldShowHeart = () => {
-    return featured == true ? <FaHeart size={20} /> : null;
+    return featured == true ? (
+      <div className="btn btn-light disabled opacity-100 ">
+        <FaHeart size={20} />
+      </div>
+    ) : null;
   };
   const verified = data.ticked;
   const shouldShowVerified = () => {
-    return verified == true ? <MdVerified size={25} /> : null;
+    return verified == true ? (
+      <div className="btn btn-warning  disabled opacity-100 ">
+        <span>
+          <VscVerifiedFilled size={23} />{" "}
+        </span>
+        <span className=" fs-6 ">TRUST PROVEN</span>
+      </div>
+    ) : null;
   };
   const companyName = data.name;
 
@@ -74,91 +82,71 @@ function Card({
   };
 
   return (
-    <div
-      className="col-md-4 col-lg-3 p-4 d-flex justify-content-around"
-      onClick={() => {
+    <>
+      {/* dispaly-block  */}
+      <div className="main-section  d-block col-md-4 col-lg-3  d-flex justify-content-around">
+        {/* secondary section */}
+        <div className="secondary-section  bg-body ">
+          {/* image section  */}
+          <div className="item">
+            <div className="  me-3 pb-2 image position-relative">
 
-        navigate(`/categories/${getCategoryName(categoryId).toLowerCase()}/detail?productId=${productId}`);
-        let allbenefits=JSON.stringify(benefitIds);
-        localStorage.setItem("allbenefits",allbenefits);
-
-      }}
-    >
-      <div className="card">
-        {loading ? (
-          <LoadingCard />
-        ) : (
-          <>
-            {convertedFile && (
-              <img src={URL.createObjectURL(convertedFile)} className="card-img-top border border-bottom  img-100" alt="..." />
-            )}
-            <div className="card-body">
-              <div className="row">
-                <div className="col-10">
-                  <h5 className="card-title preview1-text">{productName}</h5>
-                </div>
-                <div className="col-2">{shouldShowHeart()}</div>
+              <div >
+                {/* image inside here  */}
+                {convertedFile && (
+                  <img
+                    src={URL.createObjectURL(convertedFile)}
+                    className="w-100 rounded  photo"
+                    alt="..." 
+                  />
+                )}
               </div>
-              <div className="row ">
-                <div className="d-flex justify-content-between text-center">
-                  <div>
-                    <p className="fs-6 text-body-secondary fw-semibold">{companyName}</p>
-                  </div>
-                  <div>{shouldShowVerified()}</div>
-                </div>
+              <div className=" text-white position-absolute absolute-hidden top-0 start-0 m-2  d-block ">
+                {/* verified  */}
+                {shouldShowVerified()}
               </div>
-              <div className="col">
-                <div className="row mb-4">
-                  <p className="card-text preview-text">{productDescription}</p>
-                </div>
-
-                <div className="row py-1">
-                  <div className="d-flex justify-content-start text-center">
-                    <div className="pe-2">
-                      <h5>रू{currentAmount}</h5>
-                    </div>
-                    <div>NPR Raised</div>
-                    <div className="ms-auto mb-2 ">
-                      <div className="row">
-                        <div className="col-lg-1"></div>
-                        <div className="col-lg-10 btn btn-secondary disabled ">
-                          {getCategoryName(categoryId)}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div>
-                    <div
-                      className="progress progress-length  "
-                      role="progressbar"
-                      aria-label="Basic example"
-                      aria-valuenow={0}
-                      aria-valuemin={0}
-                      aria-valuemax={100}
-                    >
-                      <div
-                        className="progress-bar progress-color "
-                        style={{ width: `${progressPercentage}%` }}
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="row">
-                  <small className="text-body-secondary">
-                    <div className="d-flex justify-content-start align-content-center">
-                      <div>
-                        <IoIosTime size={25} />
-                      </div>
-                      <div className="ps-2 fs-6">{daysleft} days left</div>
-                    </div>
-                  </small>
+              <div className="text-white position-absolute absolute-hidden top-0 end-0 m-2">
+                {/* featured  product */}
+                {shouldShowHeart()}
+              </div>
+              <div className=" text-white position-absolute absolute-hidden bottom-0 start-50 translate-middle-x mb-3">
+                {/* View project  */}
+                <div
+                  className="btn btn-light w-100"
+                  onClick={() => {
+                    navigate(
+                      `/categories/${getCategoryName(
+                        categoryId
+                      ).toLowerCase()}/detail?productId=${productId}`
+                    );
+                    let allbenefits = JSON.stringify(benefitIds);
+                    localStorage.setItem("allbenefits", allbenefits);
+                  }}
+                >
+                  <span className=" fs-6 text-uppercase">View campaign</span>
                 </div>
               </div>
             </div>
-          </>
-        )}
+
+            {/* content section  */}
+            <div className="content ">
+              
+              <div>
+                            <div className="progress my-2 bg-secondary-emphasis me-3" role="progressbar" aria-label="Info example" aria-valuenow={50} aria-valuemin={0} aria-valuemax={100}>
+  <div className="progress-bar progress-color" style={{width: 60}} />
+</div>
+                <h4 className="fs-6 text-secondary" style={{ fontSize: 20 }}>
+                  {getCategoryName(categoryId)}
+                </h4>
+              </div>
+              <div>
+                <p style={{ fontSize: 18 }}>{productName}</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
