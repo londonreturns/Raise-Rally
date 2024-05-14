@@ -17,6 +17,7 @@ function Card({
   categoryId,
   benefitIds,
 }) {
+  console.log(productGoal)
   if (!active) {
     return null;
   }
@@ -84,21 +85,21 @@ function Card({
   return (
     <>
       {/* dispaly-block  */}
-      <div className="main-section  d-block col-md-4 col-lg-3  d-flex justify-content-around">
+      <div className="main-section  d-block col-md-4 col-lg-3  d-flex justify-content-around p-4" >
         {/* secondary section */}
         <div className="secondary-section  bg-body ">
           {/* image section  */}
           <div className="item">
             <div className="  me-3 pb-2 image position-relative">
-
               <div >
                 {/* image inside here  */}
                 {convertedFile && (
                   <img
-                    src={URL.createObjectURL(convertedFile)}
-                    className="w-100 rounded  photo"
-                    alt="..." 
-                  />
+                  src={URL.createObjectURL(convertedFile)}
+                  className="w-100 rounded  img-fluid photo"
+                  alt="..."
+              />
+              
                 )}
               </div>
               <div className=" text-white position-absolute absolute-hidden top-0 start-0 m-2  d-block ">
@@ -129,13 +130,22 @@ function Card({
             </div>
 
             {/* content section  */}
-            <div className="content ">
-              
+            <div className="content " >
               <div>
-                            <div className="progress my-2 bg-secondary-emphasis me-3" role="progressbar" aria-label="Info example" aria-valuenow={50} aria-valuemin={0} aria-valuemax={100}>
-  <div className="progress-bar progress-color" style={{width: 60}} />
-</div>
-                <h4 className="fs-6 text-secondary" style={{ fontSize: 20 }}>
+                <div
+                  className="progress my-2 bg-secondary-emphasis me-3 "
+                  role="progressbar"
+                  aria-label="Info example"
+                  aria-valuenow={50}
+                  aria-valuemin={0}
+                  aria-valuemax={100}
+                >
+                  <div
+                    className="progress-bar progress-color"
+                    style={{ width: `${progressPercentage}%` }}
+                  />
+                </div>
+                <h4 className="fs-6 text-secondary " style={{ fontSize: {progressPercentage} }}>
                   {getCategoryName(categoryId)}
                 </h4>
               </div>

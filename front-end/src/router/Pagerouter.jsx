@@ -17,6 +17,9 @@ import ProfileUpdate_admin from "../pages/admin/ProfileUpdate_admin";
 import ProductDashboard from "../pages/admin/ProductDashboard";
 import Product_Moderate from "../pages/admin/Product_Moderate";
 import Company_Moderate from "../pages/admin/Company_Moderate";
+import Dashboardbacker from "../pages/backer/Dashboardbacker";
+import BackerDashboard from "../pages/backer/BackerDashboard";
+import ProfileUpdate_backer from "../pages/backer/ProfileUpdate_backers";
 
 function Pagerouter() {
   const categories = ["art", "crafts", "dance", "film", "music", "technology"];
@@ -88,6 +91,24 @@ function Pagerouter() {
         {
           path: "/admin/dashboard/editcompany",
           element: <Company_Moderate />
+        }
+      ]
+    },
+    {
+      path: "/backer/dashboard",
+      element: <Dashboardbacker/>,
+      children: [
+        {
+          path: "/backer/dashboard",
+          element:<BackerDashboard/>
+        },
+        {
+          path: "/backer/dashboard/editprofile",
+          element: <ProfileUpdate_backer/>
+        },
+        {
+          path:"/backer/dashboard/funded",
+          element:<BackerDashboard/>
         }
       ]
     }

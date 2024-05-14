@@ -3,6 +3,9 @@
   --header-color: #0F2923!important;
   --footer-color:#F7F7F8 !important;
   --button-color: #3F51B5 !important;
+  --dash1:#4DA3FF !important;
+  --dash2:#FFE6AC !important;
+  --dash3:#E7D1FC !important;
 
 }
 
@@ -194,10 +197,12 @@ ul a.active {
   transition: opacity 0.4s ease;
  
 }
-.item:hover .photo{
+.item:hover .photo {
   opacity: 0.8;
-  transition: opacity 0.3s ease-in; 
+  background-color: rgba(0, 0, 0, 0.5); 
+  transition: opacity 0.3s ease-in-out, background-color 0.3s ease-in-out; 
 }
+
 .absolute-hidden {
   opacity: 0;
   transition: opacity 0.3s ease-in; 
@@ -209,3 +214,16 @@ ul a.active {
   color: var(--button-color) !important; 
   font-weight: bolder;
 }
+.product{
+  background-color: var(--dash3) !important;
+}
+.raised{
+  background-color: var(--dash2) !important;
+}
+.toraise{
+  background-color: var(--dash1) !important;
+}
+.table-striped th {
+  background-color: #b1c5da !important; 
+}
+

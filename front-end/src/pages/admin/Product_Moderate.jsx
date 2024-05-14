@@ -98,8 +98,8 @@ function Product_Moderate() {
             </div>
             <div className="row mt-4">
                 <div className="col-md-12">
-                    <h1>Product Dashboard</h1>
-                    <table className="table">
+                    <h1>All Products</h1>
+                    <table className="table table-striped">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -117,18 +117,18 @@ function Product_Moderate() {
                                     <td>{product.productDescription}</td>
                                     <td>
                                         <button
-                                            className={`btn ${product.active ? 'btn-primary' : 'btn-secondary'}`}
+                                            className={`btn ${product.active ? 'btn-secondary' : 'btn-success'}`}
                                             onClick={() => handleToggleActive(product.productId, product.active)}
                                         >
-                                            {product.active ? 'Enable' : 'Disable'}
+                                            {product.active ? 'Disable' : 'Enable'}
                                         </button>
                                     </td>
                                     <td>
                                         <button
-                                            className={`btn ${product.featured ? 'btn-primary' : 'btn-secondary'}`}
+                                            className={`btn ${product.featured ? 'btn-secondary' : 'btn-primary'}`}
                                             onClick={() => handleToggleVerified(product.productId, product.featured)}
                                         >
-                                            {product.featured ? 'Featured' : 'Not Featured'}
+                                            {product.featured ? 'Undo' : 'Feature'}
                                         </button>
                                     </td>
                                 </tr>

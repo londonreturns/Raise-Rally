@@ -1,90 +1,94 @@
 import React, { useState, useEffect } from 'react';
-import { RiSearchLine } from 'react-icons/ri';
-import 'bootstrap/dist/css/bootstrap.min.css';
-//import axios from 'axios'; // Import Axios
+import getAxios from '../../hooks/getAxios';
 
-function ProductDashboard() {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [products, setProducts] = useState([]);
+function BackerDashboard() {
+    const [searchTerm, setSearchTerm] = useState('');
+    const [fundedProducts, setFundedProducts] = useState([]);
 
-  // Placeholder raw data for products
-  const rawData = [
-    { id: 1, productName: 'Product 1', company: 'Company A', description: 'Description A', amountFeatures: 5, amountNotFeatured: 2, active: true },
-    { id: 2, productName: 'Product 2', company: 'Company B', description: 'Description B', amountFeatures: 3, amountNotFeatured: 1, active: false },
-    { id: 3, productName: 'Product 3', company: 'Company C', description: 'Description C', amountFeatures: 7, amountNotFeatured: 0, active: true },
-    { id: 4, productName: 'Product 4', company: 'Company D', description: 'Description D', amountFeatures: 2, amountNotFeatured: 4, active: false },
-  ];
+    const email = localStorage.getItem('email');
 
-  useEffect(() => {
-    // Set products data with placeholder raw data
-    setProducts(rawData);
-  }, []); 
+    useEffect(() => {
+        const fetchData = async () => {
+            const { data } = await getAxios(`http://localhost:8080/api/backers/email/${email}`);
+            const backerId = data.backerId;
+            const { data: contributions } = await getAxios(`http://localhost:8080/api/contributions/backer/${backerId}`);
+            const fundedProductsData = [];
 
-  const handleSearch = (e) => {
-    setSearchTerm(e.target.value);
-    // You can implement actual search functionality here
-  };
+            for (const contribution of contributions) {
+                const { benefitId, actualPaidPrice, paymentDate } = contribution;
+                const { data: product } = await getAxios(`http://localhost:8080/api/benefits/${benefitId}`);
+                const { data: price } = await getAxios(`http://localhost:8080/api/price/${benefitId}`);
+                const { data: productInfo } = await getAxios(`http://localhost:8080/api/products/${product.productId}`);
 
-  const truncateDescription = (description, maxLength) => {
-    if (description.length > maxLength) {
-      return description.substring(0, maxLength) + '...';
-    }
-    return description;
-  };
+                fundedProductsData.push({
+                    id: productInfo.productId,
+                    productName: productInfo.productName,
+                    benefitName: product.benefitName,
+                    benefitAmount: price.amount,
+                    actualPaidPrice,
+                    paymentDate
+                });
+            }
 
-  return (
-    <div className="container mt-4">
-      <div className="row">
-        <div className="col-md-4">
-          <div className="input-group">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Search..."
-              aria-label="Search"
-              value={searchTerm}
-              onChange={handleSearch}
-            />
-            <button className="btn btn-outline-secondary" type="button">
-              <RiSearchLine />
-              <span className="ms-1">Search</span>
-            </button>
-          </div>
+            setFundedProducts(fundedProductsData);
+        };
+
+        fetchData();
+    }, [email]);
+
+
+
+    return (
+        <div className="container mt-4">
+            <div className="row">
+                <div className="col-md-4">
+                    <div className="input-group">
+                        <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Search..."
+                            aria-label="Search"
+                            value={searchTerm}
+                            onChange={handleSearch}
+                        />
+                        <button className="btn btn-outline-secondary" type="button">
+                            <RiSearchLine />
+                            <span className="ms-1">Search</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div className="row mt-4">
+                <div className="col-md-12">
+                    <h1>Funded Products</h1>
+                    <table className="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Product Name</th>
+                                <th>Benefit Name</th>
+                                <th>Benefit Amount</th>
+                                <th>Actual Paid Price</th>
+                                <th>Payment Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {fundedProducts.map(product => (
+                                <tr key={product.id}>
+                                    <td>{product.id}</td>
+                                    <td>{product.productName}</td>
+                                    <td>{product.benefitName}</td>
+                                    <td>{product.benefitAmount}</td>
+                                    <td>{product.actualPaidPrice}</td>
+                                    <td>{product.paymentDate}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-      </div>
-      <div className="row mt-4">
-        <div className="col-md-12">
-          <h1>Products</h1>
-          <table className="table">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Product Name</th>
-                <th>Company</th>
-                <th>Company Description</th>
-                <th>Amount Features</th>
-                <th>Amount Not Featured</th>
-                <th>Status</th> {/* New column for status */}
-              </tr>
-            </thead>
-            <tbody>
-              {products.map(product => (
-                <tr key={product.id}>
-                  <td>{product.id}</td>
-                  <td>{product.productName}</td>
-                  <td>{product.company}</td>
-                  <td>{truncateDescription(product.description, 50)}</td>
-                  <td>{product.amountFeatures}</td>
-                  <td>{product.amountNotFeatured}</td>
-                  <td>{product.active ? 'Active' : 'Inactive'}</td> {/* Conditional rendering for status */}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  );
+    );
 }
 
-export default ProductDashboard;
+export default BackerDashboard;
