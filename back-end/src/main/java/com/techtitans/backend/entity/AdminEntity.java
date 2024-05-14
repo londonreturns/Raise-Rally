@@ -14,13 +14,13 @@ public class AdminEntity {
     @Id
     // Using database's autoincrement feature
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "admin_id")
+    @Column(name = "admin_id", unique = true, nullable = false)
     private int adminId;
 
     @Column(name = "name")
     private String name;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
 
     @Column(name = "password")

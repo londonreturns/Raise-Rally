@@ -179,11 +179,27 @@ public class ProductServiceImpl implements ProductService {
         return products.stream().map(ProductMapper::mapToProductDto).toList();
     }
 
-    // Function to search  product by name
+    // Function to search product by name
     @Override
     public List<ProductResponseDto> searchProduct(String query, boolean isAdmin) {
         // Find the existing product entity
         var productEntities = productRepository.searchProduct(query);
+        if (!isAdmin)
+            productEntities = productEntities.stream()
+                    .filter(productEntity -> productEntity.getCompany().isActive() && productEntity.isActive())
+                    .toList();
+
+        return productEntities.stream()
+                .map(ProductMapper::mapToProductDtoList).toList();
+    }
+
+    @Override
+    public List<ProductResponseDto> searchProductByCategory(String query, boolean isAdmin, int categoryId) {
+        categoryRepository.findById(categoryId).orElseThrow(
+                () -> new RuntimeException("Category with id " + categoryId + " not found")
+        );
+        // Find the existing product entity
+        var productEntities = productRepository.searchProductByCategory(query, categoryId);
         if (!isAdmin)
             productEntities = productEntities.stream()
                     .filter(productEntity -> productEntity.getCompany().isActive() && productEntity.isActive())
