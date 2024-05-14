@@ -6,6 +6,7 @@ import { MdHome } from "react-icons/md";
 import { Link, Outlet, NavLink } from 'react-router-dom';
 
 function Dashboard() {
+  const email=localStorage.getItem("email")
   return (
     <>
       <div className="row w-100 dashboard">
@@ -15,7 +16,7 @@ function Dashboard() {
               <div className='d-flex justify-content-center'>
                 <div className='text-center'>
                   <div className=''><CgProfile size={45} /></div>
-                  <div>eishworachara@gmail.com</div>
+                  <div>{email}</div>
                   <hr />
                 </div>
               </div>

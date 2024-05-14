@@ -5,7 +5,8 @@ import { MdDashboard } from "react-icons/md";
 import { MdHome } from "react-icons/md";
 import { Link, Outlet, NavLink } from 'react-router-dom';
 
-function Dashboard() {
+function Dashboardbacker() {
+    const email=localStorage.getItem("email")
   return (
     <>
       <div className="row w-100 dashboard">
@@ -15,24 +16,18 @@ function Dashboard() {
               <div className='d-flex justify-content-center'>
                 <div className='text-center'>
                   <div className=''><CgProfile size={45} /></div>
-                  <div>eishworachara@gmail.com</div>
+                  <div>{email}</div>
                   <hr />
                 </div>
               </div>
-              <NavLink to='/admin/dashboard' activeClassName="active">
+              <NavLink to='/backer/dashboard' activeClassName="active">
                 <MenuItem icon={<MdDashboard size={20} />}>Dashboard</MenuItem>
               </NavLink>
               <SubMenu className='fw-seimbold' label="Profile">
-                <NavLink to='/admin/dashboard/editprofile' activeClassName="active">
+                <NavLink to='/backer/dashboard/editprofile' activeClassName="active">
                   <MenuItem className='text-dark'>Manage Profile</MenuItem>
                 </NavLink>
               </SubMenu>
-              <NavLink to="/admin/dashboard/editproduct" activeClassName="active">
-                <MenuItem className='text-dark'>All products</MenuItem>
-              </NavLink>
-              <NavLink to="/admin/dashboard/editcompany" activeClassName="active">
-                <MenuItem className='text-dark'>Companys</MenuItem>
-              </NavLink>
               <Link to='/' className='text-dark'>
                 <MenuItem icon={<MdHome size={20} />}>Homepage</MenuItem>
               </Link>
@@ -47,4 +42,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default Dashboardbacker;

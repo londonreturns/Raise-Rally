@@ -77,7 +77,7 @@ function CompanyPerformance() {
                     <div className="card toraise">
                         <div className="card-body text-dark  ">
                             <h2 className="card-title fw-semibold fs-4">Total Amount</h2>
-                            <p className="card-text lead fw-semibold">Total: NPR {totalGoalAmount}</p>
+                            <p className="card-text lead fw-semibold">NPR {totalGoalAmount}</p>
                         </div>
                     </div>
                 </div>
@@ -85,7 +85,7 @@ function CompanyPerformance() {
                     <div className="card raised">
                         <div className="card-body raise">
                             <h2 className="card-title fw-semibold fs-4">Total Raised Amount</h2>
-                            <p className="card-text lead fw-semibold">Total: NPR {totalRaisedAmount}</p>
+                            <p className="card-text lead fw-semibold">NPR {totalRaisedAmount}</p>
                         </div>
                     </div>
                 </div>
@@ -93,7 +93,7 @@ function CompanyPerformance() {
                     <div className="card product">
                         <div className="card-body">
                             <h2 className="card-title fw-semibold fs-4">Total Products</h2>
-                            <p className="card-text lead fw-semibold">Total: {totalProducts}</p>
+                            <p className="card-text lead fw-semibold"> {totalProducts}</p>
                         </div>
                     </div>
                 </div>
