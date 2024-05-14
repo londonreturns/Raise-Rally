@@ -20,6 +20,7 @@ import Company_Moderate from "../pages/admin/Company_Moderate";
 import Dashboardbacker from "../pages/backer/Dashboardbacker";
 import BackerDashboard from "../pages/backer/BackerDashboard";
 import ProfileUpdate_backer from "../pages/backer/ProfileUpdate_backers";
+import Companyproducts from "../components/Companyproducts";
 
 function Pagerouter() {
   const categories = ["art", "crafts", "dance", "film", "music", "technology"];
@@ -35,6 +36,10 @@ function Pagerouter() {
     {
       path: "/categories/:cat/detail",
       element: <Detail />
+    },
+    {
+      path: "/company/:company",
+      element: <Companyproducts />
     },
     {
       path: "*",
@@ -68,6 +73,7 @@ function Pagerouter() {
       path: "/company/addimage",
       element: <Addimage />
     },
+
     {
       path: "/try",
       element: <Trial />

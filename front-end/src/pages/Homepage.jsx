@@ -6,7 +6,7 @@ import Card from "../components/Card";
 import Loading from "../components/Loading";
 import Error from "../components/Error";
 import { IoSearchSharp } from "react-icons/io5";
-import LoadingCard from "../components/LoadingCard";
+import CompanyCard from "../components/Companycard";
 
 function Homepage() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -14,15 +14,15 @@ function Homepage() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false); 
-    }, 800);
+    }, 700);
 
     return () => clearTimeout(timer); 
   }, []);
   const { data: productsData, error: productsError, loading: productsLoading } = getAxios(`http://localhost:8080/api/products/search?query=${searchQuery}`);
-
+  const {data:company}=getAxios( `http://localhost:8080/api/companies/search?query=${searchQuery}`)
 
   return (
-    <div className="bg-light-subtle">
+    <div className="bg-white">
       <Header onSearch={setSearchQuery} />
       {loading && <Loading />}
       {productsError && <Error />}
@@ -39,6 +39,7 @@ function Homepage() {
             </div>
             </div>
             </>}
+            <h3 className="ps-5" style={{fontSize:33}}>All Campaigns</h3>
         {productsData.map((productData) => (
           <Card
             key={productData.productId}
@@ -46,6 +47,16 @@ function Homepage() {
           />
         ))}
       </div>
+      <div className="row container-fluid" style={{backgroundColor:"#F1F1F1"}}>
+      <h3 className="ps-5" style={{fontSize:33}}> Companies</h3>
+      {company.map((company) => (
+        
+          <CompanyCard
+            key={company.companyId}
+            {...company}
+          />
+        ))}
+</div>
       <Footer />
     </div>
     

@@ -48,6 +48,7 @@ function DetailCard({
   const TotalAmount = (event) => {
     setAmount(event.target.value);
   };
+
   useEffect(() => {
     // if amount from hook is empty skip
     if (amount === "") return;
@@ -135,8 +136,8 @@ function DetailCard({
       <div className="pt-5 pt-md-2">
         <div className="d-flex justify-content-center text-center">
           <div className="pt-5">
-            <h3 className="fs-4 fw-semibold">{productName}</h3>
-            <p className="px-5 fw-medium">{productDescription}</p>
+            <h3 className="fs-4 fw-semibold" style={{fontSize:32}}>{productName}</h3>
+            <p className="px-5 fw-medium" style={{fontSize:20}}>{productDescription}</p>
           </div>
         </div>
         <div className="container">
@@ -152,7 +153,7 @@ function DetailCard({
                       {convertedFile1 && (
                         <img
                           src={URL.createObjectURL(convertedFile1)}
-                          className="d-block detail-img w-100"
+                          className="d-block detail-img w-100 rounded"
                           alt="..."
                         />
                       )}
@@ -161,7 +162,7 @@ function DetailCard({
                       {convertedFile2 && (
                         <img
                           src={URL.createObjectURL(convertedFile2)}
-                          className="d-block detail-img w-100"
+                          className="d-block detail-img w-100 rounded "
                           alt="..."
                         />
                       )}
@@ -170,7 +171,7 @@ function DetailCard({
                       {convertedFile3 && (
                         <img
                           src={URL.createObjectURL(convertedFile3)}
-                          className="d-block detail-img w-100"
+                          className="d-block detail-img w-100 rounded"
                           alt="..."
                         />
                       )}
@@ -230,11 +231,11 @@ function DetailCard({
                 </div>
                 <div>
                   <span className="fs-2 fw-medium">{backerNo}</span>
-                  <p>backers</p>
+                  <p className="fs-6">backers</p>
                 </div>
                 <div>
                   <span className="fs-2 fw-medium">{daysLeft}</span>
-                  <p>days to go</p>
+                  <p className="fs-6">days to go</p>
                 </div>
                 <div
                   className="btn backProject text-center pt-2 text-white fs-5"
