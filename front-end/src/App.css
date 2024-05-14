@@ -40,18 +40,7 @@ p {
   cursor: pointer;
 }
 
-.card:hover {
-  transform: scale(1.01);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, .3), 0 4px 8px rgba(0, 0, 0, .15);
-}
-.line{
-  width: 60px;
-  background-color: #fff !important;
-  height: 2px ;
-}
-.card h3 {
-  font-weight: 600;
-}
+
 
 .preview1-text,
 .preview-text {
