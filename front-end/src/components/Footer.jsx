@@ -10,7 +10,7 @@ import { IoMail } from "react-icons/io5";
 
 function Footer() {
   return (
-    <footer>
+    <footer >
       <section>
         
       <div className=" row p-5  bg-dark text-white d-flex justify-content-center gx-0  "> 

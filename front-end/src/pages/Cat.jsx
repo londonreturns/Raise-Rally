@@ -29,12 +29,15 @@ function Cat({ categories }) {
     const [searchQuery, setSearchQuery] = useState("");
     const [loading, setLoading] = useState(true);
     useEffect(() => {
+      setLoading(true); 
+    }, [cat]);
+    useEffect(() => {
       const timer = setTimeout(() => {
         setLoading(false); 
-      }, 500);
-  
+      }, 200);
       return () => clearTimeout(timer); 
-    }, []);
+    }, [loading]);
+
     let { data: productsData, error: productsError, loading: productsLoading } = getAxios(`http://localhost:8080/api/products/search/category/${catId}?query=${searchQuery}`);
     const navigate = useNavigate(); 
     useEffect(() => {
@@ -47,9 +50,20 @@ function Cat({ categories }) {
     return (
         <>
             <Header onSearch={setSearchQuery} />
-
-            <div className="row gx-0">
-        
+            {loading && <Loading />}
+            <div className="row gx-0 container-fluid min-vh-100">
+            {productsData.length === 0 && 
+            <> 
+            <div className='d-flex justify-content-center p-5 mt-5 vh-100'>
+              <div className='p-5 d-flex flex-column '>
+                <div><h2 className='fs-1'>Sorry </h2></div>
+            <div className='ps-5'><IoSearchSharp  size={30}/></div>
+            
+            <div> <p className='fs-4'> Item not found</p></div>
+            
+            </div>
+            </div>
+            </>}
                 {productsData.map((productData) => (
                   
                     <Catcard

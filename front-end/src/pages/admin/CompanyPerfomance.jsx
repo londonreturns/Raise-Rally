@@ -74,26 +74,26 @@ function CompanyPerformance() {
             <h1 className="text-center mb-4">Company Performance</h1>
             <div className="row">
                 <div className="col-lg-4 mb-4">
-                    <div className="card">
-                        <div className="card-body">
-                            <h2 className="card-title">Total Amount</h2>
-                            <p className="card-text lead">Total: NPR {totalGoalAmount}</p>
+                    <div className="card toraise">
+                        <div className="card-body text-dark  ">
+                            <h2 className="card-title fw-semibold fs-4">Total Amount</h2>
+                            <p className="card-text lead fw-semibold">Total: NPR {totalGoalAmount}</p>
                         </div>
                     </div>
                 </div>
                 <div className="col-lg-4 mb-4">
-                    <div className="card">
-                        <div className="card-body">
-                            <h2 className="card-title">Total Raised Amount</h2>
-                            <p className="card-text lead">Total: NPR {totalRaisedAmount}</p>
+                    <div className="card raised">
+                        <div className="card-body raise">
+                            <h2 className="card-title fw-semibold fs-4">Total Raised Amount</h2>
+                            <p className="card-text lead fw-semibold">Total: NPR {totalRaisedAmount}</p>
                         </div>
                     </div>
                 </div>
                 <div className="col-lg-4 mb-4">
-                    <div className="card">
+                    <div className="card product">
                         <div className="card-body">
-                            <h2 className="card-title">Total Products</h2>
-                            <p className="card-text lead">Total: {totalProducts}</p>
+                            <h2 className="card-title fw-semibold fs-4">Total Products</h2>
+                            <p className="card-text lead fw-semibold">Total: {totalProducts}</p>
                         </div>
                     </div>
                 </div>
@@ -123,7 +123,7 @@ function CompanyPerformance() {
                 <div className="col-md-12">
                     <div className="table-responsive">
                         <table className="table table-striped">
-                            <thead>
+                            <thead >
                                 <tr>
                                     <th>Product ID</th>
                                     <th>Product Name</th>

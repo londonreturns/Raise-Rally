@@ -6,11 +6,17 @@ import axios from 'axios';
 function Company_Moderate() {
     const [searchTerm, setSearchTerm] = useState('');
     const [companies, setCompanies] = useState([]);
-
+    
     useEffect(() => {
         fetchData();
     }, [searchTerm]);
-
+    const [loading, setLoading] = useState(true);
+    useEffect(() => {
+      const timer = setTimeout(() => {
+        setLoading(false); 
+      }, 800);
+      return () => clearTimeout(timer); 
+    }, []);
     const fetchData = async () => {
         try {
           const response = await axios.get(`http://localhost:8080/api/companies/search?query=${searchTerm}`);
@@ -88,8 +94,8 @@ function Company_Moderate() {
             </div>
             <div className="row mt-4">
                 <div className="col-md-12">
-                    <h1>Company Dashboard</h1>
-                    <table className="table">
+                    <h1>All Company</h1>
+                    <table className="table table-striped">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -107,7 +113,7 @@ function Company_Moderate() {
                                     <td>{company.description}</td>
                                     <td>
                                         <button
-                                            className={`btn ${company.active ? 'btn-success' : 'btn-danger'}`}
+                                            className={`btn ${company.active ? 'btn-secondary' : 'btn-success'}`}
                                             onClick={() => handleToggleActive(company.companyId, company.active)}
                                         >
                                             {company.active ? 'Disable' : 'Enable'}
@@ -115,7 +121,7 @@ function Company_Moderate() {
                                     </td>
                                     <td>
                                         <button
-                                            className={`btn ${company.ticked ? 'btn-success' : 'btn-danger'}`}
+                                            className={`btn ${company.ticked ? 'btn-secondary' : 'btn-success'}`}
                                             onClick={() => handleToggleVerified(company.companyId, company.ticked)}
                                         >
                                             {company.ticked ? 'Unverify' : 'Verify'}
