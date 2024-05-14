@@ -14,7 +14,7 @@ function ProfileUpdate_admin() {
   const emailId = localStorage.getItem("email");
 
   useEffect(() => {
-    axios.get(`http://localhost:8080/api/admin/email/${emailId}`)
+    axios.get("http://localhost:8080/api/admin/email/" + emailId)
       .then(response => {
         const { name, adminId } = response.data;
         setUsername(name);
@@ -36,7 +36,7 @@ function ProfileUpdate_admin() {
 
     const data = {
       username: username,
-      oldPassword: oldPassword,
+      oldPassword: oldPassword, // Include the old password
       newPassword: newPassword
     };
     axios.patch(`http://localhost:8080/api/admin/${adminId}`, data)
