@@ -9,25 +9,26 @@ function ProfileUpdate_backer() {
   const [formError, setFormError] = useState('');
   const [editUsername, setEditUsername] = useState(false);
   const [editPassword, setEditPassword] = useState(false);
+  const [backerId, setBackerId] = useState(null); // State to store backer ID
 
   useEffect(() => {
     // Fetch user details from local storage
     const userType = localStorage.getItem('userType');
-    const email = localStorage.getItem('email');
-
-    if (userType === 'backer' && email) {
-      // Fetch backer details from API using email
-      axios.get(`http://localhost:8080/api/backers/email/${email}`)
+  
+    if (userType === 'backer') {
+      // Fetch backer details from API using backer ID
+      axios.get(`http://localhost:8080/api/backers/${id}`) // Replace `1` with the actual backer ID
         .then(response => {
-          const { name } = response.data;
+          const { name } = response.data; // Extract the username from the response
           setUsername(name);
+          // You may also set other states here if needed
         })
         .catch(error => {
           console.error('Error fetching backer details:', error);
         });
     }
   }, []);
-
+  
   const handleUpdateProfile = () => {
     // Validate new password
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,15}$/;
@@ -40,15 +41,21 @@ function ProfileUpdate_backer() {
     const data = {};
     if (editUsername) data.username = username;
     if (editPassword) {
+      // Verify old password before updating
       data.oldPassword = oldPassword;
       data.newPassword = newPassword;
     }
 
     // Update profile through API
-    axios.put('http://localhost:8080/api/backers/id', data)
+    axios.patch(`http://localhost:8080/api/backers/${backerId}`, data) // Use the backer ID state variable
+
       .then(response => {
         console.log('Profile updated successfully');
         setFormError('');
+        // Clear password fields after successful update
+        setOldPassword('');
+        setNewPassword('');
+        setNewPasswordValidation(null);
       })
       .catch(error => {
         console.error('Error updating profile:', error);

@@ -77,12 +77,6 @@ function Registration() {
             email: email,
             password: password
           });
-        } else if (userType === 'admin') {
-          response = await axios.post('http://localhost:8080/api/admin', {
-            name: username,
-            email: email,
-            password: password
-          });
         }
 
         console.log('Registration response:', response.data);
@@ -143,7 +137,7 @@ function Registration() {
   
 
   return (
-    <div className="d-flex justify-content-center align-items-center bg-light">
+    <div className="d-flex justify-content-center align-items-center bg-light vh-150">
       <div className="row">
         <div className="col-lg-12 col-md-6 col-sm-6 col-12 pt-3 d-flex justify-content-center">
           <div className="shadow w-100">
@@ -189,12 +183,6 @@ function Registration() {
                       <div className="form-check">
                         <input className="form-check-input" type="radio" name="userType" id="backers" value="backers" checked={userType === 'backers'} onChange={handleUserTypeChange} />
                         <label className="form-check-label" htmlFor="backers">Backers</label>
-                      </div>
-                    </div>
-                    <div className="col">
-                      <div className="form-check">
-                        <input className="form-check-input" type="radio" name="userType" id="admin" value="admin" checked={userType === 'admin'} onChange={handleUserTypeChange} />
-                        <label className="form-check-label" htmlFor="admin">Admin</label>
                       </div>
                     </div>
                   </div>
