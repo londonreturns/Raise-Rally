@@ -7,10 +7,8 @@ function ProfileUpdate_admin() {
   const [newPassword, setNewPassword] = useState('');
   const [newPasswordValidation, setNewPasswordValidation] = useState(null);
   const [formError, setFormError] = useState('');
-  const [editUsername, setEditUsername] = useState(false);
-  const [editPassword, setEditPassword] = useState(true);
   const [adminId, setAdminId] = useState(null);
-  const [loading, setLoading] = useState(true); // Add loading state
+  const [loading, setLoading] = useState(true);
   const emailId = localStorage.getItem("email");
 
   useEffect(() => {
@@ -19,13 +17,13 @@ function ProfileUpdate_admin() {
         const { name, adminId } = response.data;
         setUsername(name);
         setAdminId(adminId);
-        setLoading(false); // Set loading to false after fetching data
+        setLoading(false);
       })
       .catch(error => {
         console.error('Error fetching user details:', error);
-        setLoading(false); // Set loading to false in case of error
+        setLoading(false);
       });
-  }, []); // Empty dependency array for fetching data only once
+  }, []);
 
   const handleUpdateProfile = () => {
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,15}$/;
@@ -35,10 +33,11 @@ function ProfileUpdate_admin() {
     }
 
     const data = {
-      username: username,
-      oldPassword: oldPassword, // Include the old password
+      name :username,
+      oldPassword: oldPassword,
       newPassword: newPassword
     };
+    console.log(data);
     axios.patch(`http://localhost:8080/api/admin/${adminId}`, data)
       .then(response => {
         console.log('Profile updated successfully');
@@ -58,29 +57,24 @@ function ProfileUpdate_admin() {
             <div className="card-header">Update Profile</div>
             <div className="card-body">
               {loading ? (
-                <p>Loading...</p> // Display loading message while fetching data
+                <p>Loading...</p>
               ) : (
                 <>
                   <div className="mb-3">
                     <label htmlFor="username" className="form-label">Username:</label>
                     <div className="input-group">
-                      <input type="text" className="form-control" id="username" value={username} onChange={(e) => setUsername(e.target.value)} readOnly={!editUsername} />
-                      <button className="btn btn-primary" type="button" onClick={() => setEditUsername(!editUsername)}>Edit</button>
+                      <input type="text" className="form-control" id="username" value={username} readOnly />
                     </div>
                   </div>
-                  {editPassword && (
-                    <>
-                      <div className="mb-3">
-                        <label htmlFor="oldPassword" className="form-label">Old Password:</label>
-                        <input type="password" className="form-control" id="oldPassword" value={oldPassword} onChange={(e) => setOldPassword(e.target.value)} />
-                      </div>
-                      <div className="mb-3">
-                        <label htmlFor="newPassword" className="form-label">New Password:</label>
-                        <input type="password" className={`form-control ${newPasswordValidation === false ? 'is-invalid' : ''}`} id="newPassword" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
-                        {newPasswordValidation === false && <div className="invalid-feedback">Password must contain at least one uppercase letter, one lowercase letter, one digit, one special character, and be between 8 and 15 characters long</div>}
-                      </div>
-                    </>
-                  )}
+                  <div className="mb-3">
+                    <label htmlFor="oldPassword" className="form-label">Old Password:</label>
+                    <input type="password" className="form-control" id="oldPassword" value={oldPassword} onChange={(e) => setOldPassword(e.target.value)} />
+                  </div>
+                  <div className="mb-3">
+                    <label htmlFor="newPassword" className="form-label">New Password:</label>
+                    <input type="password" className={`form-control ${newPasswordValidation === false ? 'is-invalid' : ''}`} id="newPassword" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
+                    {newPasswordValidation === false && <div className="invalid-feedback">Password must contain at least one uppercase letter, one lowercase letter, one digit, one special character, and be between 8 and 15 characters long</div>}
+                  </div>
                   <div className="mb-3">
                     <button type="button" className="btn btn-primary" onClick={handleUpdateProfile}>Update Profile</button>
                   </div>
