@@ -1,61 +1,47 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-function ProfileUpdate_backer() {
+function ProfileUpdate_backers() {
   const [username, setUsername] = useState('');
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [newPasswordValidation, setNewPasswordValidation] = useState(null);
   const [formError, setFormError] = useState('');
-  const [editUsername, setEditUsername] = useState(false);
-  const [editPassword, setEditPassword] = useState(false);
-  const [backerId, setBackerId] = useState(null); // State to store backer ID
+  const [backer_id, setBackersId] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const emailId = localStorage.getItem("email");
 
   useEffect(() => {
-    // Fetch user details from local storage
-    const userType = localStorage.getItem('userType');
-  
-    if (userType === 'backer') {
-      // Fetch backer details from API using backer ID
-      axios.get(`http://localhost:8080/api/backers/${id}`) // Replace `1` with the actual backer ID
-        .then(response => {
-          const { name } = response.data; // Extract the username from the response
-          setUsername(name);
-          // You may also set other states here if needed
-        })
-        .catch(error => {
-          console.error('Error fetching backer details:', error);
-        });
-    }
+    axios.get("http://localhost:8080/api/backers/email/" + emailId)
+      .then(response => {
+        const { name, backer_id } = response.data;
+        setUsername(name);
+        setBackersId(backer_id);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error('Error fetching user details:', error);
+        setLoading(false);
+      });
   }, []);
-  
+
   const handleUpdateProfile = () => {
-    // Validate new password
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,15}$/;
     if (!passwordRegex.test(newPassword)) {
       setNewPasswordValidation(false);
       return;
     }
 
-    // Construct the data object based on user's choices
-    const data = {};
-    if (editUsername) data.username = username;
-    if (editPassword) {
-      // Verify old password before updating
-      data.oldPassword = oldPassword;
-      data.newPassword = newPassword;
-    }
-
-    // Update profile through API
-    axios.patch(`http://localhost:8080/api/backers/${backerId}`, data) // Use the backer ID state variable
-
+    const data = {
+      name :username,
+      oldPassword: oldPassword,
+      newPassword: newPassword
+    };
+    console.log(data);
+    axios.patch(`http://localhost:8080/api/backers/${backer_id}`, data) 
       .then(response => {
         console.log('Profile updated successfully');
         setFormError('');
-        // Clear password fields after successful update
-        setOldPassword('');
-        setNewPassword('');
-        setNewPasswordValidation(null);
       })
       .catch(error => {
         console.error('Error updating profile:', error);
@@ -70,15 +56,16 @@ function ProfileUpdate_backer() {
           <div className="card">
             <div className="card-header">Update Profile</div>
             <div className="card-body">
-              <div className="mb-3">
-                <label htmlFor="username" className="form-label">Username:</label>
-                <div className="input-group">
-                  <input type="text" className="form-control" id="username" value={username} onChange={(e) => setUsername(e.target.value)} readOnly={!editUsername} />
-                  <button className="btn btn-primary" type="button" onClick={() => setEditUsername(!editUsername)}>Edit</button>
-                </div>
-              </div>
-              {editPassword && (
+              {loading ? (
+                <p>Loading...</p>
+              ) : (
                 <>
+                  <div className="mb-3">
+                    <label htmlFor="username" className="form-label">Username:</label>
+                    <div className="input-group">
+                      <input type="text" className="form-control" id="username" value={username} readOnly />
+                    </div>
+                  </div>
                   <div className="mb-3">
                     <label htmlFor="oldPassword" className="form-label">Old Password:</label>
                     <input type="password" className="form-control" id="oldPassword" value={oldPassword} onChange={(e) => setOldPassword(e.target.value)} />
@@ -88,15 +75,12 @@ function ProfileUpdate_backer() {
                     <input type="password" className={`form-control ${newPasswordValidation === false ? 'is-invalid' : ''}`} id="newPassword" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
                     {newPasswordValidation === false && <div className="invalid-feedback">Password must contain at least one uppercase letter, one lowercase letter, one digit, one special character, and be between 8 and 15 characters long</div>}
                   </div>
+                  <div className="mb-3">
+                    <button type="button" className="btn btn-primary" onClick={handleUpdateProfile}>Update Profile</button>
+                  </div>
+                  {formError && <div className="alert alert-danger mt-3">{formError}</div>}
                 </>
               )}
-              <div className="mb-3">
-                <button type="button" className="btn btn-primary" onClick={() => setEditPassword(!editPassword)}>Change Password</button>
-              </div>
-              <div className="mb-3">
-                <button type="button" className="btn btn-primary" onClick={handleUpdateProfile}>Update Profile</button>
-              </div>
-              {formError && <div className="alert alert-danger mt-3">{formError}</div>}
             </div>
           </div>
         </div>
@@ -105,4 +89,4 @@ function ProfileUpdate_backer() {
   );
 }
 
-export default ProfileUpdate_backer;
+export default ProfileUpdate_backers;
