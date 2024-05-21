@@ -4,9 +4,11 @@ import com.techtitans.backend.dto.admin.AdminRequestDto;
 import com.techtitans.backend.dto.admin.AdminResponseDto;
 import com.techtitans.backend.dto.admin.AdminUpdateRequestDto;
 import com.techtitans.backend.entity.AdminEntity;
+import com.techtitans.backend.entity.BackerEntity;
 import com.techtitans.backend.exception.ResourceNotFoundException;
 import com.techtitans.backend.exception.ValidationException;
 import com.techtitans.backend.mapper.AdminMapper;
+import com.techtitans.backend.mapper.BackerMapper;
 import com.techtitans.backend.repository.AdminRepository;
 import com.techtitans.backend.security.PasswordEncryptionService;
 import com.techtitans.backend.security.Validation;
@@ -104,6 +106,20 @@ public class AdminServiceImpl implements AdminService {
                         new ResourceNotFoundException("Admin does not exist with the given ID: " + adminId));
         // Delete company from the database
         adminRepository.deleteById(adminId);
+    }
+
+    @Override
+    public AdminResponseDto loginAdmin(String email, AdminRequestDto adminRequestDto) {
+        // Check if email exists
+        AdminEntity adminFromDatabase = adminRepository.fetchByEmail(email).orElseThrow(() ->
+                new ResourceNotFoundException("Admin does not exists with the given email " + email));
+        // Encrypt password
+        String encryptedPassword = PasswordEncryptionService.encrypt(adminRequestDto.getPassword());
+        // Comparing passwords
+        if (!adminFromDatabase.getPassword().equals(encryptedPassword)) {
+            throw new ValidationException("Invalid password");
+        }
+        return AdminMapper.mapToAdminDto(adminFromDatabase);
     }
 
     // Validate while updating
