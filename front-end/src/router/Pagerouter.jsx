@@ -21,6 +21,9 @@ import Dashboardbacker from "../pages/backer/Dashboardbacker";
 import BackerDashboard from "../pages/backer/BackerDashboard";
 import ProfileUpdate_backer from "../pages/backer/ProfileUpdate_backers";
 import Companyproducts from "../components/Companyproducts";
+import CompanyDashboard from "../pages/company/CompanyDashboard";
+import ProfileUpdate_company from "../pages/company/ProfileUpdate_company";
+import Myproducts from "../pages/company/Myproducts";
 
 function Pagerouter() {
   const categories = ["art", "crafts", "dance", "film", "music", "technology"];
@@ -38,9 +41,10 @@ function Pagerouter() {
       element: <Detail />
     },
     {
-      path: "/company/:company",
+      path: "/company/:company", 
       element: <Companyproducts />
     },
+    
     {
       path: "*",
       element: <Error404 />
@@ -61,22 +65,11 @@ function Pagerouter() {
       path: "/detail",
       element: <Detail />
     },
-    {
-      path: "/company/addproduct",
-      element: <Productadd />
-    },
-    {
-      path: "/company/addreward",
-      element: <Rewardadd />
-    },
-    {
-      path: "/company/addimage",
-      element: <Addimage />
-    },
+
 
     {
       path: "/try",
-      element: <Trial />
+      element: <Trial/>
     },
     {
       path: "/admin/dashboard",
@@ -116,6 +109,32 @@ function Pagerouter() {
           path:"/backer/dashboard/funded",
           element:<BackerDashboard/>
         }
+      ]
+    },
+    {
+      path: "/company/dashboard",
+      element: <CompanyDashboard/>,
+      children: [
+        {
+          path: "/company/dashboard",
+          element:<Myproducts/>
+        },
+        {
+          path: "/company/dashboard/editprofile",
+          element: <ProfileUpdate_company/>
+        },
+        {
+          path: "/company/dashboard/addproduct",
+          element: <Productadd />
+        },
+        {
+          path: "/company/dashboard/addreward",
+          element: <Rewardadd />
+        },
+        {
+          path: "/company/dashboard/addimage",
+          element: <Addimage />
+        },
       ]
     }
   ]);

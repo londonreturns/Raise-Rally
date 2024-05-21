@@ -1,10 +1,14 @@
-import React, { useEffect } from "react";
+import React from "react";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom"; 
 import getAxios from "../hooks/getAxios";
 import { VscVerifiedFilled } from "react-icons/vsc";
 import { FaHeart } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
 import useImageConverter from "../hooks/imageConverter";
+
 function CompanyCard({ name, description, companyId, ticked }) {
+
+  const navigate = useNavigate(); 
   const verified = ticked;
   const shouldShowVerified = () => {
     return verified == true ? (
@@ -30,13 +34,14 @@ function CompanyCard({ name, description, companyId, ticked }) {
           </div>
         </div>
         <div
-          className="btn btn-dark w-50 position-absolute  hide bottom-0 start-50 translate-middle-x"
-          onClick={() => {
-            navigate(`/company/products?companyId=${companyId}`);
-          }}
-        >
-          <span className=" fs-6 text-uppercase">View Products</span>
-        </div>
+  className="btn btn-dark w-50 position-absolute  hide bottom-0 start-50 translate-middle-x"
+  onClick={() => {
+    navigate(`/company/${companyId}`)
+  }}
+>
+  <span className=" fs-6 text-uppercase">View Products</span>
+</div>
+
       </div>
     </>
   );

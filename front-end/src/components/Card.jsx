@@ -84,18 +84,18 @@ function Card({
   return (
     <>
       {/* dispaly-block  */}
-      <div className="main-section  d-block col-md-4 col-lg-3  d-flex justify-content-around p-4" >
+      <div className="main-section  d-block col-12 col-sm-6 col-lg-4 col-xxl-3 " >
         {/* secondary section */}
         <div className="secondary-section ">
           {/* image section  */}
           <div className="item">
-            <div className="  me-3 pb-2 image position-relative">
+            <div className="   image position-relative">
               <div >
                 {/* image inside here  */}
                 {convertedFile && (
                   <img
                   src={URL.createObjectURL(convertedFile)}
-                  className="w-100 rounded  img-fluid photo"
+                  className="w-100   img-fluid photo rounded-3"
                   alt="..."
               />
               
@@ -132,7 +132,7 @@ function Card({
             <div className="content " >
               <div>
                 <div
-                  className="progress my-2 bg-secondary-emphasis me-3 "
+                  className="progress mt-3 h-50 bg-secondary-emphasis w-100"
                   role="progressbar"
                   aria-label="Info example"
                   aria-valuenow={50}

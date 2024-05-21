@@ -26,26 +26,30 @@ function Homepage() {
       <Header onSearch={setSearchQuery} />
       {loading && <Loading />}
       {productsError && <Error />}
-      <div className="row gx-0">
-      {productsData.length === 0 && 
-            <> 
-            <div className='d-flex justify-content-center p-5 mt-5 vh-100'>
-              <div className='p-5 d-flex flex-column '>
-                <div><h2 className='fs-1'>Sorry </h2></div>
-            <div className='ps-5'><IoSearchSharp  size={30}/></div>
-            
-            <div> <p className='fs-4'> Item not found</p></div>
-            
-            </div>
-            </div>
-            </>}
-            <h3 className="ps-5" style={{fontSize:33}}>All Campaigns</h3>
-        {productsData.map((productData) => (
-          <Card
-            key={productData.productId}
-            {...productData}
-          />
-        ))}
+       
+      <div className="container pt-5  pt-lg-0">
+      <h3  className="pt-5  pt-lg-0 text-center text-lg-start"style={{fontSize:33}}>All Campaigns</h3> 
+        <div className="row gx-0">
+        {productsData.length === 0 && 
+              <> 
+              <div className='d-flex justify-content-center p-5 mt-5 vh-100'>
+                <div className='p-5 d-flex flex-column '>
+                  <div><h2 className='fs-1'>Sorry </h2></div>
+              <div className='ps-5'><IoSearchSharp  size={30}/></div>
+              
+              <div> <p className='fs-4'> Item not found</p></div>
+              
+              </div>
+              </div>
+              </>}
+              
+          {productsData.map((productData) => (
+            <Card
+              key={productData.productId}
+              {...productData}
+            />
+          ))}
+        </div>
       </div>
       <div className="row container-fluid" style={{backgroundColor:"#F1F1F1"}}>
       <h3 className="ps-5" style={{fontSize:33}}> Companies</h3>
