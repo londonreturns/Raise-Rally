@@ -38,6 +38,9 @@ public class PathConstants {
     // Path for contribution
     public static final String CONTRIBUTION = "/api/contributions";
 
+    // Path for payment
+    public static final String PAYMENT = "/api/payment";
+
     // Path for number of
     public static final String NUMBEROF = "/numberof";
 
