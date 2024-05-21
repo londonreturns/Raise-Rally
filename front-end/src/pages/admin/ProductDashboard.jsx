@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import getAxios from '../../hooks/getAxios';
+import React, { useState, useEffect } from 'react'; // Importing React and necessary hooks from react
+import getAxios from '../../hooks/getAxios'; // Importing custom axios hook for making HTTP requests
 
 function BackerDashboard() {
-    const [searchTerm, setSearchTerm] = useState('');
-    const [fundedProducts, setFundedProducts] = useState([]);
+    // State variables for search term and funded products
+    const [searchTerm, setSearchTerm] = useState(''); // State for search term
+    const [fundedProducts, setFundedProducts] = useState([]); // State for funded products
+    const email = localStorage.getItem('email'); // Retrieve email from local storage
 
-    const email = localStorage.getItem('email');
-
+    // useEffect hook to fetch data when the component mounts
     useEffect(() => {
         const fetchData = async () => {
             const { data } = await getAxios(`http://localhost:8080/api/backers/email/${email}`);
@@ -30,6 +31,7 @@ function BackerDashboard() {
                 });
             }
 
+            // Update state with fetched data
             setFundedProducts(fundedProductsData);
         };
 

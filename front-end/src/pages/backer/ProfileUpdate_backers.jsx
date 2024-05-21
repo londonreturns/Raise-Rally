@@ -1,7 +1,10 @@
+//Importing neccessary components
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+//Main functions as ProfileUpdate_backers
 function ProfileUpdate_backers() {
+  //State variable for form inputs, validations, and other necessary states
   const [username, setUsername] = useState('');
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
@@ -9,22 +12,25 @@ function ProfileUpdate_backers() {
   const [formError, setFormError] = useState('');
   const [backer_id, setBackersId] = useState(null);
   const [loading, setLoading] = useState(true);
-  const emailId = localStorage.getItem("email");
+  const emailId = localStorage.getItem("email"); //Retrive email form local storage
 
+  //Fetch backets details using email on component mount
   useEffect(() => {
     axios.get("http://localhost:8080/api/backers/email/" + emailId)
       .then(response => {
+        //Destructure response data to get name and backer_id
         const { name, backer_id } = response.data;
         setUsername(name);
         setBackersId(backer_id);
-        setLoading(false);
+        setLoading(false); //Set loading to dalse once data is fetched
       })
       .catch(error => {
         console.error('Error fetching user details:', error);
-        setLoading(false);
+        setLoading(false); //Set loading to false if there's an error
       });
   }, []);
 
+  //Handle profile update form submissing and also using password validations
   const handleUpdateProfile = () => {
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,15}$/;
     if (!passwordRegex.test(newPassword)) {
@@ -32,16 +38,18 @@ function ProfileUpdate_backers() {
       return;
     }
 
+  //Prepare data for API request
     const data = {
       name :username,
       oldPassword: oldPassword,
       newPassword: newPassword
     };
     console.log(data);
+    // Send PATCH request to update backer profile
     axios.patch(`http://localhost:8080/api/backers/${backer_id}`, data) 
       .then(response => {
         console.log('Profile updated successfully');
-        setFormError('');
+        setFormError(''); //Clear any previous form erros
       })
       .catch(error => {
         console.error('Error updating profile:', error);
@@ -49,6 +57,7 @@ function ProfileUpdate_backers() {
       });
   };
 
+  //JSX for the component
   return (
     <div className="container mt-5">
       <div className="row justify-content-center">

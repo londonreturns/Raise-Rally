@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react'; //Importing React and necessary hooks from react
+import axios from 'axios'; //Importing axios for making HTTP requests
 
 function ProfileUpdate_admin() {
-  const [username, setUsername] = useState('');
-  const [oldPassword, setOldPassword] = useState('');
+  //State variables for form inputs,validations and other necessary statese
+  const [username, setUsername] = useState(''); 
+  const [oldPassword, setOldPassword] = useState(''); 
   const [newPassword, setNewPassword] = useState('');
   const [newPasswordValidation, setNewPasswordValidation] = useState(null);
   const [formError, setFormError] = useState('');
@@ -11,44 +12,51 @@ function ProfileUpdate_admin() {
   const [loading, setLoading] = useState(true);
   const emailId = localStorage.getItem("email");
 
+  //Fetch admin details using email on component mount
   useEffect(() => {
     axios.get("http://localhost:8080/api/admin/email/" + emailId)
       .then(response => {
+        //Destruct response data to get name and adminId
         const { name, adminId } = response.data;
         setUsername(name);
         setAdminId(adminId);
-        setLoading(false);
+        setLoading(false); //Set loading to false if there's am error
       })
       .catch(error => {
         console.error('Error fetching user details:', error);
-        setLoading(false);
+        setLoading(false); //Set loading to false if there's an error
       });
   }, []);
 
+  //Handle Profile update form submission
   const handleUpdateProfile = () => {
+    //Password validation regex
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,15}$/;
     if (!passwordRegex.test(newPassword)) {
-      setNewPasswordValidation(false);
+      setNewPasswordValidation(false); //Set validation State to false if regex fails
       return;
     }
 
+    //Prepare data for API request
     const data = {
       name :username,
       oldPassword: oldPassword,
       newPassword: newPassword
     };
+    //Send PATCH request to update admin profile
     console.log(data);
     axios.patch(`http://localhost:8080/api/admin/${adminId}`, data)
       .then(response => {
         console.log('Profile updated successfully');
-        setFormError('');
+        setFormError(''); //Clear any previous form errors
       })
       .catch(error => {
         console.error('Error updating profile:', error);
-        setFormError('Error updating profile. Please try again later.');
+        setFormError('Error updating profile. Please try again later.'); //Set error message on failture
       });
   };
 
+  //JSX for the component
   return (
     <div className="container mt-5">
       <div className="row justify-content-center">

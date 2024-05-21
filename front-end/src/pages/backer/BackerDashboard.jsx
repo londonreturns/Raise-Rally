@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { useState, useEffect } from 'react'; // Importing necessary hooks from React
+import axios from 'axios'; // Importing axios for making HTTP requests
+import 'bootstrap/dist/css/bootstrap.min.css'; // Importing Bootstrap for styling
 
 function BackerDashboard() {
     const [projects, setProjects] = useState([]);
     const [backerId, setBackerId] = useState(null);
 
     useEffect(() => {
-        fetchData();
-    }, []);
+        fetchData(); // Fetch data on component mount
+    }, []); // Empty dependency array means this useEffect runs once when the component mounts
 
+    // Function to fetch the backer's details based on their email
     const fetchData = async () => {
         try {
             // Retrieve user's email and type from local storage
@@ -21,7 +22,7 @@ function BackerDashboard() {
 
             if (!userEmail) {
                 console.error('User email not found in local storage');
-                return;
+                return; // Exit if email is not found
             }
 
             // Fetch data from the API to get backer details
@@ -29,21 +30,21 @@ function BackerDashboard() {
             const backerData = backerResponse.data;
 
             if (backerData && backerData.backer_id) {
-                setBackerId(backerData.backer_id);
+                setBackerId(backerData.backer_id); // Set backer ID if data is valid
             } else {
                 console.error('Backer data not found');
-                return;
+                return; // Exit if backer data is not found
             }
         } catch (error) {
-            console.error('Error fetching backer data:', error);
+            console.error('Error fetching backer data:', error); // Log any errors
         }
     };
 
     useEffect(() => {
         if (backerId) {
-            fetchProjects();
+            fetchProjects(); // Fetch projects if backer ID is available
         }
-    }, [backerId]);
+    }, [backerId]); // Dependency array includes backerId, so this useEffect runs whenever backerId changes
 
     const fetchProjects = async () => {
         try {
@@ -53,7 +54,7 @@ function BackerDashboard() {
 
             if (!Array.isArray(responseData)) {
                 console.error('Invalid response format:', responseData);
-                return;
+                return; // Exit if the response format is invalid
             }
 
             // Map the response data to the desired format
