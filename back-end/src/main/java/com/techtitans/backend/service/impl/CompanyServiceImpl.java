@@ -1,13 +1,12 @@
 package com.techtitans.backend.service.impl;
 
+import com.techtitans.backend.dto.password.PasswordDto;
 import com.techtitans.backend.dto.company.CompanyRequestDto;
 import com.techtitans.backend.dto.company.CompanyResponseDto;
 import com.techtitans.backend.dto.company.CompanyUpdateRequestDto;
-import com.techtitans.backend.entity.AdminEntity;
 import com.techtitans.backend.entity.CompanyEntity;
 import com.techtitans.backend.exception.ResourceNotFoundException;
 import com.techtitans.backend.exception.ValidationException;
-import com.techtitans.backend.mapper.AdminMapper;
 import com.techtitans.backend.mapper.CompanyMapper;
 import com.techtitans.backend.repository.CompanyRepository;
 import com.techtitans.backend.security.PasswordEncryptionService;
@@ -173,12 +172,12 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public CompanyResponseDto loginCompany(String email, CompanyRequestDto companyRequestDto) {
+    public CompanyResponseDto loginCompany(String email, PasswordDto passwordDto) {
         // Check if email exists
         CompanyEntity companyFromDatabase = companyRepository.fetchByEmail(email).orElseThrow(() ->
                 new ResourceNotFoundException("Admin does not exists with the given email " + email));
         // Encrypt password
-        String encryptedPassword = PasswordEncryptionService.encrypt(companyRequestDto.getPassword());
+        String encryptedPassword = PasswordEncryptionService.encrypt(passwordDto.getPassword());
         // Comparing passwords
         if (!companyFromDatabase.getPassword().equals(encryptedPassword)) {
             throw new ValidationException("Invalid password");

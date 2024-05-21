@@ -3,6 +3,7 @@ package com.techtitans.backend.service.impl;
 import com.techtitans.backend.dto.admin.AdminRequestDto;
 import com.techtitans.backend.dto.admin.AdminResponseDto;
 import com.techtitans.backend.dto.admin.AdminUpdateRequestDto;
+import com.techtitans.backend.dto.password.PasswordDto;
 import com.techtitans.backend.entity.AdminEntity;
 import com.techtitans.backend.entity.BackerEntity;
 import com.techtitans.backend.exception.ResourceNotFoundException;
@@ -109,12 +110,12 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public AdminResponseDto loginAdmin(String email, AdminRequestDto adminRequestDto) {
+    public AdminResponseDto loginAdmin(String email, PasswordDto passwordDto) {
         // Check if email exists
         AdminEntity adminFromDatabase = adminRepository.fetchByEmail(email).orElseThrow(() ->
                 new ResourceNotFoundException("Admin does not exists with the given email " + email));
         // Encrypt password
-        String encryptedPassword = PasswordEncryptionService.encrypt(adminRequestDto.getPassword());
+        String encryptedPassword = PasswordEncryptionService.encrypt(passwordDto.getPassword());
         // Comparing passwords
         if (!adminFromDatabase.getPassword().equals(encryptedPassword)) {
             throw new ValidationException("Invalid password");

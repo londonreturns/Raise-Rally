@@ -60,23 +60,25 @@ function Login() {
       let emailId;
       try {
         let response;
+        console.log(email);
+        console.log(password);
         if (userType === "company") {
-          // User type check
-          emailId = email.trim(); // Strip whitespace from email
-          response = await axios.get(
-            "http://localhost:8080/api/companies/email/" + emailId
-          );
-        } else if (userType === "backers") {
-          emailId = email.trim(); // Strip whitespace from email
-          response = await axios.get(
-            "http://localhost:8080/api/backers/email/" + emailId
-          );
-        } else if (userType === "admin") {
-          emailId = email.trim(); // Strip whitespace from email
-          response = await axios.get(
-            "http://localhost:8080/api/admin/email/" + emailId
-          );
-        }
+        // User type check
+        emailId = email.trim(); // Strip whitespace from email
+        response = await axios.post(
+          "http://localhost:8080/api/companies/login/email/" + emailId, { password: password }
+        );
+      } else if (userType === "backers") {
+        emailId = email.trim(); // Strip whitespace from email
+        response = await axios.post(
+          "http://localhost:8080/api/backers/login/email/" + emailId, { password: password }
+        );
+      } else if (userType === "admin") {
+        emailId = email.trim(); // Strip whitespace from email
+        response = await axios.post(
+          "http://localhost:8080/api/admin/login/email/" + emailId, { password: password }
+        );
+      }
 
         // Set email and user type in local storage
         localStorage.setItem("email", emailId);

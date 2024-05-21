@@ -5,6 +5,7 @@ import com.techtitans.backend.dto.admin.AdminResponseDto;
 import com.techtitans.backend.dto.admin.AdminUpdateRequestDto;
 import com.techtitans.backend.dto.backer.BackerRequestDto;
 import com.techtitans.backend.dto.backer.BackerResponseDto;
+import com.techtitans.backend.dto.password.PasswordDto;
 
 import java.util.List;
 
@@ -21,7 +22,7 @@ public interface AdminService {
 
     void deleteAdminById(int adminId);
 
-    AdminResponseDto loginAdmin(String email, AdminRequestDto adminRequestDto);
+    AdminResponseDto loginAdmin(String email, PasswordDto passwordDto);
 }
 
 

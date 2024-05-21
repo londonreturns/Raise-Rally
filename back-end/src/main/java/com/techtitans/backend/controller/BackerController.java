@@ -4,6 +4,7 @@ import com.techtitans.backend.constants.PathConstants;
 import com.techtitans.backend.dto.backer.BackerRequestDto;
 import com.techtitans.backend.dto.backer.BackerResponseDto;
 import com.techtitans.backend.dto.backer.BackerUpdateRequestDto;
+import com.techtitans.backend.dto.password.PasswordDto;
 import com.techtitans.backend.service.BackerService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,12 +77,12 @@ public class BackerController {
     }
 
     // Build login API for backer
-    @GetMapping(PathConstants.LOGIN + PathConstants.GET_BY_EMAIL_PATH)
+    @PostMapping(PathConstants.LOGIN + PathConstants.GET_BY_EMAIL_PATH)
     public ResponseEntity<BackerResponseDto> loginBacker(
             @PathVariable("email") String backerEmail,
-            @RequestBody BackerRequestDto backerRequestDto
+            @RequestBody PasswordDto passwordDto
     ){
-        BackerResponseDto backerResponseDto = backerService.loginBacker(backerEmail, backerRequestDto);
+        BackerResponseDto backerResponseDto = backerService.loginBacker(backerEmail, passwordDto);
         return new ResponseEntity<>(backerResponseDto, HttpStatus.OK);
     }
 }
