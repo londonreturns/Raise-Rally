@@ -5,7 +5,6 @@ import com.techtitans.backend.entity.BenefitEntity;
 import com.techtitans.backend.entity.ContributionEntity;
 import com.techtitans.backend.entity.ProductEntity;
 import com.techtitans.backend.exception.ResourceNotFoundException;
-import com.techtitans.backend.mapper.BenefitMapper;
 import com.techtitans.backend.mapper.ContributionMapper;
 import com.techtitans.backend.repository.BackerRepository;
 import com.techtitans.backend.repository.BenefitRepository;

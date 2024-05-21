@@ -101,6 +101,21 @@ public class BackerServiceImpl implements BackerService {
         backerRepository.deleteById(backerId);
     }
 
+    @Override
+    // Function to login backer
+    public BackerResponseDto loginBacker(String email, BackerRequestDto backerRequestDto) {
+        // Check if email exists
+        BackerEntity backerFromDatabase = backerRepository.fetchByEmail(email).orElseThrow(() ->
+                new ResourceNotFoundException("Backer does not exists with the given email " + email));
+        // Encrypt password
+        String encryptedPassword = PasswordEncryptionService.encrypt(backerRequestDto.getPassword());
+        // Comparing passwords
+        if (!backerFromDatabase.getPassword().equals(encryptedPassword)) {
+            throw new ValidationException("Invalid password");
+        }
+            return BackerMapper.mapToBackerDto(backerFromDatabase);
+    }
+
     // Update attributes of entity
     public void updateAttributes(BackerEntity backerEntity, BackerUpdateRequestDto backerUpdateRequestDto){
         backerEntity.setName(backerUpdateRequestDto.getName());
