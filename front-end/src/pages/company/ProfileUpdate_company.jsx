@@ -1,7 +1,10 @@
+//importing all the necessary react and axios part.
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+//Starting with ProfileUpdate_company function as main
 function ProfileUpdate_company() {
+  //State variable for form inputs and validations
   const [username, setUsername] = useState('');
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
@@ -9,35 +12,41 @@ function ProfileUpdate_company() {
   const [formError, setFormError] = useState('');
   const [companyId, setCompanyId] = useState(null);
   const [loading, setLoading] = useState(true);
-  const emailId = localStorage.getItem("email");
+  const emailId = localStorage.getItem("email");//Retrive or get email from local storage
 
+  //Fetch company details using email on component mount
   useEffect(() => {
     axios.get("http://localhost:8080/api/companies/email/" + emailId)
       .then(response => {
+        //Destructure response data to get name and companyId
         const { name, companyId } = response.data;
         setUsername(name);
         setCompanyId(companyId);
-        setLoading(false);
+        setLoading(false); //Set Loading to false once data is fetched  
       })
       .catch(error => {
         console.error('Error fetching user details:', error);
-        setLoading(false);
+        setLoading(false); //Set loading to false if there's an error
       });
   }, []);
 
+  //Handle profile updattte form submissions
   const handleUpdateProfile = () => {
+    //Password validation regrx
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,15}$/;
     if (!passwordRegex.test(newPassword)) {
-      setNewPasswordValidation(false);
+      setNewPasswordValidation(false); //If we get false then regex fails
       return;
     }
 
+    //Prepare data for API r 
     const data = {
       name :username,
       oldPassword: oldPassword,
       newPassword: newPassword
     };
     console.log(data);
+    //Send PATCH reuest tp update company profile
     axios.patch(`http://localhost:8080/api/companies/${companyId}`, data) 
       .then(response => {
         console.log('Profile updated successfully');
@@ -49,6 +58,7 @@ function ProfileUpdate_company() {
       });
   };
 
+  //JSX for the component
   return (
     <div className="container mt-5">
       <div className="row justify-content-center">
