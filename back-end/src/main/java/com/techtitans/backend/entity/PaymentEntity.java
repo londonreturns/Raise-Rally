@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PaymentEntity {
-    private int actualPaidPrice;
+    private float actualPaidPrice;
     private int backerId;
     private int benefitId;
 }
