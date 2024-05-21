@@ -1,12 +1,10 @@
 package com.techtitans.backend.controller;
 
 import com.techtitans.backend.constants.PathConstants;
-import com.techtitans.backend.dto.backer.BackerRequestDto;
-import com.techtitans.backend.dto.backer.BackerResponseDto;
+import com.techtitans.backend.dto.password.PasswordDto;
 import com.techtitans.backend.dto.company.CompanyRequestDto;
 import com.techtitans.backend.dto.company.CompanyResponseDto;
 import com.techtitans.backend.dto.company.CompanyUpdateRequestDto;
-import com.techtitans.backend.entity.CompanyEntity;
 import com.techtitans.backend.service.CompanyService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,12 +101,12 @@ public class CompanyController {
     }
 
     // Build login API for company
-    @GetMapping(PathConstants.LOGIN + PathConstants.GET_BY_EMAIL_PATH)
+    @PostMapping(PathConstants.LOGIN + PathConstants.GET_BY_EMAIL_PATH)
     public ResponseEntity<CompanyResponseDto> loginCompany(
             @PathVariable("email") String companyEmail,
-            @RequestBody CompanyRequestDto companyRequestDto
+            @RequestBody PasswordDto passwordDto
     ){
-        CompanyResponseDto companyResponseDto = companyService.loginCompany(companyEmail, companyRequestDto);
+        CompanyResponseDto companyResponseDto = companyService.loginCompany(companyEmail, passwordDto);
         return new ResponseEntity<>(companyResponseDto, HttpStatus.OK);
     }
 }

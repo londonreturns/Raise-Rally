@@ -3,6 +3,7 @@ package com.techtitans.backend.service.impl;
 import com.techtitans.backend.dto.backer.BackerRequestDto;
 import com.techtitans.backend.dto.backer.BackerResponseDto;
 import com.techtitans.backend.dto.backer.BackerUpdateRequestDto;
+import com.techtitans.backend.dto.password.PasswordDto;
 import com.techtitans.backend.entity.BackerEntity;
 import com.techtitans.backend.exception.ResourceNotFoundException;
 import com.techtitans.backend.exception.ValidationException;
@@ -103,12 +104,12 @@ public class BackerServiceImpl implements BackerService {
 
     @Override
     // Function to login backer
-    public BackerResponseDto loginBacker(String email, BackerRequestDto backerRequestDto) {
+    public BackerResponseDto loginBacker(String email, PasswordDto passwordDto) {
         // Check if email exists
         BackerEntity backerFromDatabase = backerRepository.fetchByEmail(email).orElseThrow(() ->
                 new ResourceNotFoundException("Backer does not exists with the given email " + email));
         // Encrypt password
-        String encryptedPassword = PasswordEncryptionService.encrypt(backerRequestDto.getPassword());
+        String encryptedPassword = PasswordEncryptionService.encrypt(passwordDto.getPassword());
         // Comparing passwords
         if (!backerFromDatabase.getPassword().equals(encryptedPassword)) {
             throw new ValidationException("Invalid password");

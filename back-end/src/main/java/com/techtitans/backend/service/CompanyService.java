@@ -1,9 +1,9 @@
 package com.techtitans.backend.service;
 
+import com.techtitans.backend.dto.password.PasswordDto;
 import com.techtitans.backend.dto.company.CompanyRequestDto;
 import com.techtitans.backend.dto.company.CompanyResponseDto;
 import com.techtitans.backend.dto.company.CompanyUpdateRequestDto;
-import com.techtitans.backend.entity.CompanyEntity;
 
 import java.util.List;
 
@@ -28,5 +28,5 @@ public interface CompanyService {
 
     CompanyResponseDto verifyCompany(int id, boolean verify);
 
-    CompanyResponseDto loginCompany(String email, CompanyRequestDto companyRequestDto);
+    CompanyResponseDto loginCompany(String email, PasswordDto passwordDto);
 }

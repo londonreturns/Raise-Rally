@@ -4,8 +4,7 @@ import com.techtitans.backend.constants.PathConstants;
 import com.techtitans.backend.dto.admin.AdminRequestDto;
 import com.techtitans.backend.dto.admin.AdminResponseDto;
 import com.techtitans.backend.dto.admin.AdminUpdateRequestDto;
-import com.techtitans.backend.dto.backer.BackerRequestDto;
-import com.techtitans.backend.dto.backer.BackerResponseDto;
+import com.techtitans.backend.dto.password.PasswordDto;
 import com.techtitans.backend.service.AdminService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,12 +78,12 @@ public class AdminController {
     }
 
     // Build login API for admin
-    @GetMapping(PathConstants.LOGIN + PathConstants.GET_BY_EMAIL_PATH)
+    @PostMapping(PathConstants.LOGIN + PathConstants.GET_BY_EMAIL_PATH)
     public ResponseEntity<AdminResponseDto> loginAdmin(
             @PathVariable("email") String adminEmail,
-            @RequestBody AdminRequestDto adminRequestDto
+            @RequestBody PasswordDto passwordDto
     ){
-        AdminResponseDto adminResponseDto = adminService.loginAdmin(adminEmail, adminRequestDto);
+        AdminResponseDto adminResponseDto = adminService.loginAdmin(adminEmail, passwordDto);
         return new ResponseEntity<>(adminResponseDto, HttpStatus.OK);
     }
 }
