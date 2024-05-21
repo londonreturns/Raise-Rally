@@ -1,29 +1,64 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios'; // Import axios library
-import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
+import React, { useState, useEffect } from 'react'; // Importing necessary hooks from React
+import axios from 'axios'; // Importing axios for making HTTP requests
+import 'bootstrap/dist/css/bootstrap.min.css'; // Importing Bootstrap for styling
 
 function BackerDashboard() {
     const [projects, setProjects] = useState([]);
+    const [backerId, setBackerId] = useState(null);
 
     useEffect(() => {
-        fetchData();
-    }, []);
+        fetchData(); // Fetch data on component mount
+    }, []); // Empty dependency array means this useEffect runs once when the component mounts
 
+    // Function to fetch the backer's details based on their email
     const fetchData = async () => {
         try {
-            // Retrieve user's email or user ID from local storage
-            const userEmail = localStorage.getItem('userEmail');
-            const userId = localStorage.getItem('userId');
+            // Retrieve user's email and type from local storage
+            const userEmail = localStorage.getItem('email');
+            const userType = localStorage.getItem('userType');
 
-            // Check if user email or user ID exists in local storage
-            if (!userEmail && !userId) {
-                console.error('User email or user ID not found in local storage');
-                return;
+            console.log('User email from local storage:', userEmail);
+            console.log('User type from local storage:', userType);
+
+            if (!userEmail) {
+                console.error('User email not found in local storage');
+                return; // Exit if email is not found
             }
 
-            // Include user's email or user ID in the API request
-            const response = await axios.get(`http://localhost:8080/api/products/fundedprojects/${userEmail || userId}`);
-            const modifiedProjects = response.data.map(project => ({
+            // Fetch data from the API to get backer details
+            const backerResponse = await axios.get(`http://localhost:8080/api/backers/email/${userEmail}`);
+            const backerData = backerResponse.data;
+
+            if (backerData && backerData.backer_id) {
+                setBackerId(backerData.backer_id); // Set backer ID if data is valid
+            } else {
+                console.error('Backer data not found');
+                return; // Exit if backer data is not found
+            }
+        } catch (error) {
+            console.error('Error fetching backer data:', error); // Log any errors
+        }
+    };
+
+    useEffect(() => {
+        if (backerId) {
+            fetchProjects(); // Fetch projects if backer ID is available
+        }
+    }, [backerId]); // Dependency array includes backerId, so this useEffect runs whenever backerId changes
+
+    const fetchProjects = async () => {
+        try {
+            // Fetch funded projects using backer ID
+            const response = await axios.get(`http://localhost:8080/api/products/fundedproducts/${backerId}`);
+            const responseData = response.data;
+
+            if (!Array.isArray(responseData)) {
+                console.error('Invalid response format:', responseData);
+                return; // Exit if the response format is invalid
+            }
+
+            // Map the response data to the desired format
+            const modifiedProjects = responseData.map(project => ({
                 productId: project.productId,
                 productName: project.productName,
                 productDescription: project.productDescription,
@@ -35,25 +70,25 @@ function BackerDashboard() {
                 endDate: project.endDate,
                 benefitIds: project.benefitIds
             }));
+
+            // Update state with the modified data
             setProjects(modifiedProjects);
         } catch (error) {
-            console.error('Error fetching data:', error);
+            console.error('Error fetching funded projects:', error);
         }
     };
 
     const handleViewDetails = (projectId) => {
-        // Implement functionality to show project details modal
         console.log('View details of project:', projectId);
     };
 
     return (
-        <div className="container mt-4"> {/* Bootstrap container */}
+        <div className="container mt-4">
             <h1 className="text-center mb-4">My Funded Projects</h1>
-            <div className="row"> {/* Bootstrap row */}
+            <div className="row">
                 {projects.map(project => (
-                    <div key={project.productId} className="col-md-6"> {/* Bootstrap column */}
-                        <div className="card mb-3"> {/* Bootstrap card */}
-                            {/* <img src={project.image} className="card-img-top" alt={project.title} /> */}
+                    <div key={project.productId} className="col-md-6">
+                        <div className="card mb-3">
                             <div className="card-body">
                                 <h5 className="card-title">{project.productName}</h5>
                                 <p className="card-text">Description: {project.productDescription}</p>
@@ -63,7 +98,6 @@ function BackerDashboard() {
                                 <p className="card-text">Current Amount: ${project.currentAmount}</p>
                                 <p className="card-text">Start Date: {project.startDate}</p>
                                 <p className="card-text">End Date: {project.endDate}</p>
-                                {/* <button className="btn btn-primary" onClick={() => handleViewDetails(project.productId)}>View Details</button> */}
                             </div>
                         </div>
                     </div>

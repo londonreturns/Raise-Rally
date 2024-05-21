@@ -74,4 +74,14 @@ public class BackerController {
         backerService.deleteBackerById(backerId);
         return new ResponseEntity<>("Backer deleted", HttpStatus.OK);
     }
+
+    // Build login API for backer
+    @GetMapping(PathConstants.LOGIN + PathConstants.GET_BY_EMAIL_PATH)
+    public ResponseEntity<BackerResponseDto> loginBacker(
+            @PathVariable("email") String backerEmail,
+            @RequestBody BackerRequestDto backerRequestDto
+    ){
+        BackerResponseDto backerResponseDto = backerService.loginBacker(backerEmail, backerRequestDto);
+        return new ResponseEntity<>(backerResponseDto, HttpStatus.OK);
+    }
 }

@@ -3,7 +3,9 @@ import logo from "../assets/raiserally-logo.png";
 import profile from "../assets/profile.webp";
 import { useState } from "react";
 import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
+import getAxios from "../hooks/getAxios";
 function Header({ onSearch }) {
+ 
   const location = useLocation();
   const isDetailPage = location.pathname.includes("/detail");
 

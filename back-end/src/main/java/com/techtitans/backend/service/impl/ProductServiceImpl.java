@@ -39,13 +39,17 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private BackerRepository backerRepository;
 
+    static final int nameMaxLength = 50;
+    static final int descMaxLength = 100;
+    static final int minGoal = 500;
+    static final int maxGoal = 100000;
+
     // Function to add product
     @Override
     public ProductResponseDto addProduct(ProductRequestDto productDto) {
+
+        validateRequest(productDto);
         // Assign attributes to product
-        int nameMaxLength = 50;
-        int descMaxLength = 100;
-        validateRequest(productDto, nameMaxLength, descMaxLength);
         ProductEntity productEntity = new ProductEntity();
         productEntity.setProductName(productDto.getProductName());
         productEntity.setProductDescription(productDto.getProductDescription());
@@ -107,9 +111,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     // Function to update product
     public ProductResponseDto updateProduct(int productId, ProductRequestDto productRequestDto) {
-        int nameMaxLength = 50;
-        int descMaxLength = 100;
-        validateRequest(productRequestDto, nameMaxLength, descMaxLength);
+        validateRequest(productRequestDto);
         // Find the existing product entity
         ProductEntity existingProduct = productRepository.findById(productId).orElseThrow(
                 () -> new RuntimeException("Product with id " + productId + " not found")
@@ -255,7 +257,7 @@ public class ProductServiceImpl implements ProductService {
 
 
     //Validate productRequestDto
-    public static void validateRequest(ProductRequestDto productRequestDto , int nameMaxLength , int descMaxLength) {
+    public static void validateRequest(ProductRequestDto productRequestDto) {
         if (!Validation.isNameValid(productRequestDto.getProductName(), nameMaxLength) ||
                 !Validation.isDescriptionValid(productRequestDto.getProductDescription(), descMaxLength) ||
                 !Validation.isAmountValid(productRequestDto.getCurrentAmount()) ||
@@ -263,6 +265,12 @@ public class ProductServiceImpl implements ProductService {
                 !Validation.isDateValid(productRequestDto.getStartDate(), productRequestDto.getEndDate())
         ) {
             throw new ValidationException("Validation error");
+        }else{
+            if (productRequestDto.getProductGoal() < minGoal){
+                throw new ValidationException("Validation error");
+            }else if(productRequestDto.getProductGoal() > maxGoal){
+                throw new ValidationException("Validation error");
+            }
         }
     }
 }

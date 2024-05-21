@@ -20,4 +20,6 @@ public interface BackerService {
     BackerResponseDto updateBackerById(int backerId, BackerUpdateRequestDto backerUpdateRequestDto);
 
     void deleteBackerById(int backerId);
+
+    BackerResponseDto loginBacker(String email, BackerRequestDto backerRequestDto);
 }
