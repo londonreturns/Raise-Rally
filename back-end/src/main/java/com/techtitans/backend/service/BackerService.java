@@ -3,6 +3,7 @@ package com.techtitans.backend.service;
 import com.techtitans.backend.dto.backer.BackerRequestDto;
 import com.techtitans.backend.dto.backer.BackerResponseDto;
 import com.techtitans.backend.dto.backer.BackerUpdateRequestDto;
+import com.techtitans.backend.dto.password.PasswordDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,5 +22,5 @@ public interface BackerService {
 
     void deleteBackerById(int backerId);
 
-    BackerResponseDto loginBacker(String email, BackerRequestDto backerRequestDto);
+    BackerResponseDto loginBacker(String email, PasswordDto passwordDto);
 }
