@@ -77,7 +77,7 @@ public class BackerController {
 
     // Build login API for backer
     @GetMapping(PathConstants.LOGIN + PathConstants.GET_BY_EMAIL_PATH)
-    public ResponseEntity<BackerResponseDto> getAllBackersByEmail(
+    public ResponseEntity<BackerResponseDto> loginBacker(
             @PathVariable("email") String backerEmail,
             @RequestBody BackerRequestDto backerRequestDto
     ){

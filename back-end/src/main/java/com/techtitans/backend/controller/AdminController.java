@@ -80,7 +80,7 @@ public class AdminController {
 
     // Build login API for admin
     @GetMapping(PathConstants.LOGIN + PathConstants.GET_BY_EMAIL_PATH)
-    public ResponseEntity<AdminResponseDto> getAllBackersByEmail(
+    public ResponseEntity<AdminResponseDto> loginAdmin(
             @PathVariable("email") String adminEmail,
             @RequestBody AdminRequestDto adminRequestDto
     ){
