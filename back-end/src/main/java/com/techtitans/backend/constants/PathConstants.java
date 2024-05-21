@@ -40,4 +40,7 @@ public class PathConstants {
 
     // Path for number of
     public static final String NUMBEROF = "/numberof";
+
+    // Path for id
+    public static final String LOGIN = "/login";
 }
