@@ -10,11 +10,11 @@ function Dashboard() {
 
   return (
     <>
-      <div className="row w-100 dashboard"> {/* Main container */}
-        <div className='col-lg-2 sticky-lg-top top-0 d-block vh-100 border border-end border-1 border-dark-subtle'> {/* Sidebar column */}
+      <div className="row w-100 dashboard ">
+        <div className='col-lg-2 sticky-lg-top top-0 d-block vh-100 border border-end border-1 border-dark-subtle'>
           <Sidebar className='d-inline '>
             <Menu>
-              <div className='d-flex justify-content-center'> {/* Center the profile section */}
+              <div className='d-flex justify-content-center mt-3'>
                 <div className='text-center'>
                   <div className=''><CgProfile size={45} /></div> {/* Profile icon */}
                   <div>{email}</div>

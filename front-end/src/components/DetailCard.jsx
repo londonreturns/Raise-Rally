@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Contributioncard from "../components/Contributioncard";
-import { Link, json, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import getAxios from "../hooks/getAxios";
 import { IoChevronBackOutline } from "react-icons/io5";
 import useImageConverter from "../hooks/imageConverter";
@@ -13,12 +13,14 @@ function DetailCard({
   currentAmount,
   productId,
 }) {
+  const nav = useNavigate();
+  const { makeRequest} = postAxios("http://localhost:8080/api/payment/savePayment");
   //backer by email
   const backerEmail = localStorage.getItem("email");
   const { data: id } = getAxios(
     `http://localhost:8080/api/backers/email/${backerEmail}`
   );
-  const backerid=id;
+  const backerid = id;
 
   //backer by
   const { data: backerNo } = getAxios(
@@ -48,6 +50,7 @@ function DetailCard({
   const TotalAmount = (event) => {
     setAmount(event.target.value);
   };
+
   useEffect(() => {
     // if amount from hook is empty skip
     if (amount === "") return;
@@ -96,47 +99,53 @@ function DetailCard({
     convertImage3(imageUrl3);
   }, [productId, convertImage1, convertImage2, convertImage3]);
   const handlenext = () => {
-    const currentDate = new Date();
+    // const currentDate = new Date();
 
-    const year = currentDate.getFullYear();
-    const month = String(currentDate.getMonth() + 1).padStart(2, "0");
-    const day = String(currentDate.getDate()).padStart(2, "0");
+    // const year = currentDate.getFullYear();
+    // const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+    // const day = String(currentDate.getDate()).padStart(2, "0");
 
-    const formattedDate = `${year}-${month}-${day}`;
-    if (amount != "") {
-      const actualPaidPrice = amount/100;
-      const paymentDate = formattedDate;
+    // const formattedDate = `${year}-${month}-${day}`;
+
+    if (amount !== "") {
+      const actualPaidPrice = amount / 100;
       const benefitid = 2;
       const backerId = backerid;
       const paymentInfo = {
-        actualPaidPrice,
-        paymentDate,
-        benefitid,
-        backerId,
+        actualPaidPrice:actualPaidPrice,
+        backerId:backerId,
+        benefitId:benefitid,
       };
-
+  
       localStorage.setItem("paymentKey", JSON.stringify(paymentInfo));
-      
 
-      
+      makeRequest(paymentInfo);
+      window.location.href = "http://localhost:3000";
     }
   };
+
   return (
     <>
-      
-        <div className="ps-2 fw-semibold d-flex justify-content-start">
-        <Link to="/" className="text-decoration-none d-flex justify-content-around align-content-center">
+      <div className="ps-2 fw-semibold d-flex justify-content-start">
+        <Link
+          to="/"
+          className="text-decoration-none d-flex justify-content-around align-content-center"
+        >
           <div>
-            <IoChevronBackOutline size={20}/>
+            <IoChevronBackOutline size={20} />
           </div>
           <div>Back to Homepage</div>
-      </Link>
-        </div>
+        </Link>
+      </div>
       <div className="pt-5 pt-md-2">
         <div className="d-flex justify-content-center text-center">
           <div className="pt-5">
-            <h3 className="fs-4 fw-semibold">{productName}</h3>
-            <p className="px-5 fw-medium">{productDescription}</p>
+            <h3 className="fs-4 fw-semibold" style={{ fontSize: 32 }}>
+              {productName}
+            </h3>
+            <p className="px-5 fw-medium" style={{ fontSize: 20 }}>
+              {productDescription}
+            </p>
           </div>
         </div>
         <div className="container">
@@ -152,7 +161,7 @@ function DetailCard({
                       {convertedFile1 && (
                         <img
                           src={URL.createObjectURL(convertedFile1)}
-                          className="d-block detail-img w-100"
+                          className="d-block detail-img w-100 rounded"
                           alt="..."
                         />
                       )}
@@ -161,7 +170,7 @@ function DetailCard({
                       {convertedFile2 && (
                         <img
                           src={URL.createObjectURL(convertedFile2)}
-                          className="d-block detail-img w-100"
+                          className="d-block detail-img w-100 rounded "
                           alt="..."
                         />
                       )}
@@ -170,7 +179,7 @@ function DetailCard({
                       {convertedFile3 && (
                         <img
                           src={URL.createObjectURL(convertedFile3)}
-                          className="d-block detail-img w-100"
+                          className="d-block detail-img w-100 rounded"
                           alt="..."
                         />
                       )}
@@ -230,11 +239,11 @@ function DetailCard({
                 </div>
                 <div>
                   <span className="fs-2 fw-medium">{backerNo}</span>
-                  <p>backers</p>
+                  <p className="fs-6">backers</p>
                 </div>
                 <div>
                   <span className="fs-2 fw-medium">{daysLeft}</span>
-                  <p>days to go</p>
+                  <p className="fs-6">days to go</p>
                 </div>
                 <div
                   className="btn backProject text-center pt-2 text-white fs-5"
@@ -298,11 +307,13 @@ function DetailCard({
                             />
                           </div>
                         </div>
-                        
+
                         <div
                           className="col-lg-4 continueBtn text-center text-white pt-1"
                           onClick={handlenext}
-                          {...(amount !== "" ? { 'data-bs-dismiss': 'modal' } : {})}
+                          {...(amount !== ""
+                            ? { "data-bs-dismiss": "modal" }
+                            : {})}
                         >
                           <p>Pledge {amount ? `रू${amount}` : ""}</p>
                         </div>

@@ -3,7 +3,9 @@ import logo from "../assets/raiserally-logo.png";
 import profile from "../assets/profile.webp";
 import { useState } from "react";
 import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
+import getAxios from "../hooks/getAxios";
 function Header({ onSearch }) {
+ 
   const location = useLocation();
   const isDetailPage = location.pathname.includes("/detail");
 
@@ -48,58 +50,133 @@ function Header({ onSearch }) {
           </button>
           {renderSearchField}
           
-            {localStorage.getItem("userType") ? (
-            <div className="dropdown">
-            <a
-              className="dropdown-toggle d-flex align-items-center"
-              role="button"
-              id="navbarDropdownMenuAvatar"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-              
-            >
-              <img
-                src={profile}
-                className="rounded-circle border border-1 border-dark-subtle"
-                width="43"
-                height="43"
-                alt="..."
-                loading="lazy"
-              />
-            </a>
-            <ul
-              className="dropdown-menu dropdown-menu-end"
-              aria-labelledby="navbarDropdownMenuAvatar"
-            >
-              <li>
-                <a className="dropdown-item" href="#">
-                  My profile
-                </a>
-              </li>
-              <li>
-                <a className="dropdown-item" href="#">
-                  Settings
-                </a>
-              </li>
-              <li>
-                <a className="dropdown-item" href="#">
-                  {localStorage.getItem("email")}
-                </a>
-              </li>
-              <li>
-                <a
-                  className="dropdown-item"
-                  onClick={() => {
-                    localStorage.clear();
-                    navigate("/");
-                  }}
-                >
-                  Logout
-                </a>
-              </li>
-            </ul>
-          </div>
-         ) : (
+            {localStorage.getItem("userType")==="admin" ? (
+          <div className="dropdown">
+          <a
+            className="dropdown-toggle d-flex align-items-center"
+            role="button"
+            id="navbarDropdownMenuAvatar"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+            
+          >
+            <img
+              src={profile}
+              className="rounded-circle border border-1 border-dark-subtle"
+              width="43"
+              height="43"
+              alt="..."
+              loading="lazy"
+            />
+          </a>
+          <ul
+            className="dropdown-menu dropdown-menu-end"
+            aria-labelledby="navbarDropdownMenuAvatar"
+          >
+            <li>
+              <Link to="/admin/dashboard" className="dropdown-item">
+                Dashboard
+                </Link>
+            </li>
+
+            <li>
+              <Link
+                className="dropdown-item"
+                onClick={() => {
+                  localStorage.clear();
+                  navigate("/");
+                }}
+              >
+                Logout
+              </Link>
+            </li>
+          </ul>
+        </div>
+         ) : localStorage.getItem("userType")==="backers" ?(
+          <div className="dropdown">
+          <a
+            className="dropdown-toggle d-flex align-items-center"
+            role="button"
+            id="navbarDropdownMenuAvatar"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+            
+          >
+            <img
+              src={profile}
+              className="rounded-circle border border-1 border-dark-subtle"
+              width="43"
+              height="43"
+              alt="..."
+              loading="lazy"
+            />
+          </a>
+          <ul
+            className="dropdown-menu dropdown-menu-end"
+            aria-labelledby="navbarDropdownMenuAvatar"
+          >
+            <li>
+              <Link to="/backer/dashboard" className="dropdown-item">
+                Dashboard
+                </Link>
+            </li>
+
+            <li>
+              <Link
+                className="dropdown-item"
+                onClick={() => {
+                  localStorage.clear();
+                  navigate("/");
+                }}
+              >
+                Logout
+              </Link>
+            </li>
+          </ul>
+        </div>
+         ) :localStorage.getItem("userType")==="company" ? (
+          <div className="dropdown">
+          <a
+            className="dropdown-toggle d-flex align-items-center"
+            role="button"
+            id="navbarDropdownMenuAvatar"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+            
+          >
+            <img
+              src={profile}
+              className="rounded-circle border border-1 border-dark-subtle"
+              width="43"
+              height="43"
+              alt="..."
+              loading="lazy"
+            />
+          </a>
+          <ul
+            className="dropdown-menu dropdown-menu-end"
+            aria-labelledby="navbarDropdownMenuAvatar"
+          >
+            <li>
+              <Link to="/company/dashboard" className="dropdown-item">
+                Dashboard
+                </Link>
+            </li>
+
+            <li>
+              <Link
+                className="dropdown-item"
+                onClick={() => {
+                  localStorage.clear();
+                  navigate("/");
+                }}
+              >
+                Logout
+              </Link>
+            </li>
+          </ul>
+        </div>
+         ):(
           <div>
                 <div className="d-flex align-items-center ms-auto">
                   <Link to="/login">

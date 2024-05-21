@@ -226,4 +226,30 @@ ul a.active {
 .table-striped th {
   background-color: #b1c5da !important; 
 }
+.companycard:hover .hide {
+  opacity: 1;
+  transition: opacity 0.5s ease;
+ 
+}
 
+.hide {
+  opacity: 0;
+  transition: opacity 0.3s ease-in; 
+}
+
+.main-section p{
+  font-weight: 500;
+}
+.main-section h4{ 
+  margin-bottom: 5px;
+  font-size: 14px;  font-weight: 600;
+}
+.item{
+  width: calc(100% - 30px);
+  margin: auto;
+}
+
+.progress-bar{
+  height: 12px;
+  border-radius: 10px 10px;
+}
