@@ -14,6 +14,7 @@ function DetailCard({
   productId,
 }) {
   const nav = useNavigate();
+  const { makeRequest} = postAxios("http://localhost:8080/api/payment/savePayment");
   //backer by email
   const backerEmail = localStorage.getItem("email");
   const { data: id } = getAxios(
@@ -98,30 +99,27 @@ function DetailCard({
     convertImage3(imageUrl3);
   }, [productId, convertImage1, convertImage2, convertImage3]);
   const handlenext = () => {
-    const currentDate = new Date();
+    // const currentDate = new Date();
 
-    const year = currentDate.getFullYear();
-    const month = String(currentDate.getMonth() + 1).padStart(2, "0");
-    const day = String(currentDate.getDate()).padStart(2, "0");
+    // const year = currentDate.getFullYear();
+    // const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+    // const day = String(currentDate.getDate()).padStart(2, "0");
 
-    const formattedDate = `${year}-${month}-${day}`;
+    // const formattedDate = `${year}-${month}-${day}`;
 
     if (amount !== "") {
       const actualPaidPrice = amount / 100;
-      const paymentDate = formattedDate;
       const benefitid = 2;
       const backerId = backerid;
       const paymentInfo = {
-        actualPaidPrice,
-        paymentDate,
-        benefitid,
-        backerId,
+        actualPaidPrice:actualPaidPrice,
+        backerId:backerId,
+        benefitId:benefitid,
       };
-
+  
       localStorage.setItem("paymentKey", JSON.stringify(paymentInfo));
 
-      window.globalData = actualPaidPrice;
-
+      makeRequest(paymentInfo);
       window.location.href = "http://localhost:3000";
     }
   };
