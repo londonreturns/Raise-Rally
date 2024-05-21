@@ -27,4 +27,6 @@ public interface CompanyService {
     CompanyResponseDto enableCompany(int id, boolean enable);
 
     CompanyResponseDto verifyCompany(int id, boolean verify);
+
+    CompanyResponseDto loginCompany(String email, CompanyRequestDto companyRequestDto);
 }

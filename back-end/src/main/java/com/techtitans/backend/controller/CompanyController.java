@@ -1,6 +1,8 @@
 package com.techtitans.backend.controller;
 
 import com.techtitans.backend.constants.PathConstants;
+import com.techtitans.backend.dto.backer.BackerRequestDto;
+import com.techtitans.backend.dto.backer.BackerResponseDto;
 import com.techtitans.backend.dto.company.CompanyRequestDto;
 import com.techtitans.backend.dto.company.CompanyResponseDto;
 import com.techtitans.backend.dto.company.CompanyUpdateRequestDto;
@@ -98,5 +100,15 @@ public class CompanyController {
     @PatchMapping("/verify/{id}/{verified}")
     public ResponseEntity<CompanyResponseDto> verifyCompany(@PathVariable("verified") boolean verified, @PathVariable("id") int id) {
         return ResponseEntity.ok(this.companyService.verifyCompany(id, verified));
+    }
+
+    // Build login API for company
+    @GetMapping(PathConstants.LOGIN + PathConstants.GET_BY_EMAIL_PATH)
+    public ResponseEntity<CompanyResponseDto> loginCompany(
+            @PathVariable("email") String companyEmail,
+            @RequestBody CompanyRequestDto companyRequestDto
+    ){
+        CompanyResponseDto companyResponseDto = companyService.loginCompany(companyEmail, companyRequestDto);
+        return new ResponseEntity<>(companyResponseDto, HttpStatus.OK);
     }
 }
