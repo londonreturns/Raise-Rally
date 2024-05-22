@@ -5,6 +5,7 @@ import com.techtitans.backend.entity.BenefitEntity;
 import com.techtitans.backend.entity.ContributionEntity;
 import com.techtitans.backend.entity.ProductEntity;
 import com.techtitans.backend.exception.ResourceNotFoundException;
+import com.techtitans.backend.exception.ValidationException;
 import com.techtitans.backend.mapper.ContributionMapper;
 import com.techtitans.backend.repository.BackerRepository;
 import com.techtitans.backend.repository.BenefitRepository;
@@ -46,18 +47,16 @@ public class ContributionServiceImpl implements ContributionService {
                         new ResourceNotFoundException("Backer does not exists with the given id " + contributionEntity.getBacker().getBackerId()));
 
         // Check if benefit id exists
-        benefitRepository.findById(contributionEntity.getBenefit().getBenefitId()).orElseThrow(
+        BenefitEntity benefit = benefitRepository.findById(contributionEntity.getBenefit().getBenefitId()).orElseThrow(
                 () -> new ResourceNotFoundException("Benefit with id " + contributionEntity.getBenefit().getBenefitId() + " not found")
         );
 
         // Check if contribution date is within the product's start and end dates
         LocalDate contributionDate = contributionEntity.getPaymentDate();
-        ProductEntity productEntity = productRepository.findById(contributionEntity.getBenefit().getProduct().getProductId())
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Product with id " + contributionEntity.getBenefit().getProduct().getProductId() + " not found"));
+        ProductEntity productEntity = benefit.getProduct();
 
         if (contributionDate.isBefore(productEntity.getStartDate()) || contributionDate.isAfter(productEntity.getEndDate())) {
-            throw new IllegalArgumentException("Contribution date must be within the product's start and end dates.");
+            throw new ValidationException("Contribution date must be within the product's start and end dates.");
         }
 
 
