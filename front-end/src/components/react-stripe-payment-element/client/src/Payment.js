@@ -9,12 +9,13 @@ function Payment() {
   const [stripePromise, setStripePromise] = useState(null);
   const [clientSecret, setClientSecret] = useState("");
 
-  // Fetch payment data
+  // Fetch data from the API endpoint
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch('http://localhost:8080/api/payment/readPayment');
         const responseData = await response.json();
+        console.log('API response data:', responseData); // Log the response data
         setData(responseData);
         setPrice(responseData.actualPaidPrice);
       } catch (error) {
@@ -25,62 +26,57 @@ function Payment() {
     fetchData();
   }, []);
 
-  // Fetch Stripe publishable key
+  // Load Stripe publishable key
   useEffect(() => {
-    fetch("/config").then(async (r) => {
-      const { publishableKey } = await r.json();
-      setStripePromise(loadStripe(publishableKey));
-    });
-  }, []);
-
-  // Create payment intent and post contribution data
-  useEffect(() => {
-    const createPaymentIntent = async () => {
+    const loadStripeKey = async () => {
       try {
-        const paymentIntentResponse = await fetch("/create-payment-intent", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            currency: "NPR",
-            amount: price,
-            automatic_payment_methods: { enabled: true },
-          }),
-        });
-
-        const { clientSecret } = await paymentIntentResponse.json();
-        setClientSecret(clientSecret);
-
-        // Post contribution data after getting client secret
-        await fetch("http://localhost:8080/api/contributions", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            actualPaidPrice: price,
-            paymentDate: new Date().toISOString().split("T")[0], // Use the current date
-            benefitId: 2,
-            backerId: 1,
-          }),
-        });
+        const response = await fetch("/config");
+        const { publishableKey } = await response.json();
+        setStripePromise(loadStripe(publishableKey));
       } catch (error) {
-        console.error('Error creating payment intent or posting contribution:', error);
+        console.error('Error loading Stripe key:', error);
       }
     };
 
-    if (price !== null) {
+    loadStripeKey();
+  }, []);
+
+  // Create payment intent
+  useEffect(() => {
+    const createPaymentIntent = async () => {
+      try {
+        if (price !== null && data !== null) { // Ensure data is loaded
+          const paymentIntentResponse = await fetch("/create-payment-intent", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              currency: "NPR",
+              amount: price,
+              automatic_payment_methods: { enabled: true },
+            }),
+          });
+
+          const paymentIntentData = await paymentIntentResponse.json();
+          setClientSecret(paymentIntentData.clientSecret);
+        }
+      } catch (error) {
+        console.error('Error creating payment intent:', error);
+      }
+    };
+
+    if (price !== null && data !== null) { // Ensure both price and data are available
       createPaymentIntent();
     }
-  }, [price]);
+  }, [price, data]);
 
   return (
     <>
       <h1>Raise Rally: Payment Processing via Stripe</h1>
       {clientSecret && stripePromise && (
         <Elements stripe={stripePromise} options={{ clientSecret }}>
-          <CheckoutForm />
+          <CheckoutForm price={price} data={data}/>
         </Elements>
       )}
     </>
