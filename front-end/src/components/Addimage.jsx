@@ -48,6 +48,7 @@ function Addimage() {
   return (
 
     <>
+    <div>
     <div className='text-center p-4 fs-5 fw-medium '>
       Choose Product Photos
     </div>
@@ -134,7 +135,7 @@ function Addimage() {
                 </div>
                 
                 
-                
+                </div>
              </div>
 </>
   );

@@ -50,7 +50,7 @@ export default function CheckoutForm({ price, data }) {
           throw new Error('Error saving contribution');
         }
 
-        window.location.href = `http://localhost:5173/`; 
+        window.location.href = `http://localhost:5173/backer/dashboard`; 
       } catch (error) {
         console.error('Error saving contribution:', error);
         setMessage("An unexpected error occurred.");

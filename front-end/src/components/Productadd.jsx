@@ -64,7 +64,7 @@ function Productadd() {
     //saving in local storage in local storage
     localStorage.setItem("product", productString);
     
-      Navigate("/company/addreward");
+      Navigate("/company/dashboard/addreward");
     } else {
       console.error("Please fill all fields and select a category.");
     }
