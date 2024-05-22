@@ -135,6 +135,10 @@ function Pagerouter() {
           path: "/company/dashboard/addimage",
           element: <Addimage />
         },
+        {
+          path: "/company/dashboard/myproducts",
+          element: <Myproducts/>
+        },
       ]
     }
   ]);

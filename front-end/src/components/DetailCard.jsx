@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import getAxios from "../hooks/getAxios";
 import { IoChevronBackOutline } from "react-icons/io5";
 import useImageConverter from "../hooks/imageConverter";
-
+import postAxios from '../hooks/postAxios';
 function DetailCard({
   productName,
   endDate,
@@ -13,14 +13,15 @@ function DetailCard({
   currentAmount,
   productId,
 }) {
+ 
   const nav = useNavigate();
-  const { makeRequest} = postAxios("http://localhost:8080/api/payment/savePayment");
+  const { makeRequest, data:pay } = postAxios("http://localhost:8080/api/payment/savePayment");
   //backer by email
   const backerEmail = localStorage.getItem("email");
   const { data: id } = getAxios(
     `http://localhost:8080/api/backers/email/${backerEmail}`
   );
-  const backerid = id;
+  const backerid = parseInt(id.backer_id);
 
   //backer by
   const { data: backerNo } = getAxios(
@@ -98,6 +99,13 @@ function DetailCard({
     convertImage2(imageUrl2);
     convertImage3(imageUrl3);
   }, [productId, convertImage1, convertImage2, convertImage3]);
+  const price=amount*100;
+  const beni=parseInt(benefitid);
+  const payload = {
+    actualPaidPrice: price,
+    backerId: backerid,
+    benefitId: beni,
+  };
   const handlenext = () => {
     // const currentDate = new Date();
 
@@ -108,19 +116,14 @@ function DetailCard({
     // const formattedDate = `${year}-${month}-${day}`;
 
     if (amount !== "") {
-      const actualPaidPrice = amount / 100;
-      const benefitid = 2;
+      // const actualPaidPrice = amount / 100;
+      // const benefitid = 2;
       const backerId = backerid;
-      const paymentInfo = {
-        actualPaidPrice:actualPaidPrice,
-        backerId:backerId,
-        benefitId:benefitid,
-      };
-  
-      localStorage.setItem("paymentKey", JSON.stringify(paymentInfo));
-
-      makeRequest(paymentInfo);
+      makeRequest(payload);
       window.location.href = "http://localhost:3000";
+      // localStorage.setItem("paymentKey", JSON.stringify(paymentInfo));
+
+   
     }
   };
 

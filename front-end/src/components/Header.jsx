@@ -1,8 +1,11 @@
 import React from "react";
 import logo from "../assets/raiserally-logo.png";
 import profile from "../assets/profile.webp";
+import { MdDashboard } from "react-icons/md";
+import { RiLogoutBoxLine } from "react-icons/ri";
 import { useState } from "react";
 import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
+
 import getAxios from "../hooks/getAxios";
 function Header({ onSearch }) {
  
@@ -27,13 +30,14 @@ function Header({ onSearch }) {
       value={searchQuery}
       onChange={handleSearchInputChange}
     />
+    
   );
   const navigate = useNavigate();
   return (
     <>
             <nav className="navbar navbar-expand-lg fixed-top bg-white border border-bottom border-dark-50">
         <div className="container-fluid">
-            
+
           <Link to="/" className="navbar-brand d-none d-md-block ">
             <img src={logo} alt="Raiserally Logo" width={62} height={47} />
           </Link>
@@ -75,19 +79,19 @@ function Header({ onSearch }) {
           >
             <li>
               <Link to="/admin/dashboard" className="dropdown-item">
-                Dashboard
+               Dashboard
                 </Link>
             </li>
 
             <li>
-              <Link
+            <Link
                 className="dropdown-item"
                 onClick={() => {
                   localStorage.clear();
                   navigate("/");
                 }}
               >
-                Logout
+                <RiLogoutBoxLine  size={26} className="pe-2"/>Logout
               </Link>
             </li>
           </ul>
@@ -114,10 +118,24 @@ function Header({ onSearch }) {
           <ul
             className="dropdown-menu dropdown-menu-end"
             aria-labelledby="navbarDropdownMenuAvatar"
-          >
+          > <li className="ps-3 d-flex justify-content-center gap-2 align-content-center px-5 border-bottom border-1 pb-2">
+            <div>
+             <img
+              src={profile}
+              className="rounded-circle border border-1 border-dark-subtle"
+              width="32"
+              height="32"
+              alt="..."
+              loading="lazy"
+            />
+            </div>
+            <div>
+            <span>{localStorage.getItem("email")}</span>
+            </div>
+            </li>
             <li>
               <Link to="/backer/dashboard" className="dropdown-item">
-                Dashboard
+              <MdDashboard size={26} className="pe-2"/> Dashboard
                 </Link>
             </li>
 
@@ -129,7 +147,7 @@ function Header({ onSearch }) {
                   navigate("/");
                 }}
               >
-                Logout
+                <RiLogoutBoxLine  size={26} className="pe-2"/>Logout
               </Link>
             </li>
           </ul>
@@ -156,22 +174,36 @@ function Header({ onSearch }) {
           <ul
             className="dropdown-menu dropdown-menu-end"
             aria-labelledby="navbarDropdownMenuAvatar"
-          >
+          ><li className="ps-3 d-flex justify-content-center gap-2 align-content-center px-5 border-bottom border-1 pb-2">
+          <div>
+           <img
+            src={profile}
+            className="rounded-circle border border-1 border-dark-subtle"
+            width="32"
+            height="32"
+            alt="..."
+            loading="lazy"
+          />
+          </div>
+          <div>
+          <span>{localStorage.getItem("email")}</span>
+          </div>
+          </li>
             <li>
-              <Link to="/company/dashboard" className="dropdown-item">
-                Dashboard
+            <Link to="/company/dashboard" className="dropdown-item">
+              <MdDashboard size={26} className="pe-2"/> Dashboard
                 </Link>
             </li>
 
             <li>
-              <Link
+            <Link
                 className="dropdown-item"
                 onClick={() => {
                   localStorage.clear();
                   navigate("/");
                 }}
               >
-                Logout
+                <RiLogoutBoxLine  size={26} className="pe-2"/>Logout
               </Link>
             </li>
           </ul>

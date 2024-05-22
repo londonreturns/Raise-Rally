@@ -8,7 +8,7 @@ function Rewardadd() {
   useEffect(() => {
     if (data) {
       localStorage.setItem("productId", data.productId);
-      navigateTo("/company/addimage");
+      navigateTo("/company/dashboard/addimage");
     }
   }, [data]); 
   
@@ -233,7 +233,7 @@ const postData = {
             <div className="row ">
               <div className="col-lg-4">
                 <button className="btn  btn-secondary" onClick={()=>{
-                  navigateTo('/company/addproduct')
+                  navigateTo('/company/dashboard/addproduct')
                 }}>Back</button>
               </div>
               <div className="col-lg-4"></div>

@@ -23,7 +23,7 @@ function Card({
 
   const { data } = getAxios(`http://localhost:8080/api/companies/${companyId}`);
 
-  const progressPercentage = (productGoal / currentAmount) * 100;
+  const progressPercentage = ( currentAmount/productGoal) * 100;
   const endDateMillis = new Date(endDate).getTime();
   const today = new Date().getTime();
   const dayInMillis = 1000 * 60 * 60 * 24;
@@ -141,10 +141,10 @@ function Card({
                 >
                   <div
                     className="progress-bar progress-color"
-                    style={{ width: `${progressPercentage}%` }}
+                    style={{width: `${progressPercentage}%`}}
                   />
                 </div>
-                <h4 className="fs-6 text-secondary " style={{ fontSize: {progressPercentage} }}>
+                <h4 className="fs-6 text-secondary " >
                   {getCategoryName(categoryId)}
                 </h4>
               </div>

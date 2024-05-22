@@ -2,7 +2,7 @@ import { PaymentElement } from "@stripe/react-stripe-js";
 import { useState } from "react";
 import { useStripe, useElements } from "@stripe/react-stripe-js";
 
-export default function CheckoutForm() {
+export default function CheckoutForm({ price, data }) {
   const stripe = useStripe();
   const elements = useElements();
 
@@ -13,8 +13,6 @@ export default function CheckoutForm() {
     e.preventDefault();
 
     if (!stripe || !elements) {
-      // Stripe.js has not yet loaded.
-      // Make sure to disable form submission until Stripe.js has loaded.
       return;
     }
 
@@ -23,19 +21,40 @@ export default function CheckoutForm() {
     const { error, paymentIntent } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        // Change this to your payment completion page
         return_url: `http://localhost:5173/`,
       },
-      redirect: "if_required", // Only redirect if required
+      redirect: "if_required",
     });
 
-    console.log(paymentIntent);
     if (error) {
       setMessage(error.message);
     } else if (paymentIntent && paymentIntent.status === "succeeded") {
       setMessage("Payment status: " + paymentIntent.status);
-      // Perform a manual redirect to the success page without query params
-      window.location.href = `http://localhost:5173/`;
+
+      try {
+        const contributionResponse = await fetch("http://localhost:8080/api/contributions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            actualPaidPrice: price,
+            paymentId: "ABC123", // Placeholder for actual payment ID
+            paymentDate: new Date().toISOString().split("T")[0],
+            benefitId: data.benefitId,
+            backerId: data.backerId,
+          }),
+        });
+
+        if (!contributionResponse.ok) {
+          throw new Error('Error saving contribution');
+        }
+
+        window.location.href = `http://localhost:5173/backer/dashboard`; 
+      } catch (error) {
+        console.error('Error saving contribution:', error);
+        setMessage("An unexpected error occurred.");
+      }
     } else {
       setMessage("An unexpected error occurred.");
     }
