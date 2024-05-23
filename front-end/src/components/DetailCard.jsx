@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import getAxios from "../hooks/getAxios";
 import { IoChevronBackOutline } from "react-icons/io5";
 import useImageConverter from "../hooks/imageConverter";
-import postAxios from '../hooks/postAxios';
+import postAxios from "../hooks/postAxios";
 function DetailCard({
   productName,
   endDate,
@@ -13,9 +13,10 @@ function DetailCard({
   currentAmount,
   productId,
 }) {
- 
   const nav = useNavigate();
-  const { makeRequest, data:pay } = postAxios("http://localhost:8080/api/payment/savePayment");
+  const { makeRequest, data: pay } = postAxios(
+    "http://localhost:8080/api/payment/savePayment"
+  );
   //backer by email
   const backerEmail = localStorage.getItem("email");
   const { data: id } = getAxios(
@@ -99,8 +100,8 @@ function DetailCard({
     convertImage2(imageUrl2);
     convertImage3(imageUrl3);
   }, [productId, convertImage1, convertImage2, convertImage3]);
-  const price=amount*100;
-  const beni=parseInt(benefitid);
+  const price = amount * 100;
+  const beni = parseInt(benefitid);
   const payload = {
     actualPaidPrice: price,
     backerId: backerid,
@@ -122,8 +123,6 @@ function DetailCard({
       makeRequest(payload);
       window.location.href = "http://localhost:3000";
       // localStorage.setItem("paymentKey", JSON.stringify(paymentInfo));
-
-   
     }
   };
 
@@ -248,13 +247,29 @@ function DetailCard({
                   <span className="fs-2 fw-medium">{daysLeft}</span>
                   <p className="fs-6">days to go</p>
                 </div>
-                <div
-                  className="btn backProject text-center pt-2 text-white fs-5"
-                  data-bs-toggle="modal"
-                  data-bs-target="#staticBackdrop"
-                >
-                  <p>Back this Project</p>
-                </div>
+                {localStorage.getItem("userType") !== "company" &&
+                localStorage.getItem("userType") !== "admin" ? (
+                  <div
+                    className="btn backProject text-center pt-2 text-white fs-5"
+                    data-bs-toggle={
+                      localStorage.getItem("userType") === "backers"
+                        ? "modal"
+                        : ""
+                    }
+                    data-bs-target={
+                      localStorage.getItem("userType") === "backers"
+                        ? "#staticBackdrop"
+                        : ""
+                    }
+                    onClick={()=>{
+                      localStorage.getItem("userType") !== "backers"?nav('/login'):""
+                    }}
+                  >
+                    <p>Back this Project</p>
+                  </div>
+                ) : (
+                  <></>
+                )}
                 <div className="pt-4">
                   <p>
                     This project will only be funded if it reaches its goal by{" "}

@@ -111,6 +111,7 @@
 import React from "react";
 import Trial from "../../components/Trial";
 import getAxios from "../../hooks/getAxios";
+import Backerproducts from "../../components/Backerproducts";
 
 function BackerDashboard() {
   const backerEmail = localStorage.getItem("email");
@@ -130,7 +131,7 @@ function BackerDashboard() {
       <div className="row  d-flex justify-content-lg-start gap-4">
          
         {contribution.map((contribution) => (
-          <Trial key={contribution.id} {...contribution} />
+          <Backerproducts key={contribution.id} {...contribution} />
         ))}
       </div>
       </div>
