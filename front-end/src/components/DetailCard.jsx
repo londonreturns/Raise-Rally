@@ -67,11 +67,11 @@ function DetailCard({
   }, [amount, price1, price2, price3]);
   let benefitid;
   if (pledge == price1) {
-    benefitid = 1;
+    benefitid = benefit1;
   } else if (pledge == price2) {
-    benefitid = 2;
+    benefitid = benefit2;
   } else if (pledge == price3) {
-    benefitid = 3;
+    benefitid = benefit3;
   }
 
   const progressPercentage = (currentAmount / productGoal) * 100;
