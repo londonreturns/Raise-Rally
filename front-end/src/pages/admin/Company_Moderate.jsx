@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { RiSearchLine } from 'react-icons/ri';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 
 function Company_Moderate() {

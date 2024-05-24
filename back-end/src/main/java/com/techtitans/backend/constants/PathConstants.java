@@ -46,4 +46,7 @@ public class PathConstants {
 
     // Path for id
     public static final String LOGIN = "/login";
+
+    // Path for getting product by benefit ID
+    public static final String BENEFIT_PRODUCT_BY_ID = "/{id}/product";
 }

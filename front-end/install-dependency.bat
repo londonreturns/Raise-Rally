@@ -14,5 +14,8 @@ call npm install bootstrap@5.3.3
 REM Run npm install for react-router-dom
 call npm install react-router-dom
 
+REM Run  npm install react-pro-sidebar 
+call  npm install react-pro-sidebar 
+
 REM Display completion message
 echo All npm installations completed.
