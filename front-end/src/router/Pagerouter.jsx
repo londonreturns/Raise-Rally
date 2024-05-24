@@ -24,8 +24,9 @@ import Companyproducts from "../components/Companyproducts";
 import CompanyDashboard from "../pages/company/CompanyDashboard";
 import ProfileUpdate_company from "../pages/company/ProfileUpdate_company";
 import Myproducts from "../pages/company/Myproducts";
-
+import { Navigate } from "react-router-dom";
 function Pagerouter() {
+  const user=localStorage.getItem("userType");
   const categories = ["art", "crafts", "dance", "film", "music", "technology"];
   const router = createBrowserRouter([
     {
@@ -73,7 +74,7 @@ function Pagerouter() {
     },
     {
       path: "/admin/dashboard",
-      element: <Dashboard />,
+      element: user === "admin" ? <Dashboard /> : <Navigate to="/login" replace />,
       children: [
         {
           path: "/admin/dashboard",
@@ -94,8 +95,9 @@ function Pagerouter() {
       ]
     },
     {
+
       path: "/backer/dashboard",
-      element: <Dashboardbacker/>,
+      element: user === "backers" ? <Dashboardbacker/> : <Navigate to="/login" replace />,
       children: [
         {
           path: "/backer/dashboard",
@@ -113,7 +115,7 @@ function Pagerouter() {
     },
     {
       path: "/company/dashboard",
-      element: <CompanyDashboard/>,
+      element: user === "company" ? <CompanyDashboard/> : <Navigate to="/login" replace />,
       children: [
         {
           path: "/company/dashboard",
