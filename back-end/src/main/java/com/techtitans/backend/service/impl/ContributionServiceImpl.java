@@ -59,7 +59,8 @@ public class ContributionServiceImpl implements ContributionService {
             throw new ValidationException("Contribution date must be within the product's start and end dates.");
         }
 
-
+        productEntity.setCurrentAmount(productEntity.getCurrentAmount()+contributionEntity.getActualPaidPrice());
+        productRepository.save(productEntity);
         // Save to database
         ContributionEntity savedContribution = contributionRepository.save(contributionEntity);
         return ContributionMapper.mapToContributionDto(savedContribution);
