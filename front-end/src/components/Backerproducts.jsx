@@ -8,7 +8,7 @@ import useImageConverter from "../hooks/imageConverter";
 //goal amount
 //paid amount
 //payment date
-function Trial(
+function Backerproducts(
   {
     paymentDate,
     actualPaidPrice,
@@ -59,4 +59,4 @@ function Trial(
   )
 }
 
-export default Trial
+export default Backerproducts
