@@ -43,6 +43,7 @@ public class ProductServiceImpl implements ProductService {
     static final int descMaxLength = 100;
     static final int minGoal = 1000;
     static final int maxGoal = 1000000;
+    static final int minBenefitPrice = 100;
 
     // Function to add product
     @Override
@@ -269,6 +270,10 @@ public class ProductServiceImpl implements ProductService {
             if (productRequestDto.getProductGoal() < minGoal){
                 throw new ValidationException("Validation error");
             }else if(productRequestDto.getProductGoal() > maxGoal){
+                throw new ValidationException("Validation error");
+            }else if(productRequestDto.getBenefits().stream().anyMatch(benefitEntity -> benefitEntity.getPrice().getAmount() < minBenefitPrice)){
+                throw new ValidationException("Validation error");
+            } else if (productRequestDto.getBenefits().stream().anyMatch(benefitEntity -> benefitEntity.getPrice().getAmount() > productRequestDto.getProductGoal())) {
                 throw new ValidationException("Validation error");
             }
         }
