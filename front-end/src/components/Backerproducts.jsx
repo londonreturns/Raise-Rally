@@ -42,7 +42,7 @@ function Backerproducts(
                  
                   className=" card-img-top pt-3 rounded" 
                   alt="..."
-                  style={{width:"300px",height:"200px"}}
+                  style={{width:"320px",height: "auto"}}
               />
                 )}
       

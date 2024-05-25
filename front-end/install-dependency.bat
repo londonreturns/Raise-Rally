@@ -17,5 +17,8 @@ call npm install react-router-dom
 REM Run  npm install react-pro-sidebar 
 call  npm install react-pro-sidebar 
 
+REM Run  npm install --save react-toastify
+call  npm install --save react-toastify
+
 REM Display completion message
 echo All npm installations completed.
