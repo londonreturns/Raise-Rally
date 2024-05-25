@@ -41,8 +41,8 @@ public class ProductServiceImpl implements ProductService {
 
     static final int nameMaxLength = 50;
     static final int descMaxLength = 100;
-    static final int minGoal = 500;
-    static final int maxGoal = 100000;
+    static final int minGoal = 1000;
+    static final int maxGoal = 1000000;
 
     // Function to add product
     @Override
