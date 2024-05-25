@@ -25,6 +25,8 @@ import CompanyDashboard from "../pages/company/CompanyDashboard";
 import ProfileUpdate_company from "../pages/company/ProfileUpdate_company";
 import Myproducts from "../pages/company/Myproducts";
 import Privaterouter from "./Privaterouter";
+import Editproduct from "../components/Editproduct";
+import Editbenefit from "../components/Editbenefit";
 function Pagerouter() {
   const categories = ["art", "crafts", "dance", "film", "music", "technology"];
   const router = createBrowserRouter([
@@ -149,6 +151,14 @@ function Pagerouter() {
         {
           path: "/company/dashboard/myproducts",
           element: <Myproducts/>
+        },
+        {
+          path: "/company/dashboard/editproduct",
+          element: <Editproduct/>
+        },
+        {
+          path: "/company/dashboard/editbenefit",
+          element: <Editbenefit/>
         },
       ]
     }

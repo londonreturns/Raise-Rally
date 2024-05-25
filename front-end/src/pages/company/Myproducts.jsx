@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import getAxios from "../../hooks/getAxios";
+import { useNavigate } from "react-router-dom";
 
 function Myproducts() {
+  const nav=useNavigate();
   const email = localStorage.getItem("email");
   const {
     data: company,
@@ -22,7 +24,7 @@ function Myproducts() {
     data: productsData,
     error: productsError,
     loading: productsLoading,
-  } = getAxios(id ? `http://localhost:8080/api/products/company/${id}` : null);
+  } = getAxios(`http://localhost:8080/api/products/company/${id}`);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
@@ -49,8 +51,20 @@ function Myproducts() {
   if (companyLoading || productsLoading) return <>Loading ....</>;
   if (companyError || productsError) return <div>Error loading data</div>;
 
-  const handleEdit = (productId) => {
-    console.log(`Edit product with ID: ${productId}`);
+  const handleEdit = (product) => {
+    // Save the necessary data to localStorage
+    localStorage.setItem("editProductData", JSON.stringify({
+      productId:product.productId,
+      startDate: product.startDate,
+      benefitIds: product.benefitIds,
+      category: product.categoryId,
+      productName: product.productName,
+      productDescription: product.productDescription,
+      goal: product.productGoal,
+      endDate: product.endDate
+    }));
+
+    nav("/company/dashboard/editproduct");
   };
 
   return (
@@ -99,7 +113,7 @@ function Myproducts() {
                 <td>
                   <button
                     className="btn btn-primary"
-                    onClick={() => handleEdit(productData.productId)}
+                    onClick={() => handleEdit(productData)}
                   >
                     Edit
                   </button>
