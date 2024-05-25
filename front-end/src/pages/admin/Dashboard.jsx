@@ -28,7 +28,7 @@ function Dashboard() {
               <NavLink to="/admin/dashboard" activeClassName="active">
                 {" "}
                 {/* Link to dashboard */}
-                <MenuItem icon={<MdDashboard size={20} />}>Dashboard</MenuItem>
+                <MenuItem> <MdDashboard size={20} className="me-1"/>Dashboard</MenuItem>
               </NavLink>
               <NavLink
                 to="/admin/dashboard/editprofile"
@@ -52,7 +52,7 @@ function Dashboard() {
               >
                 {" "}
                 {/* Link to manage companies */}
-                <MenuItem className="text-dark">Companys</MenuItem>
+                <MenuItem className="text-dark">Companies</MenuItem>
               </NavLink>
               <Link>
                 <MenuItem
@@ -60,14 +60,14 @@ function Dashboard() {
                   data-bs-toggle="modal"
                   data-bs-target="#exampleModal"
                 >
-                  <RiLogoutBoxLine size={20} />
+                  <RiLogoutBoxLine size={20} className="me-1"/>
                   Logout
                 </MenuItem>
               </Link>
               <Link to="/" className="text-dark">
                 {" "}
                 {/* Link to homepage */}
-                <MenuItem icon={<MdHome size={20} />}>Homepage</MenuItem>
+                <MenuItem ><MdHome size={20} className="me-1" />Homepage</MenuItem>
               </Link>
             </Menu>
           </Sidebar>
@@ -81,13 +81,13 @@ function Dashboard() {
       <div>
         {/* Modal */}
         <div
-          className="modal fade w-50"
+          className="modal fade"
           id="exampleModal"
           tabIndex={-1}
           aria-labelledby="exampleModalLabel"
           aria-hidden="true"
         >
-          <div className="modal-dialog w-50">
+          <div className="modal-dialog modal-dialog-centered  w-50">
             <div className="modal-content">
               <div className="modal-header">
                 <h1 className="modal-title fs-5" id="exampleModalLabel">
