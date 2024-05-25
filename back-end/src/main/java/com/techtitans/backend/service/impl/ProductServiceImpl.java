@@ -259,7 +259,7 @@ public class ProductServiceImpl implements ProductService {
 
     //Validate productRequestDto
     public static void validateRequest(ProductRequestDto productRequestDto) {
-        if (Validation.isNameValid(productRequestDto.getProductName(), nameMaxLength) ||
+        if (!Validation.isNameValid(productRequestDto.getProductName(), nameMaxLength) ||
                 !Validation.isDescriptionValid(productRequestDto.getProductDescription(), descMaxLength) ||
                 !Validation.isAmountValid(productRequestDto.getCurrentAmount()) ||
                 !Validation.isGoalValid(productRequestDto.getProductGoal()) ||
