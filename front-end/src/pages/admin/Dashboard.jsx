@@ -1,14 +1,15 @@
-import React from 'react'; // Importing React library
-import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar'; // Importing necessary components from react-pro-sidebar
-import { CgProfile } from "react-icons/cg"; // Importing profile icon from react-icons
-import { MdDashboard } from "react-icons/md"; // Importing dashboard icon from react-icons
-import { MdHome } from "react-icons/md"; // Importing home icon from react-icons
-import { Link, Outlet, NavLink } from 'react-router-dom'; // Importing Link, Outlet, and NavLink from react-router-dom
-
+import React from 'react'; 
+import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar'; 
+import { CgProfile } from "react-icons/cg"; 
+import { MdDashboard } from "react-icons/md";
+import { MdHome } from "react-icons/md"; 
+import { Link, Outlet, NavLink } from 'react-router-dom';
 function Dashboard() {
-  const email=localStorage.getItem("email") // Retrieve email from local storage
+  const email=localStorage.getItem("email") ;
+  const user=localStorage.getItem("userType");
 
   return (
+  
     <>
       <div className="row w-100 dashboard ">
         <div className='col-lg-2 sticky-lg-top top-0 d-block vh-100 border border-end border-1 border-dark-subtle'>
@@ -45,6 +46,7 @@ function Dashboard() {
           <Outlet /> {/* Render matched child routes */}
         </div>
       </div>
+     
     </>
   );
 }

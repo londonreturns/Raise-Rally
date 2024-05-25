@@ -1,13 +1,13 @@
 import React from "react";
-import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar"; //Importing necessary components from react-pro-sidebar
-import { CgProfile } from "react-icons/cg"; //Importing proifle icon from react-icons
-import { MdDashboard } from "react-icons/md"; //Importing dashboard icon from react-icons
-import { MdHome } from "react-icons/md"; //Importing home icon from react-icons
-import { Link, Outlet, NavLink, useNavigate } from "react-router-dom"; //Importing Link, Outlet, and NavLink from react-router-dom for navigation
+import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar"; 
+import { CgProfile } from "react-icons/cg"; 
+import { MdDashboard } from "react-icons/md"; 
+import { MdHome } from "react-icons/md"; 
+import { Link, Outlet, NavLink, useNavigate } from "react-router-dom"; 
 import { RiLogoutBoxLine } from "react-icons/ri";
 function Dashboardbacker() {
   const navigate=useNavigate();
-  const email = localStorage.getItem("email"); //Retrive email from local-Storage
+  const email = localStorage.getItem("email"); 
   
   // JSX for the component
   return (

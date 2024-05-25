@@ -25,8 +25,8 @@ import CompanyDashboard from "../pages/company/CompanyDashboard";
 import ProfileUpdate_company from "../pages/company/ProfileUpdate_company";
 import Myproducts from "../pages/company/Myproducts";
 import { Navigate } from "react-router-dom";
+import Privaterouter from "./Privaterouter";
 function Pagerouter() {
-  const user=localStorage.getItem("userType");
   const categories = ["art", "crafts", "dance", "film", "music", "technology"];
   const router = createBrowserRouter([
     {
@@ -74,7 +74,11 @@ function Pagerouter() {
     },
     {
       path: "/admin/dashboard",
-      element: user === "admin" ? <Dashboard /> : <Navigate to="/login" replace />,
+      
+      element:
+      <Privaterouter  userTypeRequired="admin">
+       <Dashboard />
+       </Privaterouter>,
       children: [
         {
           path: "/admin/dashboard",
@@ -97,7 +101,10 @@ function Pagerouter() {
     {
 
       path: "/backer/dashboard",
-      element: user === "backers" ? <Dashboardbacker/> : <Navigate to="/login" replace />,
+      element:
+      <Privaterouter  userTypeRequired="backers">
+      <Dashboardbacker/>
+      </Privaterouter>,
       children: [
         {
           path: "/backer/dashboard",
@@ -115,7 +122,10 @@ function Pagerouter() {
     },
     {
       path: "/company/dashboard",
-      element: user === "company" ? <CompanyDashboard/> : <Navigate to="/login" replace />,
+      element: 
+      <Privaterouter  userTypeRequired="company">
+      <CompanyDashboard/>
+      </Privaterouter> ,
       children: [
         {
           path: "/company/dashboard",
