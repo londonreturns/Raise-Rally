@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import postAxios from '../hooks/postAxios';
 import { FaFileUpload } from "react-icons/fa";
 import Productadd from './Productadd';
+import { useNavigate } from 'react-router-dom';
 function Addimage() {
+  const nav=useNavigate();
   const ProductId=localStorage.getItem('productId');
   const { makeRequest, isLoading, error } = postAxios(`http://localhost:8080/api/images/${ProductId}`);
 
@@ -39,6 +41,8 @@ function Addimage() {
     try {
       await makeRequest(formData);
       console.log('Images uploaded successfully');
+      nav('/company/dashboard')
+      
     } catch (error) {
       console.error('Error uploading images:', error);
     }
@@ -88,49 +92,10 @@ function Addimage() {
       <div>
         {selectedImages[2] && <img src={URL.createObjectURL(selectedImages[2])} width="150" height="150" alt="Preview" />}
       </div>
-      <div className=' d-inline-block btn btn-primary position-absolute mt-5 ms-5' data-bs-toggle="modal"
-                  data-bs-target="#exampleModal">
-                Continue
+      <div className=' d-inline-block btn btn-primary position-absolute mt-5 ms-5' onClick={handleUpload}>
+                AddImage
             </div>
-            <div
-          className="modal fade "
-          id="exampleModal"
-          tabIndex={-1}
-          aria-labelledby="exampleModalLabel"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content">
-              <div className="modal-header bg-dark-subtle">
-                <h1 className="modal-title fs-4" id="exampleModalLabel">
-                  Confirm AddProduct
-                </h1>
-                <button
-                  type="button"
-                  className="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                />
-              </div>
-              <div className="modal-footer ">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                >
-                  Cancel
-                </button>
-                <button onClick={handleUpload}
-                  type="button"
-                  className="btn btn-success"
-                 
-                >
-                  Add
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+
 
                 </div>
                 

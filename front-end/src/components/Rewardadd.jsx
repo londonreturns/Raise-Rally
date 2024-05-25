@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import postAxios from "../hooks/postAxios";
 
 function Rewardadd() {
@@ -87,10 +87,23 @@ const postData = {
       benefit3Description !== "" &&
       benefit3Amount !== ""
     ) {
-      console.log("Request Payload:", postData);
-      makeRequest(postData);
+      if (
+        benefit1Amount > 100 && benefit1Amount < goal &&
+        benefit2Amount > 100 && benefit2Amount < goal &&
+        benefit3Amount > 100 && benefit3Amount < goal
+      ) {
+        if (benefit3Amount > benefit2Amount && benefit2Amount > benefit1Amount) {
+          console.log("Request Payload:", postData);
+          makeRequest(postData);
+        } else {
+          window.alert("Benefit 3 amount should be greater than Benefit 2 amount, and Benefit 2 amount should be greater than Benefit 1 amount.");
+        }
+      } else {
+        window.alert("Benefit amounts should be between 100 and the goal amount.");
+      }
+      
     } else {
-      console.error("Please fill in all fields.");
+     window.alert("Please fill in all fields.");
     }
   };
   
@@ -129,7 +142,7 @@ const postData = {
                   <nav aria-label="breadcrumb">
                     <ol className="breadcrumb">
                       <li className="breadcrumb-item">
-                        <a href="#">Add Product</a>
+                        <a className="text-decoration-none">Add Product</a>
                       </li>
                       <li
                         className="breadcrumb-item active"

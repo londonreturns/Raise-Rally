@@ -1,13 +1,13 @@
 import React from "react";
-import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar"; //Importing necessary components from react-pro-sidebar
-import { CgProfile } from "react-icons/cg"; //Importing proifle icon from react-icons
-import { MdDashboard } from "react-icons/md"; //Importing dashboard icon from react-icons
-import { MdHome } from "react-icons/md"; //Importing home icon from react-icons
-import { Link, Outlet, NavLink, useNavigate } from "react-router-dom"; //Importing Link, Outlet, and NavLink from react-router-dom for navigation
+import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar"; 
+import { CgProfile } from "react-icons/cg"; 
+import { MdDashboard } from "react-icons/md"; 
+import { MdHome } from "react-icons/md"; 
+import { Link, Outlet, NavLink, useNavigate } from "react-router-dom"; 
 import { RiLogoutBoxLine } from "react-icons/ri";
 function Dashboardbacker() {
   const navigate=useNavigate();
-  const email = localStorage.getItem("email"); //Retrive email from local-Storage
+  const email = localStorage.getItem("email"); 
   
   // JSX for the component
   return (
@@ -36,6 +36,11 @@ function Dashboardbacker() {
               >
                 <MenuItem className="text-dark">Manage Profile</MenuItem>
               </NavLink>
+              <Link to="/" className="text-dark">
+                {" "}
+                {/* Link to homepage */}
+                <MenuItem ><MdHome size={20} />Homepage</MenuItem>
+              </Link>
               <Link>
                 <MenuItem
                   className="text-dark"
@@ -47,6 +52,7 @@ function Dashboardbacker() {
                 </MenuItem>
               </Link>
             </Menu>
+            
           </Sidebar>
         </div>
         <div className="col-lg-10 d-block ms-lg-auto d-flex justify-content-center">
@@ -62,7 +68,7 @@ function Dashboardbacker() {
           aria-labelledby="exampleModalLabel"
           aria-hidden="true"
         >
-          <div className="modal-dialog w-50">
+          <div className="modal-dialog position-sticky top-0 start-0 w-50">
             <div className="modal-content">
               <div className="modal-header">
                 <h1 className="modal-title fs-5" id="exampleModalLabel">

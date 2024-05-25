@@ -48,6 +48,11 @@ function CompanyDashboard() {
               >
                 <MenuItem className="text-dark">Add Product</MenuItem>
               </NavLink>
+              <Link to='/' className='text-dark'> {/* Link to homepage */}
+              <MenuItem> 
+              <MdHome size={20}/>Homepage
+              </MenuItem>
+              </Link>
               <Link>
                 <MenuItem
                   className="text-dark"

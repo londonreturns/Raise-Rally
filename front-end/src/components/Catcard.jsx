@@ -23,7 +23,7 @@ function Catcard({
 
   const { data } = getAxios(`http://localhost:8080/api/companies/${companyId}`);
 
-  const progressPercentage = (productGoal / currentAmount) * 100;
+  const progressPercentage = ( currentAmount/productGoal) * 100;
   const endDateMillis = new Date(endDate).getTime();
   const today = new Date().getTime();
   const dayInMillis = 1000 * 60 * 60 * 24;
@@ -84,21 +84,21 @@ function Catcard({
   return (
     <>
       {/* dispaly-block  */}
-      <div className="main-section  d-block col-md-4 col-lg-3  d-flex justify-content-around">
+      <div className="main-section  d-block col-12 col-sm-6 col-lg-4 col-xxl-3 " >
         {/* secondary section */}
-        <div className="secondary-section  bg-body ">
+        <div className="secondary-section ">
           {/* image section  */}
           <div className="item">
-            <div className="  me-3 pb-2 image position-relative">
-
+            <div className="   image position-relative">
               <div >
                 {/* image inside here  */}
                 {convertedFile && (
                   <img
-                    src={URL.createObjectURL(convertedFile)}
-                    className="w-100 rounded  photo"
-                    alt="..." 
-                  />
+                  src={URL.createObjectURL(convertedFile)}
+                  className="w-100   img-fluid photo rounded-3"
+                  alt="..."
+              />
+              
                 )}
               </div>
               <div className=" text-white position-absolute absolute-hidden top-0 start-0 m-2  d-block ">
@@ -112,7 +112,7 @@ function Catcard({
               <div className=" text-white position-absolute absolute-hidden bottom-0 start-50 translate-middle-x mb-3">
                 {/* View project  */}
                 <div
-                  className="btn btn-light w-100"
+                  className="btn btn-dark w-100"
                   onClick={() => {
                     navigate(
                       `/categories/${getCategoryName(
@@ -129,13 +129,22 @@ function Catcard({
             </div>
 
             {/* content section  */}
-            <div className="content ">
-              
+            <div className="content " >
               <div>
-                            <div className="progress my-2 bg-secondary-emphasis me-3" role="progressbar" aria-label="Info example" aria-valuenow={50} aria-valuemin={0} aria-valuemax={100}>
-  <div className="progress-bar progress-color" style={{width: 60}} />
-</div>
-                <h4 className="fs-6 text-secondary" style={{ fontSize: 20 }}>
+                <div
+                  className="progress mt-3 h-50 bg-secondary-emphasis w-100"
+                  role="progressbar"
+                  aria-label="Info example"
+                  aria-valuenow={50}
+                  aria-valuemin={0}
+                  aria-valuemax={100}
+                >
+                  <div
+                    className="progress-bar progress-color"
+                    style={{width: `${progressPercentage}%`}}
+                  />
+                </div>
+                <h4 className="fs-6 text-secondary " >
                   {getCategoryName(categoryId)}
                 </h4>
               </div>
