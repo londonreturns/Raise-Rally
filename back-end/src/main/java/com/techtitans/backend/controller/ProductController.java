@@ -49,7 +49,7 @@ public class ProductController {
     }
 
     // Build update product by API
-    @PutMapping(PathConstants.GET_BY_ID_PATH)
+    @PatchMapping(PathConstants.GET_BY_ID_PATH)
     public ResponseEntity<ProductResponseDto> updateProduct(
             @PathVariable("id") int productId,
             @RequestBody ProductRequestDto productRequestDto
