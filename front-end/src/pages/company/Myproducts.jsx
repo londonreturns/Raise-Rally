@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import getAxios from "../../hooks/getAxios";
-import Loading from "../../components/Loading";
 
 function Myproducts() {
   const email = localStorage.getItem("email");
@@ -47,7 +46,7 @@ function Myproducts() {
     }
   }, [searchQuery, productsData]);
 
-  if (companyLoading || productsLoading) return <Loading />;
+  if (companyLoading || productsLoading) return <>Loading ....</>;
   if (companyError || productsError) return <div>Error loading data</div>;
 
   const handleEdit = (productId) => {

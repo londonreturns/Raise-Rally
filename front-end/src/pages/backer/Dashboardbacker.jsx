@@ -36,6 +36,11 @@ function Dashboardbacker() {
               >
                 <MenuItem className="text-dark">Manage Profile</MenuItem>
               </NavLink>
+              <Link to="/" className="text-dark">
+                {" "}
+                {/* Link to homepage */}
+                <MenuItem ><MdHome size={20} />Homepage</MenuItem>
+              </Link>
               <Link>
                 <MenuItem
                   className="text-dark"
@@ -47,6 +52,7 @@ function Dashboardbacker() {
                 </MenuItem>
               </Link>
             </Menu>
+            
           </Sidebar>
         </div>
         <div className="col-lg-10 d-block ms-lg-auto d-flex justify-content-center">
@@ -62,7 +68,7 @@ function Dashboardbacker() {
           aria-labelledby="exampleModalLabel"
           aria-hidden="true"
         >
-          <div className="modal-dialog w-50">
+          <div className="modal-dialog position-sticky top-0 start-0 w-50">
             <div className="modal-content">
               <div className="modal-header">
                 <h1 className="modal-title fs-5" id="exampleModalLabel">

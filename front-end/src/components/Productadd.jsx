@@ -48,25 +48,32 @@ function Productadd() {
       endDate &&
       goal
     ) {
-        const product = {
-          selectedCategory,
-          productName,
-          productDescription,
-          startDate,
-          endDate,
-          goal,
-          companyId
-          
-        };
-     // to  object to a string
-    const productString = JSON.stringify(product);
-
-    //saving in local storage in local storage
-    localStorage.setItem("product", productString);
-    
-      Navigate("/company/dashboard/addreward");
-    } else {
-      console.error("Please fill all fields and select a category.");
+      if(goal>=1000 && goal<=1000000){
+        {
+          const product = {
+            selectedCategory,
+            productName,
+            productDescription,
+            startDate,
+            endDate,
+            goal,
+            companyId
+            
+          };
+        
+       // to  object to a string
+      const productString = JSON.stringify(product);
+  
+      //saving in local storage in local storage
+      localStorage.setItem("product", productString);
+      
+        Navigate("/company/dashboard/addreward");
+      } 
+      }else{
+        window.alert("Goal should be from  1000 to 1000000");
+      }
+    }else {
+      window.alert("Please fill all fields and select a category.");
     }
   }
 

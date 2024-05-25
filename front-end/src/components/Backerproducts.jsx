@@ -17,9 +17,9 @@ function Backerproducts(
   }
 ) {
 
-
+  
  
-  const {data:fundedprojects}=getAxios("http://localhost:8080/api/products/fundedproducts/7");
+  const {data:product}=getAxios(`http://localhost:8080/api/benefits/${benefitId}/product`);
   const { data: benefit } = getAxios(
     `http://localhost:8080/api/benefits/${benefitId}`
   );
@@ -27,7 +27,7 @@ function Backerproducts(
 
   useEffect(() => {
     // URL of the image to convert
-    const imageUrl = `http://localhost:8080/api/images/${1}_1.jpeg`;
+    const imageUrl = `http://localhost:8080/api/images/${1}_2.jpeg`;
     // Call the convertImage function when the component mounts
     convertImage(imageUrl);
   }, [convertImage]); // Run this effect only once after initial render
@@ -42,13 +42,14 @@ function Backerproducts(
                  
                   className=" card-img-top pt-3 rounded" 
                   alt="..."
-                  style={{width:"200px",height:"200px"}}
+                  style={{width:"300px",height:"200px"}}
               />
                 )}
       
       <div >
+        <p ><strong>Product Name:</strong> {product.productName}</p>
         <p ><strong>Benefit Name:</strong> {benefit.benefitName}</p>
-        {/* <p className="card-text"><strong>Goal Amount:</strong> {fundedproject.productGoal}</p> */}
+        <p className="card-text"><strong>Goal Amount:</strong> {product.productGoal}</p>
         <p ><strong>Paid Amount:</strong> {actualPaidPrice}</p>
         <p ><strong>Payment Date:</strong> {paymentDate}</p>
       </div>

@@ -24,7 +24,6 @@ import Companyproducts from "../components/Companyproducts";
 import CompanyDashboard from "../pages/company/CompanyDashboard";
 import ProfileUpdate_company from "../pages/company/ProfileUpdate_company";
 import Myproducts from "../pages/company/Myproducts";
-import { Navigate } from "react-router-dom";
 import Privaterouter from "./Privaterouter";
 function Pagerouter() {
   const categories = ["art", "crafts", "dance", "film", "music", "technology"];

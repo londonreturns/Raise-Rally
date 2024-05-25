@@ -76,20 +76,33 @@ function Header({ onSearch }) {
           <ul
             className="dropdown-menu dropdown-menu-end"
             aria-labelledby="navbarDropdownMenuAvatar"
-          >
+          > <li className="ps-3 d-flex justify-content-center gap-2 align-content-center px-5 border-bottom border-1 pb-2">
+            <div>
+             <img
+              src={profile}
+              className="rounded-circle border border-1 border-dark-subtle"
+              width="32"
+              height="32"
+              alt="..."
+              loading="lazy"
+            />
+            </div>
+            <div>
+            <span>{localStorage.getItem("email")}</span>
+            </div>
+            </li>
             <li>
               <Link to="/admin/dashboard" className="dropdown-item">
-               Dashboard
+              <MdDashboard size={26} className="pe-2"/> Dashboard
                 </Link>
             </li>
 
             <li>
-            <Link
+              <Link
                 className="dropdown-item"
-                onClick={() => {
-                  localStorage.clear();
-                  navigate("/");
-                }}
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModal"
+                
               >
                 <RiLogoutBoxLine  size={26} className="pe-2"/>Logout
               </Link>
@@ -142,10 +155,9 @@ function Header({ onSearch }) {
             <li>
               <Link
                 className="dropdown-item"
-                onClick={() => {
-                  localStorage.clear();
-                  navigate("/");
-                }}
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModal"
+                
               >
                 <RiLogoutBoxLine  size={26} className="pe-2"/>Logout
               </Link>
@@ -174,34 +186,33 @@ function Header({ onSearch }) {
           <ul
             className="dropdown-menu dropdown-menu-end"
             aria-labelledby="navbarDropdownMenuAvatar"
-          ><li className="ps-3 d-flex justify-content-center gap-2 align-content-center px-5 border-bottom border-1 pb-2">
-          <div>
-           <img
-            src={profile}
-            className="rounded-circle border border-1 border-dark-subtle"
-            width="32"
-            height="32"
-            alt="..."
-            loading="lazy"
-          />
-          </div>
-          <div>
-          <span>{localStorage.getItem("email")}</span>
-          </div>
-          </li>
+          > <li className="ps-3 d-flex justify-content-center gap-2 align-content-center px-5 border-bottom border-1 pb-2">
+            <div>
+             <img
+              src={profile}
+              className="rounded-circle border border-1 border-dark-subtle"
+              width="32"
+              height="32"
+              alt="..."
+              loading="lazy"
+            />
+            </div>
+            <div>
+            <span>{localStorage.getItem("email")}</span>
+            </div>
+            </li>
             <li>
-            <Link to="/company/dashboard" className="dropdown-item">
+              <Link to="/company/dashboard" className="dropdown-item">
               <MdDashboard size={26} className="pe-2"/> Dashboard
                 </Link>
             </li>
 
             <li>
-            <Link
+              <Link
                 className="dropdown-item"
-                onClick={() => {
-                  localStorage.clear();
-                  navigate("/");
-                }}
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModal"
+                
               >
                 <RiLogoutBoxLine  size={26} className="pe-2"/>Logout
               </Link>
@@ -287,6 +298,56 @@ function Header({ onSearch }) {
             </NavLink>
           </li>
         </ul>
+      </div>
+      <div>
+        {/* Modal */}
+        <div
+          className="modal fade  "
+          id="exampleModal"
+          tabIndex={-1}
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog position-sticky top-0 start-100 w-25">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h1 className="modal-title fs-5" id="exampleModalLabel">
+                  <RiLogoutBoxLine />
+                  Logout
+                </h1>
+                <button
+                  type="button"
+                  className="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                />
+              </div>
+
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Cancel
+                </button>
+                <Link to='/'>
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  data-bs-dismiss="modal"
+                  onClick={()=>{
+                    localStorage.clear();
+
+                  }}
+                >
+                  Logout
+                </button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );

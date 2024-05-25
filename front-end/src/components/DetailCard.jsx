@@ -108,21 +108,12 @@ function DetailCard({
     benefitId: beni,
   };
   const handlenext = () => {
-    // const currentDate = new Date();
 
-    // const year = currentDate.getFullYear();
-    // const month = String(currentDate.getMonth() + 1).padStart(2, "0");
-    // const day = String(currentDate.getDate()).padStart(2, "0");
-
-    // const formattedDate = `${year}-${month}-${day}`;
-
-    if (amount !== "") {
-      // const actualPaidPrice = amount / 100;
-      // const benefitid = 2;
-      const backerId = backerid;
+    if (amount>99) {
       makeRequest(payload);
       window.location.href = "http://localhost:3000";
-      // localStorage.setItem("paymentKey", JSON.stringify(paymentInfo));
+    }else{
+      window.alert("Amount should be greater or equal to 100")
     }
   };
 

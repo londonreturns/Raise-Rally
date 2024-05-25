@@ -76,7 +76,7 @@ function Payment() {
       <h1>Raise Rally: Payment Processing via Stripe</h1>
       {clientSecret && stripePromise && (
         <Elements stripe={stripePromise} options={{ clientSecret }}>
-          <CheckoutForm price={price} data={data}/>
+          <CheckoutForm price={price/100} data={data}/>
         </Elements>
       )}
     </>
