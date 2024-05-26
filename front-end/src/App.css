@@ -1,4 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&family=Oswald:wght@200,300,400,500,600,700&display=swap');
+:root {
+  --header-color: #0F2923!important;
+  --footer-color:#F7F7F8 !important;
+  --button-color: #3F51B5 !important;
+  --dash1:#4DA3FF !important;
+  --dash2:#FFE6AC !important;
+  --dash3:#E7D1FC !important;
+
+}
+
 
 * {
   margin: 0;
@@ -15,27 +25,26 @@ h6,
 li {
   font-family: "Oswald", sans-serif;
 }
-
+.form-control:focus {
+  border-color: #070984 !important;
+  box-shadow: 0 0 5px #070984 !important;
+}
 p {
-  font-family: "Lato", sans-serif;
+  font-family: "Lato", sans-serif !important;
+}
+.nbar{
+  margin-top: 75px !important;
+  background-color: var(--header-color);
 }
 
-.card {
-  width: 300px;
-  height: auto !important;
-  box-shadow: 0 6px 10px rgba(0, 0, 0, .2), 0 0 6px rgba(0, 0, 0, .1);
-  transition: .3s transform cubic-bezier(.155, 1.105, .295, 1.12), .3s box-shadow, .3s -webkit-transform cubic-bezier(.155, 1.105, .295, 1.12);
-  cursor: pointer;
+.line{
+  width: 60px;
+  background-color: #fff !important;
+  height: 2px ;
 }
-
-.card:hover {
-  transform: scale(1.01);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, .3), 0 4px 8px rgba(0, 0, 0, .15);
-}
-
-.card h3 {
+/* .card h3 {
   font-weight: 600;
-}
+} */
 
 .preview1-text,
 .preview-text {
@@ -86,9 +95,8 @@ ul a {
   color: #fff;
   text-decoration: none;
 }
-
 ul a.active {
-  color: rgb(34 197 94);
+  color: #8AF135 !important;
 }
 
 /* for Detail page */
@@ -96,19 +104,20 @@ ul a.active {
   height:290px;
 }
 .progress-color{
-  background-color: #C8346E !important;
+  background-color: var(--button-color);
 }
 .backProject{
-  background-color: #C8346E !important;
+  background-color: var(--button-color) !important;
   height: 45px;
   width: 200px;
 }
 .backProject:hover{
-  background-color: #DC3545 !important;
+  background-color: #040404 !important;
+  transition:background-color 1s ease;
   cursor: pointer;
 }
 .detailcolor{
-  color: #C8346E;
+  color: var(--button-color);
 }
 /* loading css */
 .detail-img{
@@ -121,7 +130,7 @@ ul a.active {
   padding-left: 120px;
 } */
 .contribution{
-  border: 2px solid rgb(210, 199, 199);
+  border: 1px solid rgb(42, 119, 195);
 }
 .no-arrows::-webkit-inner-spin-button,
 .no-arrows::-webkit-outer-spin-button {
@@ -129,42 +138,118 @@ ul a.active {
     margin: 0;
 }
 .no-arrows:hover{
-  border: 2px solid #C8346E;
+  border: 2px solid var(--button-color) !important;
   cursor: pointer;
 }
 .no-arrows:focus{
-  border-color: #DC3545 !important; 
+  border-color: #3314b3 !important; 
   outline: none !important; 
-  box-shadow: 0 0 5px #DC3545 !important;
+  box-shadow: 0 0 5px #6f35dc !important;
 
 }
 .continueBtn{
-  background-color: #C8346E !important;
+  background-color: var(--button-color);
+  border-radius: 9px  !important;
   height: 35px;
   width: 170px !important;
 }
 .continueBtn:hover{
-  background-color: #DC3545 !important;
+  
+  background-color: #191818 !important;
+  transition:background-color 1s ease;
   cursor: pointer;
 }
 .continueBtn1{
-  background-color: #C8346E !important;
+  background-color: var(--button-color) !important;
   height: 37px;
   width: 100px;
 }
 .continueBtn1:hover{
-  background-color: #DC3545 !important;
+  background-color: #191818 !important;
+  transition:background-color 1s ease;
   cursor: pointer;
 }
 .addproduct:hover{
-  border: 1.5px solid #C8346E;
+  border: 1.5px solid #0f147f;
   cursor: pointer;
 }
 .addproduct:focus{
-  border-color: #DC3545 !important; 
+  border-color: #260aa2 !important; 
   outline: none !important; 
-  box-shadow: 0 0 5px #DC3545 !important;
+  box-shadow: 0 0 5px #1616dd !important;
 }
 .active{
   color: green !important;
+}
+.Addimage{
+  width: 350px;
+  height: auto;
+  padding-bottom: 10px;
+  background-color: #CBDCE1;
+  border: 2px dashed rgb(17, 193, 94);
+}
+.item{
+  width: 19.5rem !important;
+  height: auto !important;
+}
+.item:hover .absolute-hidden {
+  opacity: 1;
+  transition: opacity 0.4s ease;
+ 
+}
+.item:hover .photo {
+  opacity: 0.8;
+  background-color: rgba(0, 0, 0, 0.5); 
+  transition: opacity 0.3s ease-in-out, background-color 0.3s ease-in-out; 
+}
+
+.absolute-hidden {
+  opacity: 0;
+  transition: opacity 0.3s ease-in; 
+}
+.progress-color{
+  background-color: #5882d8 !important;
+}
+.dashboard a.active {
+  color: var(--button-color) !important; 
+  font-weight: bolder;
+}
+.product{
+  background-color: var(--dash3) !important;
+}
+.raised{
+  background-color: var(--dash2) !important;
+}
+.toraise{
+  background-color: var(--dash1) !important;
+}
+.table-striped th {
+  background-color: #b1c5da !important; 
+}
+.companycard:hover .hide {
+  opacity: 1;
+  transition: opacity 0.5s ease;
+ 
+}
+
+.hide {
+  opacity: 0;
+  transition: opacity 0.3s ease-in; 
+}
+
+.main-section p{
+  font-weight: 500;
+}
+.main-section h4{ 
+  margin-bottom: 5px;
+  font-size: 14px;  font-weight: 600;
+}
+.item{
+  width: calc(100% - 30px);
+  margin: auto;
+}
+
+.progress-bar{
+  height: 12px;
+  border-radius: 10px 10px;
 }

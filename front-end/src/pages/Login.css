@@ -1,40 +1,8 @@
-#login .text-center {
-  text-align: center;
+#login .vh-100 {
+  height: 100vh;
 }
 
-#login .mb-4 {
-  margin-bottom: 1.5rem;
-}
-
-#login .form-label {
-  font-weight: bold;
-}
-
-#login .btn-primary {
-  background-color: #007bff;
-  border-color: #007bff;
-}
-
-#login .btn-primary:hover {
-  background-color: #0056b3;
-  border-color: #0056b3;
-}
-
-#login .is-invalid {
-  border-color: #dc3545;
-}
-
-#login .invalid-feedback {
-  color: #dc3545;
-}
-
-#login .error-message {
-  height: 50px;
-  overflow-y: none;
-}
-
-@media (max-width: 576px) {
-  #login .card-body {
-      padding: 1.5rem;
-  }
+#login .bg-body-tertiary {
+  padding: 10px; 
+  margin: 10px; 
 }

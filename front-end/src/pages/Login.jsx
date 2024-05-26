@@ -1,6 +1,7 @@
 // Importing all necessary files, react and useState hook
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { IoChevronBackOutline } from "react-icons/io5";
 import axios from "axios";
 import "./Login.css";
 import raiserallyLogo from "../assets/raiserally-logo.png";
@@ -59,23 +60,25 @@ function Login() {
       let emailId;
       try {
         let response;
+        console.log(email);
+        console.log(password);
         if (userType === "company") {
-          // User type check
-          emailId = email.trim(); // Strip whitespace from email
-          response = await axios.get(
-            "http://localhost:8080/api/companies/email/" + emailId
-          );
-        } else if (userType === "backers") {
-          emailId = email.trim(); // Strip whitespace from email
-          response = await axios.get(
-            "http://localhost:8080/api/backers/email/" + emailId
-          );
-        } else if (userType === "admin") {
-          emailId = email.trim(); // Strip whitespace from email
-          response = await axios.get(
-            "http://localhost:8080/api/admin/email/" + emailId
-          );
-        }
+        // User type check
+        emailId = email.trim(); // Strip whitespace from email
+        response = await axios.post(
+          "http://localhost:8080/api/companies/login/email/" + emailId, { password: password }
+        );
+      } else if (userType === "backers") {
+        emailId = email.trim(); // Strip whitespace from email
+        response = await axios.post(
+          "http://localhost:8080/api/backers/login/email/" + emailId, { password: password }
+        );
+      } else if (userType === "admin") {
+        emailId = email.trim(); // Strip whitespace from email
+        response = await axios.post(
+          "http://localhost:8080/api/admin/login/email/" + emailId, { password: password }
+        );
+      }
 
         // Set email and user type in local storage
         localStorage.setItem("email", emailId);
@@ -110,49 +113,32 @@ function Login() {
       window.location.reload(); // Reload page if there is an error
     }
   };
-
   return (
-    <div
-      className="container-fluid vh-100 d-flex justify-content-center align-items-center "
-      id="login"
-    >
+    <div className="container-fluid vh-100 d-flex justify-content-center align-items-center shadow" id="login">
       <div className="row justify-content-center">
         <div className="col-lg-12 col-md-6 col-sm-12 col-12">
-          <div className="card shadow bg-body-tertiary">
+          <div className="card shadow w-100 h-100 bg-body-tertiary">
+
             <div className="card-body px-3">
               <div className="d-flex justify-content-center ps-5">
-                <img
-                  src={raiserallyLogo}
-                  className=" logo "
-                  alt="Raise Rally"
-                  style={{ width: 70 }}
-                />
+                <img src={raiserallyLogo} className=" logo " alt="Raise Rally" style={{ width: 100,height:80 }} />
               </div>
               <h2 className="text-center mb-4">Sign into your account</h2>
               {error && <div className="alert alert-danger mb-4">{error}</div>}
-              <form
-                onSubmit={handleSubmit}
-                className="needs-validation"
-                noValidate
-              >
+              <form onSubmit={handleSubmit} className="needs-validation" noValidate>
                 <div className="mb-3">
                   <label htmlFor="email" className="form-label">
-                    {" "}
                     <MdOutlineMailOutline /> Email address
                   </label>
                   <input
                     type="email"
                     id="email"
-                    className={`form-control ${
-                      validationErrors.email && "is-invalid"
-                    }`}
+                    className={`form-control ${validationErrors.email && "is-invalid"}`}
                     value={email}
                     onChange={handleEmailChange}
                     required
                   />
-                  <div className="invalid-feedback">
-                    {validationErrors.email}
-                  </div>
+                  <div className="invalid-feedback">{validationErrors.email}</div>
                 </div>
                 <div className="mb-3">
                   <label htmlFor="password" className="form-label">
@@ -161,16 +147,12 @@ function Login() {
                   <input
                     type="password"
                     id="password"
-                    className={`form-control ${
-                      validationErrors.password && "is-invalid"
-                    }`}
+                    className={`form-control ${validationErrors.password && "is-invalid"}`}
                     value={password}
                     onChange={handlePasswordChange}
                     required
                   />
-                  <div className="invalid-feedback">
-                    {validationErrors.password}
-                  </div>
+                  <div className="invalid-feedback">{validationErrors.password}</div>
                 </div>
                 <div className="mb-3">
                   <label className="form-label">User Type</label>
@@ -225,37 +207,30 @@ function Login() {
                   </button>
                 </div>
               </form>
-
+  
               <p className="mt-4 text-center">
                 Don't have an account?
                 <Link to="/signup"> Sign Up</Link>
               </p>
+              <div className="row">
+                <div className="col-lg-5">
+                <Link to="/" className="text-decoration-none d-flex justify-content-around align-content-center">
+          <div>
+            <IoChevronBackOutline size={20}/>
+          </div>
+          <div>Back to Homepage</div>
+      </Link>
+                </div>
+              </div>
+              
             </div>
           </div>
         </div>
       </div>
     </div>
   );
+  
+  
 }
 
 export default Login;
-// import React from 'react'
-// import { useNavigate } from 'react-router-dom'
-// function Login() {
-//   const navigate=useNavigate();
-//  const go=()=>{
-//   localStorage.setItem('role', "Admin");
-//   localStorage.setItem('email',"eishworacharya@gmail.com")
-//   navigate('/',{state:{loggedIn:true}});
-//  }
-//   return (
-//     <div className='d-flex justify-content-center  pt-5'>
-//       <div className="btn btn-success " onClick={go}>
-//         Login
-//       </div>
-
-//     </div>
-//   )
-// }
-
-// export default Login

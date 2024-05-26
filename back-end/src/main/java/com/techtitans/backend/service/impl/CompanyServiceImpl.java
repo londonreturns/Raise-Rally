@@ -1,7 +1,9 @@
 package com.techtitans.backend.service.impl;
 
+import com.techtitans.backend.dto.password.PasswordDto;
 import com.techtitans.backend.dto.company.CompanyRequestDto;
 import com.techtitans.backend.dto.company.CompanyResponseDto;
+import com.techtitans.backend.dto.company.CompanyUpdateRequestDto;
 import com.techtitans.backend.entity.CompanyEntity;
 import com.techtitans.backend.exception.ResourceNotFoundException;
 import com.techtitans.backend.exception.ValidationException;
@@ -13,6 +15,7 @@ import com.techtitans.backend.service.CompanyService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -23,11 +26,14 @@ public class CompanyServiceImpl implements CompanyService {
     // Dependency Injection
     @Autowired
     private CompanyRepository companyRepository;
+
     // Method to create a new company
     @Override
     public CompanyResponseDto createCompany(CompanyRequestDto companyRequestDto) {
         // Validate request dto
-        validateRequest(companyRequestDto);
+        int  nameMaxLength = 50;
+        int descMaxLength = 100;
+        validateRequest(companyRequestDto, nameMaxLength, descMaxLength);
         // Map CompanyRequestDto to CompanyEntity
         CompanyEntity companyEntity = CompanyMapper.mapToCompany(companyRequestDto);
         // Save the CompanyEntity to the repository
@@ -45,7 +51,6 @@ public class CompanyServiceImpl implements CompanyService {
                         new ResourceNotFoundException("Company does not exist with the given ID: " + companyId));
         return CompanyMapper.mapToCompanyDto(company);
     }
-
 
     // Method to retrieve all companies
     @Override
@@ -69,42 +74,54 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
 
-
-
     // Method to update company details by ID
     @Override
-    public CompanyResponseDto updateCompanyById(int companyId, CompanyRequestDto companyRequestDto) {
+    public CompanyResponseDto updateCompanyById(int companyId, CompanyUpdateRequestDto newCompany) {
         // Validate request dto
-        validateRequest(companyRequestDto);
+        int nameMaxLength = 50;
+        int descMaxLength = 100;
+        validateRequest(newCompany, nameMaxLength, descMaxLength);
         // Check if company with the given ID exists
         CompanyEntity companyEntityFromDatabase = companyRepository.findById(companyId)
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Company does not exist with the given ID: " + companyId));
 
-        // Update attributes
-        updateAttributes(companyEntityFromDatabase, companyRequestDto);
+        // Old encrypted password
+        String encryptedPassword = PasswordEncryptionService.encrypt(newCompany.getOldPassword());
+        if (!companyEntityFromDatabase.getPassword().equals(encryptedPassword)) {
+            throw new ValidationException("Invalid password");
+        }
 
-        // Save updated company details to the database
+        // Update attributes
+        updateCompany(newCompany, companyEntityFromDatabase);
+
+        // Save to database
         CompanyEntity savedCompany = companyRepository.save(companyEntityFromDatabase);
 
-        // Map the saved company entity to DTO and return
         return CompanyMapper.mapToCompanyDto(savedCompany);
     }
 
-    // Helper method to update fields of the company entity with new information
-    private void updateAttributes(CompanyEntity companyEntity, CompanyRequestDto companyRequestDto){
-        companyEntity.setName(companyRequestDto.getName());
-        companyEntity.setDescription(companyRequestDto.getDescription());
-        companyEntity.setEmail(companyRequestDto.getEmail());
-        companyEntity.setPassword(PasswordEncryptionService.encrypt(companyRequestDto.getPassword()));
-        companyEntity.setActive(companyRequestDto.isActive());
-        companyEntity.setTicked(companyRequestDto.isTicked());
+    public void updateCompany(CompanyUpdateRequestDto companyUpdateRequestDto, CompanyEntity companyEntity) {
+        companyEntity.setName(companyUpdateRequestDto.getName());
+        companyEntity.setDescription(companyUpdateRequestDto.getDescription());
+        companyEntity.setPassword(companyUpdateRequestDto.getNewPassword());
     }
 
-    public static void validateRequest(CompanyRequestDto companyRequestDto){
-        if (!Validation.isNameValid(companyRequestDto.getName()) ||
-                !Validation.isEmailValid(companyRequestDto.getEmail()) ||
-                !Validation.isPasswordValid(companyRequestDto.getPassword())) {
+    public static void validateRequest(CompanyRequestDto companyRequestDto ,int nameMaxLength, int descMaxLength) {
+        if (!Validation.isNameValid(companyRequestDto.getName(), nameMaxLength) ||
+                (!Validation.isDescriptionValid(companyRequestDto.getDescription(), descMaxLength))||
+                (!Validation.isEmailValid(companyRequestDto.getEmail())) ||
+                (!Validation.isPasswordValid(companyRequestDto.getPassword()))) {
+            throw new ValidationException("Validation error");
+        }
+    }
+
+    public static void validateRequest(CompanyUpdateRequestDto companyUpdateRequestDto, int nameMaxLength, int descMaxLength) {
+        if (!Validation.isNameValid(companyUpdateRequestDto.getName(), nameMaxLength) ||
+                (!Validation.isDescriptionValid(companyUpdateRequestDto.getDescription(), descMaxLength))||
+                (!Validation.isPasswordValid(companyUpdateRequestDto.getNewPassword())) ||
+                (!Validation.isPasswordValid(companyUpdateRequestDto.getOldPassword()))
+        ) {
             throw new ValidationException("Validation error");
         }
     }
@@ -113,7 +130,7 @@ public class CompanyServiceImpl implements CompanyService {
 // Function to delete company by ID
     public void deleteCompanyById(int companyId) {
         // Check if company exists
-        CompanyEntity companyEntityFromDatabase = companyRepository.findById(companyId)
+        companyRepository.findById(companyId)
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Company does not exist with the given ID: " + companyId));
         // Delete company from the database
@@ -121,9 +138,52 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     //Function to search company by name
+    //For admin, view all the companies
+    //For backer, view the products that are active only
     @Override
-    public List<CompanyEntity> searchCompanies(String query) {
-        return companyRepository.searchCompanies(query);
+    public List<CompanyResponseDto> searchCompanies(String query, boolean isAdmin) {
+        var companyEntities = companyRepository.searchCompanies(query);
+        companyEntities.forEach(a-> System.out.println(a.isActive()));
+        if (!isAdmin)
+            companyEntities = companyEntities.stream().filter(CompanyEntity::isActive).toList();
+
+        return companyEntities.stream().map(CompanyMapper::mapToCompanyDto).toList();
     }
+
+    // Function to enable/disable a company by id
+    @Override
+    public CompanyResponseDto enableCompany(int id, boolean enable) {
+        CompanyEntity companyEntityFromDatabase = companyRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Company does not exist with the given ID: " + id));
+        companyEntityFromDatabase.setActive(enable);
+        companyRepository.save(companyEntityFromDatabase);
+        return CompanyMapper.mapToCompanyDto(companyEntityFromDatabase);
+    }
+
+    // Function to verify or unverify a company by id
+    public CompanyResponseDto verifyCompany(int id, boolean verify) {
+        CompanyEntity companyEntityFromDatabase = companyRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Company does not exist with the given ID: " + id));
+        companyEntityFromDatabase.setTicked(verify);
+        companyRepository.save(companyEntityFromDatabase);
+        return CompanyMapper.mapToCompanyDto(companyEntityFromDatabase);
+    }
+
+    @Override
+    public CompanyResponseDto loginCompany(String email, PasswordDto passwordDto) {
+        // Check if email exists
+        CompanyEntity companyFromDatabase = companyRepository.fetchByEmail(email).orElseThrow(() ->
+                new ResourceNotFoundException("Admin does not exists with the given email " + email));
+        // Encrypt password
+        String encryptedPassword = PasswordEncryptionService.encrypt(passwordDto.getPassword());
+        // Comparing passwords
+        if (!companyFromDatabase.getPassword().equals(encryptedPassword)) {
+            throw new ValidationException("Invalid password");
+        }
+        return CompanyMapper.mapToCompanyDto(companyFromDatabase);
+    }
+
 }
 

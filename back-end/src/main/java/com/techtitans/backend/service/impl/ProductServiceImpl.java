@@ -3,8 +3,11 @@ package com.techtitans.backend.service.impl;
 import com.techtitans.backend.dto.product.ProductRequestDto;
 import com.techtitans.backend.dto.product.ProductResponseDto;
 import com.techtitans.backend.entity.*;
+import com.techtitans.backend.exception.ResourceNotFoundException;
+import com.techtitans.backend.exception.ValidationException;
 import com.techtitans.backend.mapper.ProductMapper;
 import com.techtitans.backend.repository.*;
+import com.techtitans.backend.security.Validation;
 import com.techtitans.backend.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,9 +33,23 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private PriceRepository priceRepository;
 
+    @Autowired
+    private ContributionRepository contributionRepository;
+
+    @Autowired
+    private BackerRepository backerRepository;
+
+    static final int nameMaxLength = 50;
+    static final int descMaxLength = 100;
+    static final int minGoal = 1000;
+    static final int maxGoal = 1000000;
+    static final int minBenefitPrice = 100;
+
     // Function to add product
     @Override
     public ProductResponseDto addProduct(ProductRequestDto productDto) {
+
+        validateRequest(productDto);
         // Assign attributes to product
         ProductEntity productEntity = new ProductEntity();
         productEntity.setProductName(productDto.getProductName());
@@ -65,6 +82,8 @@ public class ProductServiceImpl implements ProductService {
             benefitEntities.add(benefitRepository.save(benefit));
         }
         savedProduct.setBenefits(benefitEntities);
+        savedProduct.setActive(true);
+        savedProduct.setFeatured(false);
 
         // Save product
         savedProduct = productRepository.save(savedProduct);
@@ -93,6 +112,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     // Function to update product
     public ProductResponseDto updateProduct(int productId, ProductRequestDto productRequestDto) {
+        validateRequest(productRequestDto);
         // Find the existing product entity
         ProductEntity existingProduct = productRepository.findById(productId).orElseThrow(
                 () -> new RuntimeException("Product with id " + productId + " not found")
@@ -162,11 +182,100 @@ public class ProductServiceImpl implements ProductService {
         return products.stream().map(ProductMapper::mapToProductDto).toList();
     }
 
-    // Function to search  product by name
+    // Function to search product by name
     @Override
-    public List<ProductEntity> searchProduct(String query) {
-        return productRepository.searchProduct(query);
+    public List<ProductResponseDto> searchProduct(String query, boolean isAdmin) {
+        // Find the existing product entity
+        var productEntities = productRepository.searchProduct(query);
+        if (!isAdmin)
+            productEntities = productEntities.stream()
+                    .filter(productEntity -> productEntity.getCompany().isActive() && productEntity.isActive())
+                    .toList();
+
+        return productEntities.stream()
+                .map(ProductMapper::mapToProductDtoList).toList();
+    }
+
+    @Override
+    public List<ProductResponseDto> searchProductByCategory(String query, boolean isAdmin, int categoryId) {
+        categoryRepository.findById(categoryId).orElseThrow(
+                () -> new RuntimeException("Category with id " + categoryId + " not found")
+        );
+        // Find the existing product entity
+        var productEntities = productRepository.searchProductByCategory(query, categoryId);
+        if (!isAdmin)
+            productEntities = productEntities.stream()
+                    .filter(productEntity -> productEntity.getCompany().isActive() && productEntity.isActive())
+                    .toList();
+
+        return productEntities.stream()
+                .map(ProductMapper::mapToProductDtoList).toList();
+    }
+
+    //Function to disable/enable  product by id
+    @Override
+    public ProductResponseDto enableProduct(int id, boolean enable) {
+        // Find the existing product entity
+        ProductEntity productEntityFromDatabase = productRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Product does not exist with the given ID: " + id));
+        productEntityFromDatabase.setActive(enable);
+        productRepository.save(productEntityFromDatabase);
+        return ProductMapper.mapToProductDto(productEntityFromDatabase);
+    }
+
+    @Override
+    public ProductResponseDto featureProduct(int id, boolean featured) {
+        // Find the existing product entity
+        ProductEntity productEntityFromDatabase = productRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Product does not exist with the given ID: " + id));
+        productEntityFromDatabase.setFeatured(featured);
+        productRepository.save(productEntityFromDatabase);
+        return ProductMapper.mapToProductDto(productEntityFromDatabase);
+    }
+
+    @Override
+    public Integer findBackerCountByProductId(int productId) {
+        // Find the existing product entity
+        productRepository.findById(productId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Product does not exist with the given ID: " + productId));
+
+        return contributionRepository.countBackersByProductId(productId);
+    }
+
+    @Override
+    public List<ProductResponseDto> findFundedProductsByBackerId(int backerId) {
+        // Find the existing product entity
+        backerRepository.findById(backerId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Backer does not exist with the given ID: " + backerId));
+
+        List<ProductEntity> products = productRepository.findFundedProductsByBackerId(backerId);
+        return products.stream().map(ProductMapper::mapToProductDto).toList();
+    }
+
+
+    //Validate productRequestDto
+    public static void validateRequest(ProductRequestDto productRequestDto) {
+        if (!Validation.isNameValid(productRequestDto.getProductName(), nameMaxLength) ||
+                !Validation.isDescriptionValid(productRequestDto.getProductDescription(), descMaxLength) ||
+                !Validation.isAmountValid(productRequestDto.getCurrentAmount()) ||
+                !Validation.isGoalValid(productRequestDto.getProductGoal()) ||
+                !Validation.isDateValid(productRequestDto.getStartDate(), productRequestDto.getEndDate())
+        ) {
+            throw new ValidationException("Validation error");
+        }else{
+            if (productRequestDto.getProductGoal() < minGoal){
+                throw new ValidationException("Validation error");
+            }else if(productRequestDto.getProductGoal() > maxGoal){
+                throw new ValidationException("Validation error");
+            }else if(productRequestDto.getBenefits().stream().anyMatch(benefitEntity -> benefitEntity.getPrice().getAmount() < minBenefitPrice)){
+                throw new ValidationException("Validation error");
+            } else if (productRequestDto.getBenefits().stream().anyMatch(benefitEntity -> benefitEntity.getPrice().getAmount() > productRequestDto.getProductGoal())) {
+                throw new ValidationException("Validation error");
+            }
+        }
     }
 }
-
-

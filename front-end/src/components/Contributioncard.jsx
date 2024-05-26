@@ -1,43 +1,32 @@
 import React from "react";
 import { useState } from "react";
+import getAxios from "../hooks/getAxios";
 //takes props from it's parent inside function contributioncard
-function Contributioncard({
-  amount,
-  rewardDescription,
-  daysLeft,
-  backersCount,
-}) {
+function Contributioncard({Id} ){
+  const {data}=getAxios(`http://localhost:8080/api/benefits/${Id}`);
+  const benefitId=data.benefitId;
+  const {data:amount}=getAxios(`http://localhost:8080/api/price/${benefitId}`);
+ 
+  if(!benefitId){
+    return null;
+  }
+
   return (
     <>
       {/* rendering data from the props to the Contributioncard */}
-      <div className="contribution m-3 bg-body-secondary rounded">
+      <div className="contribution m-3 bg-primary-subtle rounded">
         <div className="row pt-3 fs-5 ">
-          <h4>Pledge रू{amount}</h4>
+          <h4>Pledge रू {amount.amount}</h4>
         </div>
         <div className="row">
-          <h4 className="fs-5 fw-semibold">Access to pledge manager</h4>
+          <h4 className="fs-5 fw-semibold">{data.benefitName}</h4>
         </div>
         <div className="row">
-          <p>{rewardDescription}</p>
+          <p>{data.benefitDescription}</p>
         </div>
         <div className="row">
+         
           <div className="col-lg-3 pb-3">
-            <button
-              type="button"
-              className="btn btn-secondary text-center"
-              disabled
-            >
-              <span>{daysLeft} days to go</span>
-            </button>
-          </div>
-          <div className="col-lg-3 pb-3">
-            <button
-              type="button"
-              className="btn btn-secondary text-center"
-              disabled
-            >
-              <span>{backersCount} backers</span>
-            </button>
           </div>
         </div>
       </div>

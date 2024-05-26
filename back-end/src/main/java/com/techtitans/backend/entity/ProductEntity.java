@@ -21,6 +21,8 @@ public class ProductEntity {
     private String productName;
     private String productDescription;
     private int productGoal;
+    private boolean active;
+    private boolean featured;
     private int currentAmount;
     private LocalDate startDate;
     private LocalDate endDate;
@@ -38,4 +40,23 @@ public class ProductEntity {
     @ManyToOne
     @JoinColumn(name = "companyId")
     private CompanyEntity company;
+
+    // JPA mapping
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<ImageEntity> images = new ArrayList<>();
+
+    public ProductEntity(int productId, String productName, String productDescription, int productGoal, boolean active, boolean featured, int currentAmount, LocalDate startDate, LocalDate endDate, List<BenefitEntity> benefits, CategoryEntity category, CompanyEntity company) {
+        this.productId = productId;
+        this.productName = productName;
+        this.productDescription = productDescription;
+        this.productGoal = productGoal;
+        this.currentAmount = currentAmount;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.active = active;
+        this.featured = featured;
+        this.benefits = benefits;
+        this.category = category;
+        this.company = company;
+    }
 }

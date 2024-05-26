@@ -31,4 +31,22 @@ public class PathConstants {
 
     // Path for product
     public static final String PRODUCT = "/api/products";
+
+    // Path for image
+    public static final String IMAGE = "/api/images";
+
+    // Path for contribution
+    public static final String CONTRIBUTION = "/api/contributions";
+
+    // Path for payment
+    public static final String PAYMENT = "/api/payment";
+
+    // Path for number of
+    public static final String NUMBEROF = "/numberof";
+
+    // Path for id
+    public static final String LOGIN = "/login";
+
+    // Path for getting product by benefit ID
+    public static final String BENEFIT_PRODUCT_BY_ID = "/{id}/product";
 }

@@ -1,9 +1,11 @@
 package com.techtitans.backend.service.impl;
 
 import com.techtitans.backend.dto.benefit.BenefitResponseDto;
+import com.techtitans.backend.dto.product.ProductResponseDto;
 import com.techtitans.backend.entity.BenefitEntity;
 import com.techtitans.backend.exception.ResourceNotFoundException;
 import com.techtitans.backend.mapper.BenefitMapper;
+import com.techtitans.backend.mapper.ProductMapper;
 import com.techtitans.backend.repository.BenefitRepository;
 import com.techtitans.backend.service.BenefitService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,5 +24,14 @@ public class BenefitServiceImpl implements BenefitService {
                 () -> new ResourceNotFoundException("Benefit with id " + benefitId + " not found")
         );
         return BenefitMapper.mapToBenefitDto(benefitEntity);
+    }
+
+    // Function to get product by benefit id
+    @Override
+    public ProductResponseDto getProductByBenefitId(int benefitId) {
+        BenefitEntity benefitEntity = benefitRepository.findById(benefitId)
+                .orElseThrow(() -> new ResourceNotFoundException("Benefit with id " + benefitId + " not found"));
+
+        return ProductMapper.mapToProductDto(benefitEntity.getProduct());
     }
 }

@@ -2,6 +2,7 @@ package com.techtitans.backend.controller;
 
 import com.techtitans.backend.constants.PathConstants;
 import com.techtitans.backend.dto.benefit.BenefitResponseDto;
+import com.techtitans.backend.dto.product.ProductResponseDto;
 import com.techtitans.backend.service.BenefitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,5 +27,11 @@ public class BenefitController {
     ) {
         BenefitResponseDto benefit = benefitService.getBenefitById(benefitId);
         return new ResponseEntity<>(benefit, HttpStatus.OK);
+    }
+
+    @GetMapping(PathConstants.BENEFIT_PRODUCT_BY_ID)
+    public ResponseEntity<ProductResponseDto> getProductByBenefitId(@PathVariable("id") int benefitId) {
+        ProductResponseDto productResponseDto = benefitService.getProductByBenefitId(benefitId);
+        return new ResponseEntity<>(productResponseDto, HttpStatus.OK);
     }
 }

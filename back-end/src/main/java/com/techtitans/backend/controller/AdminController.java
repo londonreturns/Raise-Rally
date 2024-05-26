@@ -3,6 +3,8 @@ package com.techtitans.backend.controller;
 import com.techtitans.backend.constants.PathConstants;
 import com.techtitans.backend.dto.admin.AdminRequestDto;
 import com.techtitans.backend.dto.admin.AdminResponseDto;
+import com.techtitans.backend.dto.admin.AdminUpdateRequestDto;
+import com.techtitans.backend.dto.password.PasswordDto;
 import com.techtitans.backend.service.AdminService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +24,11 @@ public class AdminController {
     @Autowired
     private AdminService adminService;
 
-    //Build add admin API
+    // Build add admin API
     @PostMapping
     public ResponseEntity<AdminResponseDto> createAdmin(
-            @RequestBody AdminRequestDto adminRequestDto) {
+            @RequestBody AdminRequestDto adminRequestDto
+    ) {
         AdminResponseDto savedAdmin = adminService.createAdmin(adminRequestDto);
         return new ResponseEntity<>(savedAdmin, HttpStatus.OK);
     }
@@ -33,7 +36,7 @@ public class AdminController {
     // Build get admin from id from API
     @GetMapping(PathConstants.GET_BY_ID_PATH)
     public ResponseEntity<AdminResponseDto> getAdminById(
-            @PathVariable int id
+            @PathVariable("id") int id
     ){
         AdminResponseDto admin = adminService.getAdminById(id);
         return new ResponseEntity<>(admin, HttpStatus.OK);
@@ -56,12 +59,12 @@ public class AdminController {
     }
 
     // Build update admin from API
-    @PutMapping(PathConstants.GET_BY_ID_PATH)
+    @PatchMapping(PathConstants.GET_BY_ID_PATH)
     public ResponseEntity<AdminResponseDto> updateAdminById(
             @PathVariable("id") int adminId,
-            @RequestBody AdminRequestDto adminRequestDto
-    ){
-        AdminResponseDto savedAdmin = adminService.updateAdminById(adminId, adminRequestDto);
+            @RequestBody AdminUpdateRequestDto adminUpdateRequestDto
+            ){
+        AdminResponseDto savedAdmin = adminService.updateAdminById(adminId, adminUpdateRequestDto);
         return new ResponseEntity<>(savedAdmin, HttpStatus.OK);
     }
 
@@ -74,5 +77,13 @@ public class AdminController {
         return new ResponseEntity<>("Admin deleted", HttpStatus.OK);
     }
 
-
+    // Build login API for admin
+    @PostMapping(PathConstants.LOGIN + PathConstants.GET_BY_EMAIL_PATH)
+    public ResponseEntity<AdminResponseDto> loginAdmin(
+            @PathVariable("email") String adminEmail,
+            @RequestBody PasswordDto passwordDto
+    ){
+        AdminResponseDto adminResponseDto = adminService.loginAdmin(adminEmail, passwordDto);
+        return new ResponseEntity<>(adminResponseDto, HttpStatus.OK);
+    }
 }

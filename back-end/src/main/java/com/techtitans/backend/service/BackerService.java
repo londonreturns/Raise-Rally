@@ -2,6 +2,8 @@ package com.techtitans.backend.service;
 
 import com.techtitans.backend.dto.backer.BackerRequestDto;
 import com.techtitans.backend.dto.backer.BackerResponseDto;
+import com.techtitans.backend.dto.backer.BackerUpdateRequestDto;
+import com.techtitans.backend.dto.password.PasswordDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,7 +18,9 @@ public interface BackerService {
 
     List<BackerResponseDto> getAllBackers();
 
-    BackerResponseDto updateBackerById(int backerId, BackerRequestDto backerRequestDto);
+    BackerResponseDto updateBackerById(int backerId, BackerUpdateRequestDto backerUpdateRequestDto);
 
     void deleteBackerById(int backerId);
+
+    BackerResponseDto loginBacker(String email, PasswordDto passwordDto);
 }
