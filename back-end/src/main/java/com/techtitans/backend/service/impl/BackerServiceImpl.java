@@ -2,6 +2,8 @@ package com.techtitans.backend.service.impl;
 
 import com.techtitans.backend.dto.backer.BackerRequestDto;
 import com.techtitans.backend.dto.backer.BackerResponseDto;
+import com.techtitans.backend.dto.backer.BackerUpdateRequestDto;
+import com.techtitans.backend.dto.password.PasswordDto;
 import com.techtitans.backend.entity.BackerEntity;
 import com.techtitans.backend.exception.ResourceNotFoundException;
 import com.techtitans.backend.exception.ValidationException;
@@ -15,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,7 +30,8 @@ public class BackerServiceImpl implements BackerService {
     // Function to create company
     public BackerResponseDto createBacker(BackerRequestDto backerRequestDto) {
         // Validate request dto
-        validateRequest(backerRequestDto);
+        int nameMaxLength = 50;
+        validateRequest(backerRequestDto, nameMaxLength);
         BackerEntity backerEntity = BackerMapper.mapToBacker(backerRequestDto);
         BackerEntity savedBacker = backerRepository.save(backerEntity);
         return BackerMapper.mapToBackerDto(savedBacker);
@@ -67,15 +69,23 @@ public class BackerServiceImpl implements BackerService {
 
     @Override
     // Function to update backer details by id
-    public BackerResponseDto updateBackerById(int backerId, BackerRequestDto backerRequestDto) {
+    public BackerResponseDto updateBackerById(int backerId, BackerUpdateRequestDto backerUpdateRequestDto) {
         // Validate request dto
-        validateRequest(backerRequestDto);
+        int nameMaxLength = 50;
+        validateRequest(backerUpdateRequestDto, nameMaxLength);
         // Check if id exists
         BackerEntity backerEntityFromDatabase = backerRepository.findById(backerId)
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Backer does not exists with the given id " + backerId));
+
+        // Old encrypted password
+        String encryptedPassword = PasswordEncryptionService.encrypt(backerUpdateRequestDto.getOldPassword());
+        if (!backerEntityFromDatabase.getPassword().equals(encryptedPassword)) {
+            throw new ValidationException("Invalid password");
+        }
+
         // Update details
-        updateAttributes(backerEntityFromDatabase, backerRequestDto);
+        updateAttributes(backerEntityFromDatabase, backerUpdateRequestDto);
         // Save details to database
         BackerEntity savedBacker = backerRepository.save(backerEntityFromDatabase);
         return BackerMapper.mapToBackerDto(savedBacker);
@@ -85,25 +95,48 @@ public class BackerServiceImpl implements BackerService {
     // Function to delete backer by id
     public void deleteBackerById(int backerId) {
         // Check if id exists
-        BackerEntity backerEntityFromDatabase = backerRepository.findById(backerId)
+        backerRepository.findById(backerId)
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Backer does not exists with the given id " + backerId));
         // Delete backer from database
         backerRepository.deleteById(backerId);
     }
 
-    // Update attributes of entity
-    public void updateAttributes(BackerEntity backerEntity, BackerRequestDto backerRequestDto){
-        backerEntity.setName(backerRequestDto.getName());
-        backerEntity.setEmail(backerRequestDto.getEmail());
-        backerEntity.setPassword(PasswordEncryptionService.encrypt(backerRequestDto.getPassword()));
+    @Override
+    // Function to login backer
+    public BackerResponseDto loginBacker(String email, PasswordDto passwordDto) {
+        // Check if email exists
+        BackerEntity backerFromDatabase = backerRepository.fetchByEmail(email).orElseThrow(() ->
+                new ResourceNotFoundException("Backer does not exists with the given email " + email));
+        // Encrypt password
+        String encryptedPassword = PasswordEncryptionService.encrypt(passwordDto.getPassword());
+        // Comparing passwords
+        if (!backerFromDatabase.getPassword().equals(encryptedPassword)) {
+            throw new ValidationException("Invalid password");
+        }
+            return BackerMapper.mapToBackerDto(backerFromDatabase);
     }
 
-    // Validate RequestDTO
-    public static void validateRequest(BackerRequestDto backerRequestDto){
-        if (!Validation.isNameValid(backerRequestDto.getName()) ||
+    // Update attributes of entity
+    public void updateAttributes(BackerEntity backerEntity, BackerUpdateRequestDto backerUpdateRequestDto){
+        backerEntity.setName(backerUpdateRequestDto.getName());
+        backerEntity.setPassword(PasswordEncryptionService.encrypt(backerUpdateRequestDto.getNewPassword()));
+    }
+
+    // Validate RequestDTO while creating
+    public static void validateRequest(BackerRequestDto backerRequestDto, int nameMaxLength){
+        if (!Validation.isNameValid(backerRequestDto.getName(),  nameMaxLength) ||
                 !Validation.isEmailValid(backerRequestDto.getEmail()) ||
                 !Validation.isPasswordValid(backerRequestDto.getPassword())) {
+            throw new ValidationException("Validation error");
+        }
+    }
+
+    // Validate RequestDTO while updating
+    public static void validateRequest(BackerUpdateRequestDto backerUpdateRequestDto , int nameMaxLength){
+        if (!Validation.isNameValid(backerUpdateRequestDto.getName(),  nameMaxLength) ||
+                !Validation.isPasswordValid(backerUpdateRequestDto.getNewPassword()) ||
+                !Validation.isPasswordValid(backerUpdateRequestDto.getOldPassword())) {
             throw new ValidationException("Validation error");
         }
     }

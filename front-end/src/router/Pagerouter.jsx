@@ -1,5 +1,4 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import Public from "../pages/public/Public";
 import Cat from "../pages/Cat";
 import Error404 from "../components/Error404";
 import Login from "../pages/Login";
@@ -7,42 +6,164 @@ import Registration from "../pages/Registration";
 import About from "../About";
 import Detail from "../pages/Detail";
 import Rewardadd from "../components/Rewardadd";
+import Productadd from "../components/Productadd";
+import Homepage from "../pages/Homepage";
+import Layout from "../pages/Layout";
+import Addimage from "../components/Addimage";
+import Trial from "../components/Trial";
+import Dashboard from "../pages/admin/Dashboard";
+import CompanyPerformance from "../pages/admin/CompanyPerfomance";
+import ProfileUpdate_admin from "../pages/admin/ProfileUpdate_admin";
+import ProductDashboard from "../pages/admin/ProductDashboard";
+import Product_Moderate from "../pages/admin/Product_Moderate";
+import Company_Moderate from "../pages/admin/Company_Moderate";
+import Dashboardbacker from "../pages/backer/Dashboardbacker";
+import BackerDashboard from "../pages/backer/BackerDashboard";
+import ProfileUpdate_backer from "../pages/backer/ProfileUpdate_backers";
+import Companyproducts from "../components/Companyproducts";
+import CompanyDashboard from "../pages/company/CompanyDashboard";
+import ProfileUpdate_company from "../pages/company/ProfileUpdate_company";
+import Myproducts from "../pages/company/Myproducts";
+import Privaterouter from "./Privaterouter";
+import Editproduct from "../components/Editproduct";
+import Editbenefit from "../components/Editbenefit";
 function Pagerouter() {
   const categories = ["art", "crafts", "dance", "film", "music", "technology"];
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <Public />,
-    },
-    {
-      path: "/login",
-      element: <Login />,
-    },
-    {
-      path: "/signup",
-      element: <Registration />,
+      element: <Homepage />
     },
     {
       path: "/categories/:cat",
-      element: <Cat categories={categories} />,
+      element: <Cat categories={categories} />
     },
+    {
+      path: "/categories/:cat/detail",
+      element: <Detail />
+    },
+    {
+      path: "/company/:company", 
+      element: <Companyproducts />
+    },
+    
     {
       path: "*",
-      element: <Error404 />,
+      element: <Error404 />
     },
     {
-      path:"/aboutus",
-      element:<About/>
+      path: "/login",
+      element: <Login />
     },
     {
-      path:"/detail",
-      element:<Detail/>
+      path: "/signup",
+      element: <Registration />
     },
     {
-      path:"/company/addproduct",
-      element:<Rewardadd/>
+      path: "/aboutus",
+      element: <About />
+    },
+    {
+      path: "/detail",
+      element: <Detail />
+    },
+
+
+    {
+      path: "/try",
+      element: <Trial/>
+    },
+    {
+      path: "/admin/dashboard",
+      
+      element:
+      <Privaterouter  userTypeRequired="admin">
+       <Dashboard />
+       </Privaterouter>,
+      children: [
+        {
+          path: "/admin/dashboard",
+          element: <CompanyPerformance />
+        },
+        {
+          path: "/admin/dashboard/editprofile",
+          element: <ProfileUpdate_admin />
+        },
+        {
+          path: "/admin/dashboard/editproduct",
+          element: <Product_Moderate />
+        },
+        {
+          path: "/admin/dashboard/editcompany",
+          element: <Company_Moderate />
+        }
+      ]
+    },
+    {
+
+      path: "/backer/dashboard",
+      element:
+      <Privaterouter  userTypeRequired="backers">
+      <Dashboardbacker/>
+      </Privaterouter>,
+      children: [
+        {
+          path: "/backer/dashboard",
+          element:<BackerDashboard/>
+        },
+        {
+          path: "/backer/dashboard/editprofile",
+          element: <ProfileUpdate_backer/>
+        },
+        {
+          path:"/backer/dashboard/funded",
+          element:<BackerDashboard/>
+        }
+      ]
+    },
+    {
+      path: "/company/dashboard",
+      element: 
+      <Privaterouter  userTypeRequired="company">
+      <CompanyDashboard/>
+      </Privaterouter> ,
+      children: [
+        {
+          path: "/company/dashboard",
+          element:<Myproducts/>
+        },
+        {
+          path: "/company/dashboard/editprofile",
+          element: <ProfileUpdate_company/>
+        },
+        {
+          path: "/company/dashboard/addproduct",
+          element: <Productadd />
+        },
+        {
+          path: "/company/dashboard/addreward",
+          element: <Rewardadd />
+        },
+        {
+          path: "/company/dashboard/addimage",
+          element: <Addimage />
+        },
+        {
+          path: "/company/dashboard/myproducts",
+          element: <Myproducts/>
+        },
+        {
+          path: "/company/dashboard/editproduct",
+          element: <Editproduct/>
+        },
+        {
+          path: "/company/dashboard/editbenefit",
+          element: <Editbenefit/>
+        },
+      ]
     }
   ]);
+
   return (
     <>
       <RouterProvider router={router} />

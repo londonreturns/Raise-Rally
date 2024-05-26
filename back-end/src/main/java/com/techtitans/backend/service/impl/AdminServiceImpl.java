@@ -2,10 +2,14 @@ package com.techtitans.backend.service.impl;
 
 import com.techtitans.backend.dto.admin.AdminRequestDto;
 import com.techtitans.backend.dto.admin.AdminResponseDto;
+import com.techtitans.backend.dto.admin.AdminUpdateRequestDto;
+import com.techtitans.backend.dto.password.PasswordDto;
 import com.techtitans.backend.entity.AdminEntity;
+import com.techtitans.backend.entity.BackerEntity;
 import com.techtitans.backend.exception.ResourceNotFoundException;
 import com.techtitans.backend.exception.ValidationException;
 import com.techtitans.backend.mapper.AdminMapper;
+import com.techtitans.backend.mapper.BackerMapper;
 import com.techtitans.backend.repository.AdminRepository;
 import com.techtitans.backend.security.PasswordEncryptionService;
 import com.techtitans.backend.security.Validation;
@@ -29,7 +33,8 @@ public class AdminServiceImpl implements AdminService {
     @Override
     // Function to create admin
     public AdminResponseDto createAdmin(AdminRequestDto adminRequestDto){
-        validateRequest(adminRequestDto);
+        int nameMaxLength = 50; // Maximum length for name
+        validateRequest(adminRequestDto, nameMaxLength);
         AdminEntity adminEntity = AdminMapper.mapToAdminEntity(adminRequestDto);
         AdminEntity savedAdmin = adminRepository.save(adminEntity);
         return  AdminMapper.mapToAdminDto(savedAdmin);
@@ -57,35 +62,40 @@ public class AdminServiceImpl implements AdminService {
     @Override
     // Method to get admin from email
     public AdminResponseDto getAdminByEmail(String adminEmail) {
-        Optional<AdminEntity> adminEntity = adminRepository.fetchByEmail(adminEmail);
         // Check if entity exists
-        if (adminEntity.isPresent()) {
-            return AdminMapper.mapToAdminDto(adminEntity.get());
-        }
-        throw new ResourceNotFoundException("Admin does not exists with the given email " + adminEmail);
+        AdminEntity adminEntity = adminRepository.fetchByEmail(adminEmail).orElseThrow(() ->
+                new ResourceNotFoundException("Admin does not exists with the given email " + adminEmail));;
+        return AdminMapper.mapToAdminDto(adminEntity);
     }
 
     @Override
     // Function to update admin details by id
-    public AdminResponseDto updateAdminById(int adminId, AdminRequestDto adminRequestDto) {
+    public AdminResponseDto updateAdminById(int adminId, AdminUpdateRequestDto adminUpdateRequestDto) {
         // Validate request dto
-        validateRequest(adminRequestDto);
+        int nameMaxLength = 50; // Maximum length for name
+        validateRequest(adminUpdateRequestDto, nameMaxLength);
         // Check if id exists
         AdminEntity adminEntityFromDatabase = adminRepository.findById(adminId)
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Admin does not exists with the given id " + adminId));
+
+        // Old encrypted password
+        String encryptedPassword = PasswordEncryptionService.encrypt(adminUpdateRequestDto.getOldPassword());
+        if (!adminEntityFromDatabase.getPassword().equals(encryptedPassword)) {
+            throw new ValidationException("Invalid password");
+        }
+
         // Update details
-        updateAttributes(adminEntityFromDatabase, adminRequestDto);
+        updateAttributes(adminEntityFromDatabase, adminUpdateRequestDto);
         // Save details to database
         AdminEntity savedAdmin = adminRepository.save(adminEntityFromDatabase);
         return AdminMapper.mapToAdminDto(savedAdmin);
     }
 
     // Update attributes of entity
-    public void updateAttributes(AdminEntity adminEntity, AdminRequestDto adminRequestDto){
-        adminEntity.setName(adminRequestDto.getName());
-        adminEntity.setEmail(adminRequestDto.getEmail());
-        adminEntity.setPassword(PasswordEncryptionService.encrypt(adminRequestDto.getPassword()));
+    public void updateAttributes(AdminEntity adminEntity, AdminUpdateRequestDto adminUpdateRequestDto){
+        adminEntity.setName(adminUpdateRequestDto.getName());
+        adminEntity.setPassword(PasswordEncryptionService.encrypt(adminUpdateRequestDto.getNewPassword()));
     }
 
     @Override
@@ -99,9 +109,33 @@ public class AdminServiceImpl implements AdminService {
         adminRepository.deleteById(adminId);
     }
 
-    // Validate RequestDTO
-    public static void validateRequest(AdminRequestDto adminRequestDto){
-        if (!Validation.isNameValid(adminRequestDto.getName()) ||
+    @Override
+    public AdminResponseDto loginAdmin(String email, PasswordDto passwordDto) {
+        // Check if email exists
+        AdminEntity adminFromDatabase = adminRepository.fetchByEmail(email).orElseThrow(() ->
+                new ResourceNotFoundException("Admin does not exists with the given email " + email));
+        // Encrypt password
+        String encryptedPassword = PasswordEncryptionService.encrypt(passwordDto.getPassword());
+        // Comparing passwords
+        if (!adminFromDatabase.getPassword().equals(encryptedPassword)) {
+            throw new ValidationException("Invalid password");
+        }
+        return AdminMapper.mapToAdminDto(adminFromDatabase);
+    }
+
+    // Validate while updating
+    public static void validateRequest(AdminUpdateRequestDto adminUpdateRequestDto, int  nameMaxLength){
+        if (!Validation.isNameValid(adminUpdateRequestDto.getName(), nameMaxLength) ||
+                !Validation.isPasswordValid(adminUpdateRequestDto.getOldPassword()) ||
+                !Validation.isPasswordValid(adminUpdateRequestDto.getNewPassword())) {
+            throw new ValidationException("Validation error");
+        }
+    }
+
+
+    // Validate RequestDTO while creating
+    public static void validateRequest(AdminRequestDto adminRequestDto, int nameMaxLength){
+        if (!Validation.isNameValid(adminRequestDto.getName(), nameMaxLength) ||
                 !Validation.isEmailValid(adminRequestDto.getEmail()) ||
                 !Validation.isPasswordValid(adminRequestDto.getPassword())) {
             throw new ValidationException("Validation error");

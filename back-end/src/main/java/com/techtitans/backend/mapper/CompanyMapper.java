@@ -5,10 +5,13 @@ import com.techtitans.backend.dto.company.CompanyResponseDto;
 import com.techtitans.backend.entity.CompanyEntity;
 import com.techtitans.backend.security.PasswordEncryptionService;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CompanyMapper {
     // Map company JPA entity into CompanyDto
     public static CompanyResponseDto mapToCompanyDto(CompanyEntity companyEntity) {
-        try{
+        try {
             return new CompanyResponseDto(
                     companyEntity.getCompanyId(),
                     companyEntity.getName(),
@@ -18,7 +21,7 @@ public class CompanyMapper {
                     companyEntity.isTicked(),
                     companyEntity.getProducts().stream().map(ProductMapper::mapToProductDto).toList()
             );
-        }catch (Exception e){
+        } catch (Exception e) {
             return new CompanyResponseDto(
                     companyEntity.getCompanyId(),
                     companyEntity.getName(),
@@ -31,7 +34,6 @@ public class CompanyMapper {
 
     }
 
-
     // Method to map CompanyDto to Company JPA entity
     public static CompanyEntity mapToCompany(CompanyRequestDto companyDto) {
         return new CompanyEntity(
@@ -40,8 +42,8 @@ public class CompanyMapper {
                 companyDto.getDescription(),
                 companyDto.getEmail(),
                 PasswordEncryptionService.encrypt(companyDto.getPassword()),
-                companyDto.isActive(),
-                companyDto.isTicked(),
+                true, // Active by default while creating
+                false, //Not verified by default  while creating
                 companyDto.getProducts()
         );
     }

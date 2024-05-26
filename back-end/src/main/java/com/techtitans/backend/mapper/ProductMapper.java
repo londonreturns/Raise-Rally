@@ -1,10 +1,14 @@
 package com.techtitans.backend.mapper;
 
+import com.techtitans.backend.dto.company.CompanyResponseDto;
 import com.techtitans.backend.dto.product.ProductRequestDto;
 import com.techtitans.backend.dto.product.ProductResponseDto;
+import com.techtitans.backend.entity.CompanyEntity;
 import com.techtitans.backend.entity.ProductEntity;
 import com.techtitans.backend.entity.BenefitEntity;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class ProductMapper {
@@ -15,6 +19,8 @@ public class ProductMapper {
                 productRequestDto.getProductName(),
                 productRequestDto.getProductDescription(),
                 productRequestDto.getProductGoal(),
+                productRequestDto.isActive(),
+                productRequestDto.isFeatured(),
                 productRequestDto.getCurrentAmount(),
                 productRequestDto.getStartDate(),
                 productRequestDto.getEndDate(),
@@ -24,6 +30,41 @@ public class ProductMapper {
         );
     }
 
+    public static ProductResponseDto mapToProductDtoList(ProductEntity productEntity) {
+        try {
+            return new ProductResponseDto(
+                    productEntity.getProductId(),
+                    productEntity.getProductName(),
+                    productEntity.getProductDescription(),
+                    productEntity.getProductGoal(),
+                    productEntity.isActive(),
+                    productEntity.isFeatured(),
+                    productEntity.getCurrentAmount(),
+                    productEntity.getStartDate(),
+                    productEntity.getEndDate(),
+                    productEntity.getBenefits().stream().map(BenefitEntity::getBenefitId).collect(Collectors.toList()),
+                    productEntity.getCategory().getCategoryId(),
+                    productEntity.getCompany().getCompanyId()
+            );
+        } catch (Exception e) {
+            return new ProductResponseDto(
+                    productEntity.getProductId(),
+                    productEntity.getProductName(),
+                    productEntity.getProductDescription(),
+                    productEntity.getProductGoal(),
+                    productEntity.isActive(),
+                    productEntity.isFeatured(),
+                    productEntity.getCurrentAmount(),
+                    productEntity.getStartDate(),
+                    productEntity.getEndDate(),
+                    productEntity.getBenefits().stream().map(BenefitEntity::getBenefitId).collect(Collectors.toList()),
+                    productEntity.getCategory().getCategoryId(),
+                    productEntity.getCompany().getCompanyId()
+            );
+        }
+    }
+
+
     // Mapping product entity to response dto
     public static ProductResponseDto mapToProductDto(ProductEntity productEntity){
         return new ProductResponseDto(
@@ -31,6 +72,8 @@ public class ProductMapper {
                 productEntity.getProductName(),
                 productEntity.getProductDescription(),
                 productEntity.getProductGoal(),
+                productEntity.isActive(),
+                productEntity.isFeatured(),
                 productEntity.getCurrentAmount(),
                 productEntity.getStartDate(),
                 productEntity.getEndDate(),

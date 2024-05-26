@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Data
 @AllArgsConstructor
@@ -14,15 +16,18 @@ public class BackerEntity {
     @Id
     // Using database's autoincrement feature
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "backer_id")
+    @Column(name = "backer_id", unique = true, nullable = false)
     private int backerId;
 
     @Column(name = "name")
     private String name;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
 
     @Column(name = "password")
     private String password;
+
+    @OneToMany(mappedBy = "backer", cascade = CascadeType.ALL)
+    private List<ContributionEntity> contributions;
 }

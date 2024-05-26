@@ -2,30 +2,29 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 // it's axios to get the api content
 const getAxios=(url)=>{
-    const [data, setData] = useState([]);
-    const [error, setError] = useState(false);
-    const [loading, setLoading] = useState(false);
-    useEffect(()=>{
-        (async () => {
-            try {
-              setLoading(true);
-              setError(false);
-              const response = await axios.get(url);
-              if(response.data.length>0){
-                console.log(response.data);
-                setData(response.data);
-              }
-              else{
-                setData([]);
-              }
+  const [data, setData] = useState([]);
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-            } catch (error) {
-              setError(true);
-            } finally {
-              setLoading(false);
-            }
-          })()
-    },[url])
-   return {data,error,loading}
-}
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        setError(false);
+        const response = await axios.get(url);
+        setData(response.data);
+        console.log('Response data:', response.data); 
+      } catch (error) {
+        setError(true);
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [url]);
+
+  return { data, error, loading };
+};
 export default getAxios;

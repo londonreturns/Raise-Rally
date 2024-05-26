@@ -2,6 +2,10 @@ package com.techtitans.backend.service;
 
 import com.techtitans.backend.dto.admin.AdminRequestDto;
 import com.techtitans.backend.dto.admin.AdminResponseDto;
+import com.techtitans.backend.dto.admin.AdminUpdateRequestDto;
+import com.techtitans.backend.dto.backer.BackerRequestDto;
+import com.techtitans.backend.dto.backer.BackerResponseDto;
+import com.techtitans.backend.dto.password.PasswordDto;
 
 import java.util.List;
 
@@ -14,9 +18,11 @@ public interface AdminService {
 
     AdminResponseDto getAdminByEmail(String adminEmail);
 
-    AdminResponseDto updateAdminById(int adminId, AdminRequestDto adminRequestDto);
+    AdminResponseDto updateAdminById(int adminId, AdminUpdateRequestDto adminUpdateRequestDto);
 
     void deleteAdminById(int adminId);
+
+    AdminResponseDto loginAdmin(String email, PasswordDto passwordDto);
 }
 
 
