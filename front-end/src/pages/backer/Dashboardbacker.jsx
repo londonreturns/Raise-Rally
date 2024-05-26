@@ -27,27 +27,28 @@ function Dashboardbacker() {
                 </div>
               </div>
               <NavLink to="/backer/dashboard" activeClassName="active">
-                <MenuItem icon={<MdDashboard size={20} />}>Dashboard</MenuItem>
+                <MenuItem ><MdDashboard size={20} className="me-1"/>Dashboard</MenuItem>
               </NavLink>
 
               <NavLink
                 to="/backer/dashboard/editprofile"
                 activeClassName="active"
               >
-                <MenuItem className="text-dark">Manage Profile</MenuItem>
+                <MenuItem className="text-dark ps-1">Manage Profile</MenuItem>
               </NavLink>
               <Link to="/" className="text-dark">
                 {" "}
                 {/* Link to homepage */}
-                <MenuItem ><MdHome size={20} />Homepage</MenuItem>
+                <MenuItem ><MdHome size={20} className="me-1" />Homepage</MenuItem>
               </Link>
               <Link>
                 <MenuItem
                   className="text-dark"
                   data-bs-toggle="modal"
                   data-bs-target="#exampleModal"
+                 
                 >
-                  <RiLogoutBoxLine size={20} />
+                  <RiLogoutBoxLine size={20} className="me-1"/>
                   Logout
                 </MenuItem>
               </Link>
@@ -62,13 +63,13 @@ function Dashboardbacker() {
       <div>
         {/* Modal */}
         <div
-          className="modal fade w-50"
+          className="modal fade "
           id="exampleModal"
           tabIndex={-1}
           aria-labelledby="exampleModalLabel"
           aria-hidden="true"
         >
-          <div className="modal-dialog position-sticky top-0 start-0 w-50">
+          <div className="modal-dialog modal-dialog-centered  w-50">
             <div className="modal-content">
               <div className="modal-header">
                 <h1 className="modal-title fs-5" id="exampleModalLabel">

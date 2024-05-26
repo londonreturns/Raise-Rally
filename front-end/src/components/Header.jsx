@@ -277,27 +277,27 @@ function Header({ onSearch }) {
           <div className="navbar-nav d-block d-md-none mb-2 ">
             <div className="pt-2 ">
               <ul>
-                <Link>
+                <Link to="/categories/art">
                   {" "}
                   <li className="text-dark">Art</li>
                 </Link>
-                <Link>
+                <Link  to="/categories/crafts">
                   {" "}
                   <li className="text-dark">Crafts</li>
                 </Link>
-                <Link>
+                <Link to="/categories/dance">
                   {" "}
                   <li className="text-dark">Dance</li>
                 </Link>
-                <Link>
+                <Link to="/categories/film">
                   {" "}
                   <li className="text-dark">Film</li>
                 </Link>
-                <Link>
+                <Link to="/categories/music">
                   {" "}
                   <li className="text-dark">Music</li>
                 </Link>
-                <Link>
+                <Link to="/categories/technology">
                   {" "}
                   <li className="text-dark">Technology</li>
                 </Link>
@@ -349,7 +349,7 @@ function Header({ onSearch }) {
           aria-labelledby="exampleModalLabel"
           aria-hidden="true"
         >
-          <div className="modal-dialog position-sticky top-0 start-100 w-25">
+          <div className="modal-dialog modal-dialog-centered w-25">
             <div className="modal-content">
               <div className="modal-header">
                 <h1 className="modal-title fs-5" id="exampleModalLabel">

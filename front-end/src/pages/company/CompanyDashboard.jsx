@@ -27,9 +27,9 @@ function CompanyDashboard() {
                 </div>
               </div>
               <NavLink to="/company/dashboard" activeClassName="active">
-                <MenuItem icon={<MdDashboard size={20} />}>Dashboard</MenuItem>
+                <MenuItem ><MdDashboard size={20} className="me-1"/>Dashboard</MenuItem>
               </NavLink>
-
+              <SubMenu className='fw-seimbold' label="Products"> 
               <NavLink
                 to="/company/dashboard/editprofile"
                 activeClassName="active"
@@ -48,9 +48,10 @@ function CompanyDashboard() {
               >
                 <MenuItem className="text-dark">Add Product</MenuItem>
               </NavLink>
+              </SubMenu>
               <Link to='/' className='text-dark'> {/* Link to homepage */}
-              <MenuItem> 
-              <MdHome size={20}/>Homepage
+              <MenuItem > 
+              <MdHome size={20} className="me-1"/>Homepage
               </MenuItem>
               </Link>
               <Link>
@@ -59,7 +60,7 @@ function CompanyDashboard() {
                   data-bs-toggle="modal"
                   data-bs-target="#exampleModal"
                 >
-                  <RiLogoutBoxLine size={20} />
+                  <RiLogoutBoxLine size={20} className="me-1"/>
                   Logout
                 </MenuItem>
               </Link>
@@ -73,13 +74,13 @@ function CompanyDashboard() {
       <div>
         {/* Modal */}
         <div
-          className="modal fade w-50"
+          className="modal fade"
           id="exampleModal"
           tabIndex={-1}
           aria-labelledby="exampleModalLabel"
           aria-hidden="true"
         >
-          <div className="modal-dialog w-50">
+          <div className="modal-dialog modal-dialog-centered  w-50">
             <div className="modal-content">
               <div className="modal-header">
                 <h1 className="modal-title fs-5" id="exampleModalLabel">
